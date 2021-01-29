@@ -1,6 +1,5 @@
 package com.eg.chatserver.user;
 
-import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.register.RegisterRequest;
 import com.eg.chatserver.user.register.RegisterResponse;
@@ -29,7 +28,6 @@ public class UserController {
     @PostMapping("register")
     @ApiOperation(value = "用户注册")
     public Result<RegisterResponse> register(@RequestBody RegisterRequest registerRequest) {
-        System.out.println(JSON.toJSONString(registerRequest));
         return userService.register(registerRequest);
     }
 

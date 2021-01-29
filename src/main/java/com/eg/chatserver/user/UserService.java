@@ -1,5 +1,6 @@
 package com.eg.chatserver.user;
 
+import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.bean.UserExample;
 import com.eg.chatserver.bean.mapper.UserMapper;
@@ -8,6 +9,7 @@ import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.register.RegisterRequest;
 import com.eg.chatserver.user.register.RegisterResponse;
 import com.eg.chatserver.utils.UuidUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 
 @Service
+@Slf4j
 public class UserService {
     @Resource
     private UserMapper userMapper;
@@ -64,6 +67,7 @@ public class UserService {
         user.setLoginToken(loginToken);
         //保存用户
         userMapper.insert(user);
+        log.info("new user registered " + JSON.toJSONString(user));
         return user;
     }
 
@@ -95,6 +99,7 @@ public class UserService {
         boolean loginNameExist = checkLoginNameExist(loginName);
         //如果存在返回错误信息
         if (loginNameExist) {
+            log.warn("register fail, because of login name exist " + JSON.toJSONString(registerRequest));
             return Result.error(ErrorCodeEnum.REGISTER_LOGIN_NAME_ALREADY_EXISTS);
         }
         //如果不存在，执行注册，插入数据库，返回正确信息
@@ -102,6 +107,5 @@ public class UserService {
         RegisterResponse registerResponse = getRegisterResponse(user);
         return Result.ok(registerResponse);
     }
-
 
 }
