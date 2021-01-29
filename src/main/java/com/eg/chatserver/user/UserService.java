@@ -42,7 +42,7 @@ public class UserService {
         user.setPassword(getPasswordHash(password));
         user.setCreateTime(new Date());
         //生成loginToken
-        String loginToken = "loginToken" + UuidUtil.getRandomUUid() + RandomStringUtils.random(8);
+        String loginToken = "loginToken" + UuidUtil.getRandomUUid() + RandomStringUtils.randomAlphanumeric(8);
         user.setLoginToken(loginToken);
         //保存用户
         userMapper.insert(user);
