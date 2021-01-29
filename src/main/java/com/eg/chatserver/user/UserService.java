@@ -41,6 +41,7 @@ public class UserService {
         //给密码hash
         user.setPassword(getPasswordHash(password));
         user.setCreateTime(new Date());
+        user.setHeadImageUrl("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3008468278,1590155304&fm=26&gp=0.jpg");
         //生成loginToken
         String loginToken = "loginToken" + UuidUtil.getRandomUUid() + RandomStringUtils.randomAlphanumeric(8);
         user.setLoginToken(loginToken);

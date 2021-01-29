@@ -32,7 +32,7 @@ public class UserController {
         RegisterResponse registerResponse = new RegisterResponse();
         registerResponse.setUuid(user.getUuid());
         registerResponse.setLoginName(user.getLoginName());
-        registerResponse.setHeadImageUrl(null);
+        registerResponse.setHeadImageUrl(user.getHeadImageUrl());
         registerResponse.setLoginToken(user.getLoginToken());
         return registerResponse;
     }
