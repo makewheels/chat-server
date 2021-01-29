@@ -18,11 +18,11 @@ public class UserService {
     /**
      * 获取密码hash
      *
-     * @param user 之所以传user，可能后面可以做，加盐的hash。但目前只用到了password
+     * @param password
      * @return
      */
-    public String getPasswordHash(User user) {
-        return DigestUtils.md5Hex(user.getPassword());
+    public String getPasswordHash(String password) {
+        return DigestUtils.md5Hex(password);
     }
 
     /**
@@ -39,7 +39,7 @@ public class UserService {
         user.setNickname(loginName);
         user.setUuid("user" + UuidUtil.getRandomUUid());
         //给密码hash
-        user.setPassword(getPasswordHash(user));
+        user.setPassword(getPasswordHash(password));
         user.setCreateTime(new Date());
         //生成loginToken
         String loginToken = "loginToken" + UuidUtil.getRandomUUid() + RandomStringUtils.random(8);
