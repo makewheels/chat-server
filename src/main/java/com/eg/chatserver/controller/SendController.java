@@ -1,4 +1,4 @@
-package com.eg.chatserver;
+package com.eg.chatserver.controller;
 
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
@@ -29,11 +29,11 @@ public class SendController {
     private static final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY,
             null, ClientConfig.getInstance());
 
-    @RequestMapping("sendMessage")
-    public String sendMessage(@RequestParam String message) {
+    @RequestMapping("pushMessage")
+    public String pushMessage(@RequestParam String message) {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
-                .setAudience(Audience.registrationId("100d855909e0fa5a708"))
+                .setAudience(Audience.registrationId("13065ffa4eaa77b85cd"))
 //                .setAudience(Audience.registrationId("1a0018970a057b1d297"))
                 .setMessage(Message.content(message + " " + System.currentTimeMillis()))
                 .build();
@@ -53,5 +53,11 @@ public class SendController {
             LOG.info("Error Message: " + e.getErrorMessage());
         }
         return JSON.toJSONString(result);
+    }
+
+    @RequestMapping("sendMessage")
+    public String sendMessage(@RequestParam String message) {
+        System.out.println("sendMessage " + message);
+        return System.currentTimeMillis() + " g3890j34jt";
     }
 }
