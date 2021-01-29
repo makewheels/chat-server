@@ -1,6 +1,7 @@
 package com.eg.chatserver.user;
 
 import com.eg.chatserver.bean.User;
+import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.register.RegisterRequest;
 import com.eg.chatserver.user.register.RegisterResponse;
 import io.swagger.annotations.Api;
@@ -25,7 +26,7 @@ public class UserController {
      */
     @PostMapping("register")
     @ApiOperation(value = "用户注册")
-    public RegisterResponse register(@RequestBody RegisterRequest registerRequest) {
+    public Result<RegisterResponse> register(@RequestBody RegisterRequest registerRequest) {
         //执行注册
         User user = userService.register(registerRequest.getLoginName(), registerRequest.getPassword());
         //封装参数返回
@@ -34,7 +35,7 @@ public class UserController {
         registerResponse.setLoginName(user.getLoginName());
         registerResponse.setHeadImageUrl(user.getHeadImageUrl());
         registerResponse.setLoginToken(user.getLoginToken());
-        return registerResponse;
+        return Result.ok(registerResponse);
     }
 
 }
