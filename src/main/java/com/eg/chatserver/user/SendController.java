@@ -1,4 +1,4 @@
-package com.eg.chatserver.controller;
+package com.eg.chatserver.user;
 
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
