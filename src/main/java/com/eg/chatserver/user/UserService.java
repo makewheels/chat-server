@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.bean.UserExample;
 import com.eg.chatserver.bean.mapper.UserMapper;
-import com.eg.chatserver.common.ErrorCodeEnum;
+import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.register.RegisterRequest;
 import com.eg.chatserver.user.register.RegisterResponse;
@@ -100,7 +100,7 @@ public class UserService {
         //如果存在返回错误信息
         if (loginNameExist) {
             log.warn("register fail, because of login name exist " + JSON.toJSONString(registerRequest));
-            return Result.error(ErrorCodeEnum.REGISTER_LOGIN_NAME_ALREADY_EXISTS);
+            return Result.error(ErrorCode.REGISTER_LOGIN_NAME_ALREADY_EXISTS);
         }
         //如果不存在，执行注册，插入数据库，返回正确信息
         User user = registerSaveUser(registerRequest);

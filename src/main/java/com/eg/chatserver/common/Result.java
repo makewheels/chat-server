@@ -18,11 +18,11 @@ public class Result<T> {
     private T data;
 
     public Result() {
-        this.code = ErrorCodeEnum.SUCCESS.getCode();
-        this.message = ErrorCodeEnum.SUCCESS.getValue();
+        this.code = ErrorCode.SUCCESS.getCode();
+        this.message = ErrorCode.SUCCESS.getValue();
     }
 
-    public Result(ErrorCodeEnum rc) {
+    public Result(ErrorCode rc) {
         this.code = rc.getCode();
         this.message = rc.getValue();
     }
@@ -33,13 +33,13 @@ public class Result<T> {
         this.data = null;
     }
 
-    public Result(ErrorCodeEnum rc, T data) {
+    public Result(ErrorCode rc, T data) {
         this.code = rc.getCode();
         this.message = rc.getValue();
         this.data = data;
     }
 
-    public Result(ErrorCodeEnum code, String message) {
+    public Result(ErrorCode code, String message) {
         this.code = code.getCode();
         this.message = message;
     }
@@ -51,18 +51,18 @@ public class Result<T> {
     }
 
     public static Result<Void> ok() {
-        return new Result<>(ErrorCodeEnum.SUCCESS, null);
+        return new Result<>(ErrorCode.SUCCESS, null);
     }
 
     public static <T> Result<T> ok(T data) {
-        return new Result<>(ErrorCodeEnum.SUCCESS, data);
+        return new Result<>(ErrorCode.SUCCESS, data);
     }
 
-    public static <T> Result<T> error(ErrorCodeEnum code) {
+    public static <T> Result<T> error(ErrorCode code) {
         return new Result<T>(code);
     }
 
-    public static <T> Result<T> error(ErrorCodeEnum code, T data) {
+    public static <T> Result<T> error(ErrorCode code, T data) {
         return new Result<T>(code, data);
     }
 

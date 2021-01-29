@@ -1,4 +1,4 @@
-package com.eg.chatserver.generate;
+package com.eg.chatserver.etc.generate;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
