@@ -1,1 +1,1 @@
-http://localhost:5007/doc.html
+http://localhost:5007/chat-server/doc.html

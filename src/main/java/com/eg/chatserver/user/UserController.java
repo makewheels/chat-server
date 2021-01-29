@@ -1,6 +1,5 @@
 package com.eg.chatserver.user;
 
-import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.register.RegisterRequest;
 import com.eg.chatserver.user.register.RegisterResponse;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController("user")
-@Api(tags = "用户Controller")
+@Api(tags = "用户 Controller")
 public class UserController {
     @Resource
     private UserService userService;
@@ -27,15 +26,7 @@ public class UserController {
     @PostMapping("register")
     @ApiOperation(value = "用户注册")
     public Result<RegisterResponse> register(@RequestBody RegisterRequest registerRequest) {
-        //执行注册
-        User user = userService.register(registerRequest.getLoginName(), registerRequest.getPassword());
-        //封装参数返回
-        RegisterResponse registerResponse = new RegisterResponse();
-        registerResponse.setUuid(user.getUuid());
-        registerResponse.setLoginName(user.getLoginName());
-        registerResponse.setHeadImageUrl(user.getHeadImageUrl());
-        registerResponse.setLoginToken(user.getLoginToken());
-        return Result.ok(registerResponse);
+        return userService.register(registerRequest);
     }
 
 }

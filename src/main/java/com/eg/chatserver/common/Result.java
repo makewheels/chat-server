@@ -17,16 +17,20 @@ public class Result<T> {
     @ApiModelProperty(value = "响应数据", position = 3)
     private T data;
 
+    public Result() {
+        this.code = ErrorCodeEnum.SUCCESS.getCode();
+        this.message = ErrorCodeEnum.SUCCESS.getValue();
+    }
+
+    public Result(ErrorCodeEnum rc) {
+        this.code = rc.getCode();
+        this.message = rc.getValue();
+    }
+
     public Result(int code, String message) {
         this.code = code;
         this.message = message;
         this.data = null;
-    }
-
-    public Result(int code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
     }
 
     public Result(ErrorCodeEnum rc, T data) {
@@ -35,9 +39,15 @@ public class Result<T> {
         this.data = data;
     }
 
-    public Result() {
-        this.code = ErrorCodeEnum.SUCCESS.getCode();
-        this.message = ErrorCodeEnum.SUCCESS.getValue();
+    public Result(ErrorCodeEnum code, String message) {
+        this.code = code.getCode();
+        this.message = message;
+    }
+
+    public Result(int code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
     }
 
     public static Result<Void> ok() {
@@ -46,6 +56,14 @@ public class Result<T> {
 
     public static <T> Result<T> ok(T data) {
         return new Result<>(ErrorCodeEnum.SUCCESS, data);
+    }
+
+    public static <T> Result<T> error(ErrorCodeEnum code) {
+        return new Result<T>(code);
+    }
+
+    public static <T> Result<T> error(ErrorCodeEnum code, T data) {
+        return new Result<T>(code, data);
     }
 
 }

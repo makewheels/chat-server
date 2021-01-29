@@ -1,8 +1,10 @@
 package com.eg.chatserver.common;
 
 public enum ErrorCodeEnum {
-    SUCCESS(1, "成功"),
-    FAIL(0, "错误");
+    SUCCESS(0, "success"),
+    FAIL(1, "fail"),
+
+    REGISTER_LOGIN_NAME_ALREADY_EXISTS(1000, "登录名已存在");
 
     private int code;
     private String value;

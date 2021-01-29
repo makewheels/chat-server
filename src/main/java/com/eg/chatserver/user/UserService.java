@@ -1,7 +1,12 @@
 package com.eg.chatserver.user;
 
 import com.eg.chatserver.bean.User;
+import com.eg.chatserver.bean.UserExample;
 import com.eg.chatserver.bean.mapper.UserMapper;
+import com.eg.chatserver.common.ErrorCodeEnum;
+import com.eg.chatserver.common.Result;
+import com.eg.chatserver.user.register.RegisterRequest;
+import com.eg.chatserver.user.register.RegisterResponse;
 import com.eg.chatserver.utils.UuidUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -26,20 +31,32 @@ public class UserService {
     }
 
     /**
-     * 注册
+     * 检查登录名是否已经存在
      *
      * @param loginName
-     * @param password
      * @return
      */
-    public User register(String loginName, String password) {
+    public boolean checkLoginNameExist(String loginName) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andLoginNameEqualTo(loginName);
+        long count = userMapper.countByExample(userExample);
+        return count >= 1;
+    }
+
+    /**
+     * 注册时保存用户
+     *
+     * @param registerRequest
+     * @return
+     */
+    private User registerSaveUser(RegisterRequest registerRequest) {
         User user = new User();
-        user.setLoginName(loginName);
+        user.setLoginName(registerRequest.getLoginName());
         //刚注册时，先把昵称也给成loginName
-        user.setNickname(loginName);
-        user.setUuid("user" + UuidUtil.getRandomUUid());
+        user.setNickname(registerRequest.getLoginName());
+        user.setUserId("user" + UuidUtil.getRandomUUid());
         //给密码hash
-        user.setPassword(getPasswordHash(password));
+        user.setPassword(getPasswordHash(registerRequest.getPassword()));
         user.setCreateTime(new Date());
         user.setHeadImageUrl("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3008468278,1590155304&fm=26&gp=0.jpg");
         //生成loginToken
@@ -49,4 +66,40 @@ public class UserService {
         userMapper.insert(user);
         return user;
     }
+
+    /**
+     * 获取注册的返回值
+     *
+     * @param user
+     * @return
+     */
+    private RegisterResponse getRegisterResponse(User user) {
+        //封装参数返回
+        RegisterResponse registerResponse = new RegisterResponse();
+        registerResponse.setUuid(user.getUserId());
+        registerResponse.setLoginName(user.getLoginName());
+        registerResponse.setHeadImageUrl(user.getHeadImageUrl());
+        registerResponse.setLoginToken(user.getLoginToken());
+        return registerResponse;
+    }
+
+    /**
+     * 注册
+     *
+     * @param registerRequest
+     * @return
+     */
+    public Result<RegisterResponse> register(RegisterRequest registerRequest) {
+        String loginName = registerRequest.getLoginName();
+        //注册前先判断登录名是否已经存在
+        boolean loginNameExist = checkLoginNameExist(loginName);
+        if (loginNameExist) {
+            return Result.error(ErrorCodeEnum.REGISTER_LOGIN_NAME_ALREADY_EXISTS);
+        }
+        User user = registerSaveUser(registerRequest);
+        RegisterResponse registerResponse = getRegisterResponse(user);
+        return Result.ok(registerResponse);
+    }
+
+
 }
