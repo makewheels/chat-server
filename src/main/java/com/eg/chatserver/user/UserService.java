@@ -76,7 +76,7 @@ public class UserService {
     private RegisterResponse getRegisterResponse(User user) {
         //封装参数返回
         RegisterResponse registerResponse = new RegisterResponse();
-        registerResponse.setUuid(user.getUserId());
+        registerResponse.setUserId(user.getUserId());
         registerResponse.setLoginName(user.getLoginName());
         registerResponse.setHeadImageUrl(user.getHeadImageUrl());
         registerResponse.setLoginToken(user.getLoginToken());
@@ -93,9 +93,11 @@ public class UserService {
         String loginName = registerRequest.getLoginName();
         //注册前先判断登录名是否已经存在
         boolean loginNameExist = checkLoginNameExist(loginName);
+        //如果存在返回错误信息
         if (loginNameExist) {
             return Result.error(ErrorCodeEnum.REGISTER_LOGIN_NAME_ALREADY_EXISTS);
         }
+        //如果不存在，执行注册，插入数据库，返回正确信息
         User user = registerSaveUser(registerRequest);
         RegisterResponse registerResponse = getRegisterResponse(user);
         return Result.ok(registerResponse);
