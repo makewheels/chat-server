@@ -2,6 +2,8 @@ package com.eg.chatserver.user;
 
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
+import com.eg.chatserver.user.login.LoginRequest;
+import com.eg.chatserver.user.login.LoginResponse;
 import com.eg.chatserver.user.register.RegisterRequest;
 import com.eg.chatserver.user.register.RegisterResponse;
 import io.swagger.annotations.Api;
@@ -19,7 +21,7 @@ import javax.annotation.Resource;
 @Api(tags = "用户 Controller")
 public class UserController {
     @Resource
-    private UserService userService;
+    private UserAccountService userAccountService;
 
     /**
      * 注册
@@ -35,19 +37,23 @@ public class UserController {
         if (StringUtils.isBlank(loginName) || StringUtils.isBlank(password)) {
             return Result.error(ErrorCode.WRONG_PARAM);
         }
-        return userService.register(registerRequest);
+        return userAccountService.register(registerRequest);
     }
 
     /**
      * 登录
      *
-     * @param registerRequest
+     * @param loginRequest
      * @return
      */
     @PostMapping("login")
     @ApiOperation(value = "用户登录")
-    public Result<RegisterResponse> login(@RequestBody RegisterRequest registerRequest) {
-        return null;
+    public Result<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        if (StringUtils.isBlank(loginRequest.getLoginName())
+                || StringUtils.isBlank(loginRequest.getPassword())) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
+        return userAccountService.login(loginRequest);
     }
 
 }

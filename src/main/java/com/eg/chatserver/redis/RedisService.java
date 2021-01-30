@@ -12,15 +12,15 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * redisTemplate封装
+ * Redis工具类
  */
 @Component
-public class RedisUtil {
+public class RedisService {
 
     @Resource
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public RedisUtil(RedisTemplate<String, Object> redisTemplate) {
+    public RedisService(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
