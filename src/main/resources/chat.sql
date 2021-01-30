@@ -34,6 +34,26 @@ CREATE TABLE `user`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
+DROP TABLE IF EXISTS `person_message`;
+
+CREATE TABLE `person_message`
+(
+    `id`                BIGINT(20) NOT NULL AUTO_INCREMENT,
+    `message_id`        VARCHAR(255)  DEFAULT NULL,
+    `from_user_id`      VARCHAR(255)  DEFAULT NULL,
+    `to_user_id`        VARCHAR(255)  DEFAULT NULL,
+    `message_type`      VARCHAR(255)  DEFAULT NULL COMMENT '消息类型',
+    `content`           TEXT,
+    `url`               VARCHAR(1000) DEFAULT NULL,
+    `image_preview_url` VARCHAR(1000) DEFAULT NULL COMMENT '图片预览',
+    `is_arrive`         INT(11)       DEFAULT NULL COMMENT '是否已送达',
+    `arrive_time`       TIMESTAMP COMMENT '送达时间',
+    `is_read`           INT(11)       DEFAULT NULL COMMENT '是否已读',
+    `read_time`         TIMESTAMP COMMENT '已读时间',
+    `create_time`       TIMESTAMP,
+    PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = utf8mb4;
 
 /*!40101 SET SQL_MODE = @OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;

@@ -37,7 +37,7 @@ public class UserController {
      * @return
      */
     @PostMapping("register")
-    @ApiOperation(value = "用户注册")
+    @ApiOperation(value = "用户注册",position = 1)
     public Result<UserInfoResponse> register(@RequestBody RegisterRequest registerRequest) {
         String loginName = registerRequest.getLoginName();
         String password = registerRequest.getPassword();
@@ -72,7 +72,6 @@ public class UserController {
         User user = userAccountService.getUserByRequest(httpServletRequest);
         return userAccountService.logout(user);
     }
-
 
     /**
      * 检查loginToken
