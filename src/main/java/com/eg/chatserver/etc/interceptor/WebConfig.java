@@ -1,4 +1,4 @@
-package com.eg.chatserver.interceptor;
+package com.eg.chatserver.etc.interceptor;
 
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

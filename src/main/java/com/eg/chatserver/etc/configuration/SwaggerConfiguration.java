@@ -1,4 +1,4 @@
-package com.eg.chatserver.configuration;
+package com.eg.chatserver.etc.configuration;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.ApiOperation;

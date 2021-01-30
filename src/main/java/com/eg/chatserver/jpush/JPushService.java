@@ -21,8 +21,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class JPushService {
 
-    protected static final String APP_KEY = "bcec2d094f36af5587048c02";
-    protected static final String MASTER_SECRET = "e96cc756b00214485697d048";
+    private static final String APP_KEY = "bcec2d094f36af5587048c02";
+    private static final String MASTER_SECRET = "e96cc756b00214485697d048";
     private static final JPushClient jpushClient = new JPushClient(MASTER_SECRET, APP_KEY,
             null, ClientConfig.getInstance());
 
