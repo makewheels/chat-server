@@ -1,17 +1,21 @@
 package com.eg.chatserver.user;
 
+import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.bean.LoginRequest;
 import com.eg.chatserver.user.bean.RegisterRequest;
+import com.eg.chatserver.user.bean.SearchLoginNameResponse;
 import com.eg.chatserver.user.bean.UserInfoResponse;
 import com.eg.chatserver.utils.Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -23,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
     @Resource
     private UserAccountService userAccountService;
+    @Resource
+    private UserInfoService userInfoService;
 
     /**
      * 注册
@@ -76,6 +82,28 @@ public class UserController {
         } else {
             //校验未通过，去登录
             return Result.error(ErrorCode.CHECK_LOGIN_TOKEN_ERROR);
+        }
+    }
+
+    /**
+     * 根据登录名精准查询用户
+     *
+     * @return
+     */
+    @PostMapping("searchUserByLoginName")
+    @ApiOperation(value = "根据登录名精准搜索用户")
+    public Result<SearchLoginNameResponse> searchUserByLoginName(
+            @ApiParam(name = "loginName", value = "登录名", example = "Name")
+            @RequestParam String loginName) {
+        User user = userInfoService.searchUserByLoginName(loginName);
+        if (user == null) {
+            return Result.error(ErrorCode.SEARCH_USER_LOGIN_NAME_NOT_EXIST);
+        } else {
+            SearchLoginNameResponse searchLoginNameResponse = new SearchLoginNameResponse();
+            searchLoginNameResponse.setUserId(user.getUserId());
+            searchLoginNameResponse.setLoginName(user.getLoginName());
+            searchLoginNameResponse.setHeadImageUrl(user.getHeadImageUrl());
+            return Result.ok(searchLoginNameResponse);
         }
     }
 }

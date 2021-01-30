@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -138,7 +139,7 @@ public class UserAccountService {
      * @param userExample
      * @return
      */
-    private User findSingleUserByExample(UserExample userExample) {
+    public User findSingleUserByExample(UserExample userExample) {
         List<User> userList = userMapper.selectByExample(userExample);
         if (CollectionUtils.isEmpty(userList)) {
             return null;
@@ -203,6 +204,18 @@ public class UserAccountService {
     }
 
     /**
+     * 根据loginToken获取redis里的user对象
+     *
+     * @param request
+     * @return
+     */
+    public User getUserByRequest(HttpServletRequest request) {
+        //从header中获取loginToken
+        String loginToken = request.getHeader(Constants.KEY_LOGIN_TOKEN);
+        return userRedisService.getUserByLoginToken(loginToken);
+    }
+
+    /**
      * 登录
      *
      * @param loginRequest
@@ -247,6 +260,9 @@ public class UserAccountService {
      * @return
      */
     public Result<Void> logout() {
+        //干掉redis里的user
+        //删数据库里的loginToken
+
         return null;
     }
 }

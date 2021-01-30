@@ -14,6 +14,8 @@ public enum ErrorCode {
     //登录
     LOGIN_LOGIN_NAME_PASSWORD_WRONG(1003, "登录名或密码错误"),
 
+    SEARCH_USER_LOGIN_NAME_NOT_EXIST(1004,"搜索登录名不存在"),
+
     RUBBISH(1415926535, "我是垃圾，请忽略我");
 
     private int code;
