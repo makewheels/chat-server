@@ -20,14 +20,15 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         String[] swaggerExcludePatterns = new String[]{
-                "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**",
+                "/swagger-resources/**", "/webjars/**", "/swagger-ui.html/**",
                 "/api", "/api-docs", "/api-docs/**", "/doc.html**", "/error", "/favicon.ico"};
         registry.addInterceptor(getLoginInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(swaggerExcludePatterns)
-                .excludePathPatterns()
+                .excludePathPatterns("/app/checkVersion")
                 .excludePathPatterns("/user/register")
                 .excludePathPatterns("/user/login")
+                .excludePathPatterns("/user/checkLoginToken")
         ;
     }
 }

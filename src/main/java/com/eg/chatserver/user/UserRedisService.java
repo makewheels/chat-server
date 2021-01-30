@@ -58,6 +58,7 @@ public class UserRedisService {
      * @param loginToken
      */
     public void deleteUserByLoginToken(String loginToken) {
-        redisService.del(RedisKey.getLoginTokenKey(loginToken));
+        String loginTokenKey = RedisKey.getLoginTokenKey(loginToken);
+        redisService.del(loginTokenKey);
     }
 }

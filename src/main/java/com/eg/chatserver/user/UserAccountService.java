@@ -6,16 +6,16 @@ import com.eg.chatserver.bean.UserExample;
 import com.eg.chatserver.bean.mapper.UserMapper;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
-import com.eg.chatserver.user.login.LoginRequest;
-import com.eg.chatserver.user.login.LoginResponse;
-import com.eg.chatserver.user.register.RegisterRequest;
-import com.eg.chatserver.user.register.RegisterResponse;
+import com.eg.chatserver.user.bean.LoginRequest;
+import com.eg.chatserver.user.bean.RegisterRequest;
+import com.eg.chatserver.user.bean.UserInfoResponse;
 import com.eg.chatserver.utils.Constants;
 import com.eg.chatserver.utils.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -97,14 +97,14 @@ public class UserAccountService {
      * @param user
      * @return
      */
-    private RegisterResponse getRegisterResponse(User user) {
+    public UserInfoResponse getUserInfoResponse(User user) {
         //封装参数返回
-        RegisterResponse registerResponse = new RegisterResponse();
-        registerResponse.setUserId(user.getUserId());
-        registerResponse.setLoginName(user.getLoginName());
-        registerResponse.setHeadImageUrl(user.getHeadImageUrl());
-        registerResponse.setLoginToken(user.getLoginToken());
-        return registerResponse;
+        UserInfoResponse userInfoResponse = new UserInfoResponse();
+        userInfoResponse.setUserId(user.getUserId());
+        userInfoResponse.setLoginName(user.getLoginName());
+        userInfoResponse.setHeadImageUrl(user.getHeadImageUrl());
+        userInfoResponse.setLoginToken(user.getLoginToken());
+        return userInfoResponse;
     }
 
     /**
@@ -113,7 +113,7 @@ public class UserAccountService {
      * @param registerRequest
      * @return
      */
-    public Result<RegisterResponse> register(RegisterRequest registerRequest) {
+    public Result<UserInfoResponse> register(RegisterRequest registerRequest) {
         String loginName = registerRequest.getLoginName();
         //注册前先判断登录名是否已经存在
         boolean loginNameExist = checkLoginNameExist(loginName);
@@ -128,7 +128,7 @@ public class UserAccountService {
         //然后为用户自动登录一次，把user放到redis里
         userRedisService.setUserByLoginToken(user.getLoginToken(), user);
         //返回注册结果
-        RegisterResponse registerResponse = getRegisterResponse(user);
+        UserInfoResponse registerResponse = getUserInfoResponse(user);
         return Result.ok(registerResponse);
     }
 
@@ -175,12 +175,40 @@ public class UserAccountService {
     }
 
     /**
+     * 检查loginToken，并加载到redis
+     *
+     * @param loginToken
+     * @return 该loginToken是否合法
+     */
+    public boolean checkAndLoadLoginToken(String loginToken) {
+        if (StringUtils.isEmpty(loginToken)) {
+            return false;
+        }
+        //先从redis里取
+        boolean isLoginTokenExist = userRedisService.isLoginTokenExist(loginToken);
+        if (isLoginTokenExist) {
+            return true;
+        } else {
+            //如果redis里不存在，先查数据库
+            //这种情况，可能是因为，redis过期，也可能是服务重启
+            User user = findUserByLoginTokenFromSql(loginToken);
+            //如果从数据库找到了user，那么存入redis
+            if (user != null) {
+                userRedisService.setUserByLoginToken(loginToken, user);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /**
      * 登录
      *
      * @param loginRequest
      * @return
      */
-    public Result<LoginResponse> login(LoginRequest loginRequest) {
+    public Result<UserInfoResponse> login(LoginRequest loginRequest) {
         String loginName = loginRequest.getLoginName();
         String password = loginRequest.getPassword();
         //别忘了要给password hash
@@ -204,12 +232,12 @@ public class UserAccountService {
             userRedisService.setUserByLoginToken(newLoginToken, user);
             log.info("login success, user = {}", JSON.toJSONString(user));
             //返回
-            LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setLoginName(user.getLoginName());
-            loginResponse.setUserId(user.getUserId());
-            loginResponse.setHeadImageUrl(user.getHeadImageUrl());
-            loginResponse.setLoginToken(newLoginToken);
-            return Result.ok(loginResponse);
+            UserInfoResponse userInfoResponse = new UserInfoResponse();
+            userInfoResponse.setLoginName(user.getLoginName());
+            userInfoResponse.setUserId(user.getUserId());
+            userInfoResponse.setHeadImageUrl(user.getHeadImageUrl());
+            userInfoResponse.setLoginToken(newLoginToken);
+            return Result.ok(userInfoResponse);
         }
     }
 

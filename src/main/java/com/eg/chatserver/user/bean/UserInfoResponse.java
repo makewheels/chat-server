@@ -1,12 +1,16 @@
-package com.eg.chatserver.user.register;
+package com.eg.chatserver.user.bean;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * @Author makewheels
+ * @Time 2021.01.30 16:56:09
+ */
 @Data
-@ApiModel(value = "注册用户响应")
-public class RegisterResponse {
+@ApiModel(value = "响应用户信息")
+public class UserInfoResponse {
     @ApiModelProperty(value = "用户id", example = "userd33b94c6c642422784d6c7b1c3f2e76e")
     private String userId;
     @ApiModelProperty(value = "登陆名", example = "user001")
