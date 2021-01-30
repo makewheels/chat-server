@@ -263,7 +263,7 @@ public class UserAccountService {
     public Result<Void> logout(User user) {
         //干掉redis里的user
         userRedisService.deleteUserByLoginToken(user.getLoginToken());
-        //删数据库里的loginToken
+        //删除数据库里的loginToken
         user.setLoginToken(null);
         userMapper.updateByPrimaryKey(user);
         return Result.ok();
