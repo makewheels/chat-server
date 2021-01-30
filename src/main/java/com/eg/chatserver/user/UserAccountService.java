@@ -189,6 +189,7 @@ public class UserAccountService {
         User user = findUserByLoginNameAndPassword(loginName, password);
         //如果没找到，说明用户名和密码不匹配
         if (user == null) {
+            log.error("login fail, loginRequest = {}", JSON.toJSONString(loginRequest));
             return Result.error(ErrorCode.LOGIN_LOGIN_NAME_PASSWORD_WRONG);
         } else {
             //如果找到了该用户
@@ -201,6 +202,7 @@ public class UserAccountService {
             userMapper.updateByPrimaryKey(user);
             //存入redis
             userRedisService.setUserByLoginToken(newLoginToken, user);
+            log.info("login success, user = {}", JSON.toJSONString(user));
             //返回
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.setLoginName(user.getLoginName());
