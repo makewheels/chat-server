@@ -20,8 +20,9 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         String[] swaggerExcludePatterns = new String[]{
-                "/swagger-resources/**", "/webjars/**", "/swagger-ui.html/**",
-                "/api", "/api-docs", "/api-docs/**", "/doc.html**", "/error", "/favicon.ico"};
+                "/swagger-resources/**", "/webjars/**", "/swagger-ui.html/**", "/api",
+                "/api-docs", "/api-docs/**", "/v2/api-docs", "/v2/api-docs/**","/doc.html**",
+                "/error", "/favicon.ico"};
         registry.addInterceptor(getLoginInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(swaggerExcludePatterns)

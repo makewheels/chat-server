@@ -241,4 +241,12 @@ public class UserAccountService {
         }
     }
 
+    /**
+     * 登出
+     *
+     * @return
+     */
+    public Result<Void> logout() {
+        return null;
+    }
 }

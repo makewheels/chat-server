@@ -75,7 +75,7 @@ public class UserController {
             return Result.ok();
         } else {
             //校验未通过，去登录
-            return Result.error(ErrorCode.NEED_LOGIN);
+            return Result.error(ErrorCode.CHECK_LOGIN_TOKEN_ERROR);
         }
     }
 }

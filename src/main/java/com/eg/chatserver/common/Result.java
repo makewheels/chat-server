@@ -51,7 +51,7 @@ public class Result<T> {
     }
 
     public static Result<Void> ok() {
-        return new Result<>(ErrorCode.SUCCESS, null);
+        return new Result<>(ErrorCode.SUCCESS);
     }
 
     public static <T> Result<T> ok(T data) {
