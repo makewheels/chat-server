@@ -12,8 +12,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        String[] swaggerExcludePatterns = new String[]{
+                "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**",
+                "/api", "/api-docs", "/api-docs/**", "/doc.html**", "/error","/favicon.ico"};
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
+                .excludePathPatterns(swaggerExcludePatterns)
+                .excludePathPatterns()
                 .excludePathPatterns("/user/register")
                 .excludePathPatterns("/user/login")
         ;
