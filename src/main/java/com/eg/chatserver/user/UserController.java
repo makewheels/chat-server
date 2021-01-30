@@ -64,6 +64,17 @@ public class UserController {
     }
 
     /**
+     * 登出
+     */
+    @PostMapping("logout")
+    @ApiOperation(value = "用户登出")
+    public Result<Void> logout(HttpServletRequest httpServletRequest) {
+        User user = userAccountService.getUserByRequest(httpServletRequest);
+        return userAccountService.logout(user);
+    }
+
+
+    /**
      * 检查loginToken
      *
      * @param request

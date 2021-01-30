@@ -204,6 +204,7 @@ public class UserAccountService {
     }
 
     /**
+     * 常用方法
      * 根据loginToken获取redis里的user对象
      *
      * @param request
@@ -259,10 +260,12 @@ public class UserAccountService {
      *
      * @return
      */
-    public Result<Void> logout() {
+    public Result<Void> logout(User user) {
         //干掉redis里的user
+        userRedisService.deleteUserByLoginToken(user.getLoginToken());
         //删数据库里的loginToken
-
-        return null;
+        user.setLoginToken(null);
+        userMapper.updateByPrimaryKey(user);
+        return Result.ok();
     }
 }
