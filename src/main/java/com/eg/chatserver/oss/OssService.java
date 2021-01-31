@@ -55,20 +55,11 @@ public class OssService {
         // RoleArn 需要在 RAM 控制台上获取
         String roleArn = "acs:ram::1618784280874658:role/aliyunosstokengeneratorrole";
         long durationSeconds = 900;
-        String policy = "{\n" +
-                "  \"Statement\": [\n" +
-                "    {\n" +
-                "      \"Action\": [\n" +
-                "        \"oss:PutObject\",\n" +
-                "        \"oss:ListParts\",\n" +
-                "        \"oss:AbortMultipartUpload\"\n" +
-                "      ],\n" +
-                "      \"Effect\": \"Allow\",\n" +
-                "      \"Resource\": [\"acs:oss:*:*:chat-oss-bucket/chat*\"]\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"Version\": \"1\"\n" +
-                "}\n";
+        String policy = "{\"Statement\":[{\"Action\":[\"oss:PutObject\"," +
+                "\"oss:ListParts\",\"oss:AbortMultipartUpload\"]," +
+                "\"Effect\":\"Allow\",\"Resource\":" +
+                "[\"acs:oss:*:*:chat-oss-bucket/chat*\"]}]," +
+                "\"Version\":\"1\"}";
         // RoleSessionName 是临时Token的会话名称，自己指定用于标识你的用户，主要用于审计，或者用于区分Token颁发给谁
         // 但是注意RoleSessionName的长度和规则，不要有空格，只能有'-' '_' 字母和数字等字符
         // 具体规则请参考API文档中的格式要求
