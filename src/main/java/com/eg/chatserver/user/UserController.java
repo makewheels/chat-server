@@ -37,7 +37,7 @@ public class UserController {
      * @return
      */
     @PostMapping("register")
-    @ApiOperation(value = "用户注册",position = 1)
+    @ApiOperation(value = "用户注册")
     public Result<UserInfoResponse> register(@RequestBody RegisterRequest registerRequest) {
         String loginName = registerRequest.getLoginName();
         String password = registerRequest.getPassword();
