@@ -40,6 +40,7 @@ public class PersonMessageController {
         if (StringUtils.isEmpty(conversationId) || StringUtils.isEmpty(messageType)) {
             return Result.error(ErrorCode.WRONG_PARAM);
         }
+        //校验消息类型
         boolean messageTypeExist = MessageType.checkExist(messageType);
         if (!messageTypeExist) {
             return Result.error(ErrorCode.MESSAGE_TYPE_NOT_EXIST);

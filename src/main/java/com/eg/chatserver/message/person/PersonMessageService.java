@@ -51,6 +51,55 @@ public class PersonMessageService {
     }
 
     /**
+     * 创建一条消息
+     *
+     * @param sendMessageRequest
+     * @param userId
+     * @param toUserId
+     * @return
+     */
+    private PersonMessage createPersonMessage(
+            SendMessageRequest sendMessageRequest, String userId, String toUserId) {
+        PersonMessage personMessage = new PersonMessage();
+        String messageId = generatePersonMessageId();
+        personMessage.setMessageId(messageId);
+        personMessage.setFromUserId(userId);
+        personMessage.setToUserId(toUserId);
+        personMessage.setConversationId(sendMessageRequest.getConversationId());
+        personMessage.setMessageType(sendMessageRequest.getMessageType());
+        personMessage.setContent(sendMessageRequest.getContent());
+        personMessage.setUrl(sendMessageRequest.getUrl());
+        personMessage.setCreateTime(new Date());
+        if (sendMessageRequest.getIsForward()) {
+            personMessage.setIsForward(true);
+            personMessage.setSourceMessageId(sendMessageRequest.getSourceMessageId());
+        }
+        return personMessage;
+    }
+
+    /**
+     * 更新会话消息数量
+     *
+     * @param conversationList
+     */
+    private void updateConversationListCount(List<Conversation> conversationList) {
+        for (Conversation conversation : conversationList) {
+            //如果是null，给零
+            Integer messageCount = conversation.getMessageCount();
+            if (messageCount == null) {
+                messageCount = 0;
+            }
+            Integer unreadMessageCount = conversation.getUnreadMessageCount();
+            if (unreadMessageCount == null) {
+                unreadMessageCount = 0;
+            }
+            conversation.setMessageCount(messageCount + 1);
+            conversation.setUnreadMessageCount(unreadMessageCount + 1);
+            conversationMapper.updateByPrimaryKey(conversation);
+        }
+    }
+
+    /**
      * 发送对人的消息
      *
      * @param sendMessageRequest
@@ -82,39 +131,13 @@ public class PersonMessageService {
             }
         }
         String messageType = sendMessageRequest.getMessageType();
-        //创建一条消息
-        PersonMessage personMessage = new PersonMessage();
-        String messageId = generatePersonMessageId();
-        personMessage.setMessageId(messageId);
-        personMessage.setFromUserId(userId);
-        personMessage.setToUserId(toUserId);
-        personMessage.setConversationId(conversationId);
-        personMessage.setMessageType(messageType);
-        personMessage.setContent(sendMessageRequest.getContent());
-        personMessage.setUrl(sendMessageRequest.getUrl());
-        personMessage.setCreateTime(new Date());
-        if (sendMessageRequest.getIsForward()) {
-            personMessage.setIsForward(true);
-            personMessage.setSourceMessageId(sendMessageRequest.getSourceMessageId());
-        }
+        //创建消息
+        PersonMessage personMessage = createPersonMessage(sendMessageRequest, userId, toUserId);
         //保存消息
         personMessageMapper.insert(personMessage);
-        //更新会话消息数量
-        for (Conversation conversation : conversationList) {
-            //如果是null，给零
-            Integer messageCount = conversation.getMessageCount();
-            if (messageCount == null) {
-                messageCount = 0;
-            }
-            Integer unreadMessageCount = conversation.getUnreadMessageCount();
-            if (unreadMessageCount == null) {
-                unreadMessageCount = 0;
-            }
-            conversation.setMessageCount(messageCount + 1);
-            conversation.setUnreadMessageCount(unreadMessageCount + 1);
-            conversationMapper.updateByPrimaryKey(conversation);
-        }
+        updateConversationListCount(conversationList);
         log.info("send person message: {}", JSON.toJSONString(personMessage));
+        String messageId = personMessage.getMessageId();
         //TODO 推送
         User targetUser = userAccountService.findUserByUserId(toUserId);
         String jpushRegistrationId = targetUser.getJpushRegistrationId();
@@ -126,4 +149,5 @@ public class PersonMessageService {
         sendMessageResponse.setMessageType(messageType);
         return Result.ok(sendMessageResponse);
     }
+
 }
