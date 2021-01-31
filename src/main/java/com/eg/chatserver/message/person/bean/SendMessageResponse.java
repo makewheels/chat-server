@@ -19,8 +19,6 @@ public class SendMessageResponse {
 
     @ApiModelProperty(value = "会话id", required = true, example = "conv7e4c9979a43c45748f6ae030e9b6350d")
     private String conversationId;
-    @ApiModelProperty(value = "消息类型", required = true, example = MessageType.TEXT)
-    private String messageType;
 
     private String fromUserId;
 

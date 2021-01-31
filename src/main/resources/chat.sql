@@ -24,9 +24,10 @@ CREATE TABLE `conversation`
 (
     `id`                   bigint(20) NOT NULL AUTO_INCREMENT,
     `conversation_id`      varchar(255)    DEFAULT NULL,
-    `user_id`              varchar(255)    DEFAULT NULL COMMENT '创建人id',
+    `user_id`              varchar(255)    DEFAULT NULL COMMENT '这是谁的会话',
     `target_id`            varchar(255)    DEFAULT NULL COMMENT '目标id，可以是人，可以是群',
     `type`                 varchar(255)    DEFAULT NULL COMMENT '类型，标记是群，还是人，甚至是系统消息',
+    `title`                varchar(255)    DEFAULT NULL COMMENT '标题',
     `message_count`        int(11)         DEFAULT NULL COMMENT '总消息数量',
     `unread_message_count` int(11)         DEFAULT NULL COMMENT '未读消息数量',
     `update_time`          timestamp  NULL DEFAULT NULL,
@@ -45,6 +46,7 @@ CREATE TABLE `person_message`
     `message_id`        varchar(255)    DEFAULT NULL,
     `from_user_id`      varchar(255)    DEFAULT NULL,
     `to_user_id`        varchar(255)    DEFAULT NULL,
+    `conversation_id`   varchar(255)    DEFAULT NULL COMMENT '会话id',
     `message_type`      varchar(255)    DEFAULT NULL COMMENT '消息类型',
     `content`           text,
     `url`               varchar(1000)   DEFAULT NULL,
@@ -55,10 +57,6 @@ CREATE TABLE `person_message`
     `arrive_time`       timestamp  NULL DEFAULT NULL COMMENT '送达时间',
     `is_read`           bit(1)          DEFAULT NULL COMMENT '是否已读',
     `read_time`         timestamp  NULL DEFAULT NULL COMMENT '已读时间',
-    `is_delete`         bit(1)          DEFAULT NULL COMMENT '是否已删除',
-    `delete_time`       timestamp  NULL DEFAULT NULL COMMENT '删除时间',
-    `is_withdraw`       bit(1)          DEFAULT NULL COMMENT '是否已撤回',
-    `withdraw_time`     timestamp  NULL DEFAULT NULL COMMENT '撤回时间',
     `create_time`       timestamp  NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB

@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, conversation_id, user_id, target_id, type, title, message_count, unread_message_count,
+    id, conversation_id, user_id, target_id, type, title, message_count, unread_message_count, 
     update_time, create_time
   </sql>
   <select id="selectByExample" parameterType="com.eg.chatserver.bean.ConversationExample" resultMap="BaseResultMap">
@@ -91,7 +91,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from conversation
     where id = #{id,jdbcType=BIGINT}
@@ -106,19 +106,17 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.Conversation"
-          useGeneratedKeys="true" keyProperty="id">
-    insert into conversation (id, conversation_id, user_id,
-      target_id, type, title,
-      message_count, unread_message_count, update_time,
+  <insert id="insert" parameterType="com.eg.chatserver.bean.Conversation" useGeneratedKeys="true" keyProperty="id">
+    insert into conversation (id, conversation_id, user_id, 
+      target_id, type, title, 
+      message_count, unread_message_count, update_time, 
       create_time)
-    values (#{id,jdbcType=BIGINT}, #{conversationId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
-      #{targetId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
-      #{messageCount,jdbcType=INTEGER}, #{unreadMessageCount,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP},
+    values (#{id,jdbcType=BIGINT}, #{conversationId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{targetId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{messageCount,jdbcType=INTEGER}, #{unreadMessageCount,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.Conversation"
-          useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.Conversation" useGeneratedKeys="true" keyProperty="id">
     insert into conversation
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

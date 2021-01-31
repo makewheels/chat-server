@@ -149,7 +149,6 @@ public class PersonMessageService {
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
         sendMessageResponse.setMessageId(messageId);
         sendMessageResponse.setConversationId(conversationId);
-        sendMessageResponse.setMessageType(messageType);
         sendMessageResponse.setFromUserId(userId);
         sendMessageResponse.setToUserId(toUserId);
         sendMessageResponse.setCreateTime(personMessage.getCreateTime());
@@ -164,7 +163,8 @@ public class PersonMessageService {
      */
     public PersonMessage findSingleByMessageId(String messageId) {
         PersonMessageExample personMessageExample = new PersonMessageExample();
-        personMessageExample.createCriteria().andMessageIdEqualTo(messageId);
+        PersonMessageExample.Criteria criteria = personMessageExample.createCriteria();
+        criteria.andMessageIdEqualTo(messageId);
         List<PersonMessage> personMessageList = personMessageMapper.selectByExample(personMessageExample);
         if (CollectionUtils.isEmpty(personMessageList)) {
             return null;

@@ -31,14 +31,6 @@ public class PersonMessage {
 
     private Date readTime;
 
-    private Boolean isDelete;
-
-    private Date deleteTime;
-
-    private Boolean isWithdraw;
-
-    private Date withdrawTime;
-
     private Date createTime;
 
     private String content;
@@ -153,38 +145,6 @@ public class PersonMessage {
 
     public void setReadTime(Date readTime) {
         this.readTime = readTime;
-    }
-
-    public Boolean getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public Date getDeleteTime() {
-        return deleteTime;
-    }
-
-    public void setDeleteTime(Date deleteTime) {
-        this.deleteTime = deleteTime;
-    }
-
-    public Boolean getIsWithdraw() {
-        return isWithdraw;
-    }
-
-    public void setIsWithdraw(Boolean isWithdraw) {
-        this.isWithdraw = isWithdraw;
-    }
-
-    public Date getWithdrawTime() {
-        return withdrawTime;
-    }
-
-    public void setWithdrawTime(Date withdrawTime) {
-        this.withdrawTime = withdrawTime;
     }
 
     public Date getCreateTime() {
