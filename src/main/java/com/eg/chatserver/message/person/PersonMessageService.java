@@ -141,7 +141,7 @@ public class PersonMessageService {
         //TODO 推送
         User targetUser = userAccountService.findUserByUserId(toUserId);
         String jpushRegistrationId = targetUser.getJpushRegistrationId();
-//        jPushService.pushByRegistrationId(jpushRegistrationId, personMessage.getMessageId());
+        jPushService.pushByRegistrationId(jpushRegistrationId, personMessage.getMessageId());
         //返回
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
         sendMessageResponse.setMessageId(messageId);
