@@ -10,4 +10,6 @@ public class Constants {
 
     public static final String CONVERSATION_TYPE_PERSON = "person";
     public static final String CONVERSATION_TYPE_GROUP = "group";
+
+    public static final String PUSH_HEADER = "version=1";
 }

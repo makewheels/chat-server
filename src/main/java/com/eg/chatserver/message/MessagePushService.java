@@ -2,6 +2,7 @@ package com.eg.chatserver.message;
 
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.jpush.JPushService;
+import com.eg.chatserver.utils.Constants;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,8 +16,15 @@ public class MessagePushService {
     @Resource
     private JPushService jPushService;
 
+    /**
+     * 向客户端推送，告诉他拉取消息
+     *
+     * @param user
+     * @param messageId
+     */
     public void pushPersonMessage(User user, String messageId) {
-        String content = "cmd=pullMessage&type=person&messageId=" + messageId;
+        String content = Constants.PUSH_HEADER + "&cmd=pullMessage" +
+                "&type=person" + "&messageId=" + messageId;
         jPushService.pushByRegistrationId(user.getJpushRegistrationId(), content);
     }
 }
