@@ -162,4 +162,17 @@ public class ConversationService {
         return Result.error(ErrorCode.NOT_SUPPORT);
     }
 
+    /**
+     * 根据会话id查找会话
+     *
+     * @param conversationId
+     * @return
+     */
+    public List<Conversation> findConversationListByConversationId(String conversationId) {
+        ConversationExample conversationExample = new ConversationExample();
+        ConversationExample.Criteria criteria = conversationExample.createCriteria();
+        criteria.andConversationIdEqualTo(conversationId);
+        return conversationMapper.selectByExample(conversationExample);
+    }
+
 }
