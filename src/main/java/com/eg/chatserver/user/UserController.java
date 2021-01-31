@@ -30,12 +30,6 @@ public class UserController {
     @Resource
     private UserInfoService userInfoService;
 
-    /**
-     * 注册
-     *
-     * @param registerRequest
-     * @return
-     */
     @PostMapping("register")
     @ApiOperation(value = "用户注册")
     public Result<UserInfoResponse> register(@RequestBody RegisterRequest registerRequest) {
@@ -47,12 +41,6 @@ public class UserController {
         return userAccountService.register(registerRequest);
     }
 
-    /**
-     * 登录
-     *
-     * @param loginRequest
-     * @return
-     */
     @PostMapping("login")
     @ApiOperation(value = "用户登录")
     public Result<UserInfoResponse> login(@RequestBody LoginRequest loginRequest) {
@@ -63,9 +51,6 @@ public class UserController {
         return userAccountService.login(loginRequest);
     }
 
-    /**
-     * 登出
-     */
     @PostMapping("logout")
     @ApiOperation(value = "用户登出")
     public Result<Void> logout(HttpServletRequest httpServletRequest) {
@@ -73,12 +58,6 @@ public class UserController {
         return userAccountService.logout(user);
     }
 
-    /**
-     * 检查loginToken
-     *
-     * @param request
-     * @return
-     */
     @PostMapping("checkLoginToken")
     @ApiOperation(value = "检查loginToken")
     public Result<Void> checkLoginToken(HttpServletRequest request) {
@@ -95,11 +74,6 @@ public class UserController {
         }
     }
 
-    /**
-     * 根据登录名精准查询用户
-     *
-     * @return
-     */
     @PostMapping("searchUserByLoginName")
     @ApiOperation(value = "根据登录名精准搜索用户")
     public Result<SearchLoginNameResponse> searchUserByLoginName(

@@ -3,7 +3,9 @@ package com.eg.chatserver.user;
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.bean.UserExample;
 import com.eg.chatserver.bean.mapper.UserMapper;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.Resource;
 
@@ -22,12 +24,8 @@ public class UserInfoService {
     @Resource
     private UserRedisService userRedisService;
 
-    /**
-     * 根据登录名精准查询用户
-     *
-     * @param loginName
-     * @return
-     */
+    @PostMapping("searchUserByLoginName")
+    @ApiOperation(value = "根据登录名精准搜索用户")
     public User searchUserByLoginName(String loginName) {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andLoginNameEqualTo(loginName);
