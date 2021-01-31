@@ -35,7 +35,9 @@ public class UserController {
     public Result<UserInfoResponse> register(@RequestBody RegisterRequest registerRequest) {
         String loginName = registerRequest.getLoginName();
         String password = registerRequest.getPassword();
-        if (StringUtils.isBlank(loginName) || StringUtils.isBlank(password)) {
+        String jpushRegistrationId = registerRequest.getJpushRegistrationId();
+        if (StringUtils.isBlank(loginName) || StringUtils.isBlank(password)
+                || StringUtils.isEmpty(jpushRegistrationId)) {
             return Result.error(ErrorCode.WRONG_PARAM);
         }
         return userAccountService.register(registerRequest);
@@ -44,11 +46,12 @@ public class UserController {
     @PostMapping("login")
     @ApiOperation(value = "用户登录")
     public Result<UserInfoResponse> login(@RequestBody LoginRequest loginRequest) {
-        if (StringUtils.isBlank(loginRequest.getLoginName())
-                || StringUtils.isBlank(loginRequest.getPassword())) {
+        String loginName = loginRequest.getLoginName();
+        String password = loginRequest.getPassword();
+        String jpushRegistrationId = loginRequest.getJpushRegistrationId();
+        if (StringUtils.isBlank(loginName) || StringUtils.isBlank(password)
+                || StringUtils.isEmpty(jpushRegistrationId)) {
             return Result.error(ErrorCode.WRONG_PARAM);
-        } else if (StringUtils.isEmpty(loginRequest.getJpushRegistrationId())) {
-            return Result.error(ErrorCode.LOGIN_JPUSH_REGISTRATION_ID_IS_EMPTY);
         }
         return userAccountService.login(loginRequest);
     }

@@ -86,8 +86,11 @@ public class UserAccountService {
         //生成loginToken
         String loginToken = generateLoginToken();
         user.setLoginToken(loginToken);
+        //保存极光id
+        user.setJpushRegistrationId(registerRequest.getJpushRegistrationId());
         //保存用户
         userMapper.insert(user);
+        //TODO 没有主键
         log.info("new user registered: " + JSON.toJSONString(user));
         return user;
     }
