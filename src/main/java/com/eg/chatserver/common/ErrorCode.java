@@ -16,7 +16,8 @@ public enum ErrorCode {
     LOGIN_JPUSH_REGISTRATION_ID_IS_EMPTY(1005, "极光推送id为空，请稍后再试"),
 
     CONVERSATION_CREATE_TARGET_USER_NOT_EXIST(2000, "创建会话错误：目标用户不存在"),
-
+    CONVERSATION_CREATE_WITH_MY_SELF(2001, "和自己聊有意思么？"),
+    CONVERSATION_CREATE_REPEAT(2002, "请不要重复创建会话"),
 
     RUBBISH(1415926535, "我是垃圾，请忽略我");
 

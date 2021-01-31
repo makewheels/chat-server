@@ -126,6 +126,7 @@ public class UserAccountService {
         }
         //如果不存在，执行注册，插入数据库，返回正确信息
         User user = registerSaveUser(registerRequest);
+        //TODO 这里有问题，插入之后没有主键
         //然后为用户自动登录一次，把user放到redis里
         userRedisService.setUserByLoginToken(user.getLoginToken(), user);
         //返回注册结果
