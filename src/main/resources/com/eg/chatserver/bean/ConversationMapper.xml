@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.eg.chatserver.bean.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.eg.chatserver.bean.User">
+<mapper namespace="com.eg.chatserver.bean.mapper.ConversationMapper">
+  <resultMap id="BaseResultMap" type="com.eg.chatserver.bean.Conversation">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="conversation_id" jdbcType="VARCHAR" property="conversationId" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="jpush_registration_id" jdbcType="VARCHAR" property="jpushRegistrationId" />
-    <result column="head_image_url" jdbcType="VARCHAR" property="headImageUrl" />
-    <result column="login_token" jdbcType="VARCHAR" property="loginToken" />
-    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="target_id" jdbcType="VARCHAR" property="targetId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="message_count" jdbcType="INTEGER" property="messageCount" />
+    <result column="unread_message_count" jdbcType="INTEGER" property="unreadMessageCount" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -71,17 +71,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, login_name, password, jpush_registration_id, head_image_url, login_token, 
-    nickname, create_time
+    id, conversation_id, user_id, target_id, type, message_count, unread_message_count, 
+    update_time, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.eg.chatserver.bean.UserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.eg.chatserver.bean.ConversationExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from user
+    from conversation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,55 +92,55 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
+    from conversation
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from user
+    delete from conversation
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.eg.chatserver.bean.UserExample">
-    delete from user
+  <delete id="deleteByExample" parameterType="com.eg.chatserver.bean.ConversationExample">
+    delete from conversation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.User">
-    insert into user (id, user_id, login_name, 
-      password, jpush_registration_id, head_image_url, 
-      login_token, nickname, create_time
+  <insert id="insert" parameterType="com.eg.chatserver.bean.Conversation">
+    insert into conversation (id, conversation_id, user_id, 
+      target_id, type, message_count, 
+      unread_message_count, update_time, create_time
       )
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{jpushRegistrationId,jdbcType=VARCHAR}, #{headImageUrl,jdbcType=VARCHAR}, 
-      #{loginToken,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+    values (#{id,jdbcType=BIGINT}, #{conversationId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{targetId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{messageCount,jdbcType=INTEGER}, 
+      #{unreadMessageCount,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.User">
-    insert into user
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.Conversation">
+    insert into conversation
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
+      <if test="conversationId != null">
+        conversation_id,
+      </if>
       <if test="userId != null">
         user_id,
       </if>
-      <if test="loginName != null">
-        login_name,
+      <if test="targetId != null">
+        target_id,
       </if>
-      <if test="password != null">
-        password,
+      <if test="type != null">
+        type,
       </if>
-      <if test="jpushRegistrationId != null">
-        jpush_registration_id,
+      <if test="messageCount != null">
+        message_count,
       </if>
-      <if test="headImageUrl != null">
-        head_image_url,
+      <if test="unreadMessageCount != null">
+        unread_message_count,
       </if>
-      <if test="loginToken != null">
-        login_token,
-      </if>
-      <if test="nickname != null">
-        nickname,
+      <if test="updateTime != null">
+        update_time,
       </if>
       <if test="createTime != null">
         create_time,
@@ -150,64 +150,64 @@
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
+      <if test="conversationId != null">
+        #{conversationId,jdbcType=VARCHAR},
+      </if>
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="loginName != null">
-        #{loginName,jdbcType=VARCHAR},
+      <if test="targetId != null">
+        #{targetId,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
       </if>
-      <if test="jpushRegistrationId != null">
-        #{jpushRegistrationId,jdbcType=VARCHAR},
+      <if test="messageCount != null">
+        #{messageCount,jdbcType=INTEGER},
       </if>
-      <if test="headImageUrl != null">
-        #{headImageUrl,jdbcType=VARCHAR},
+      <if test="unreadMessageCount != null">
+        #{unreadMessageCount,jdbcType=INTEGER},
       </if>
-      <if test="loginToken != null">
-        #{loginToken,jdbcType=VARCHAR},
-      </if>
-      <if test="nickname != null">
-        #{nickname,jdbcType=VARCHAR},
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.eg.chatserver.bean.UserExample" resultType="java.lang.Long">
-    select count(*) from user
+  <select id="countByExample" parameterType="com.eg.chatserver.bean.ConversationExample" resultType="java.lang.Long">
+    select count(*) from conversation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update conversation
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.conversationId != null">
+        conversation_id = #{record.conversationId,jdbcType=VARCHAR},
+      </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=VARCHAR},
       </if>
-      <if test="record.loginName != null">
-        login_name = #{record.loginName,jdbcType=VARCHAR},
+      <if test="record.targetId != null">
+        target_id = #{record.targetId,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
       </if>
-      <if test="record.jpushRegistrationId != null">
-        jpush_registration_id = #{record.jpushRegistrationId,jdbcType=VARCHAR},
+      <if test="record.messageCount != null">
+        message_count = #{record.messageCount,jdbcType=INTEGER},
       </if>
-      <if test="record.headImageUrl != null">
-        head_image_url = #{record.headImageUrl,jdbcType=VARCHAR},
+      <if test="record.unreadMessageCount != null">
+        unread_message_count = #{record.unreadMessageCount,jdbcType=INTEGER},
       </if>
-      <if test="record.loginToken != null">
-        login_token = #{record.loginToken,jdbcType=VARCHAR},
-      </if>
-      <if test="record.nickname != null">
-        nickname = #{record.nickname,jdbcType=VARCHAR},
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -218,43 +218,43 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
+    update conversation
     set id = #{record.id,jdbcType=BIGINT},
+      conversation_id = #{record.conversationId,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=VARCHAR},
-      login_name = #{record.loginName,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      jpush_registration_id = #{record.jpushRegistrationId,jdbcType=VARCHAR},
-      head_image_url = #{record.headImageUrl,jdbcType=VARCHAR},
-      login_token = #{record.loginToken,jdbcType=VARCHAR},
-      nickname = #{record.nickname,jdbcType=VARCHAR},
+      target_id = #{record.targetId,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      message_count = #{record.messageCount,jdbcType=INTEGER},
+      unread_message_count = #{record.unreadMessageCount,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.eg.chatserver.bean.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.eg.chatserver.bean.Conversation">
+    update conversation
     <set>
+      <if test="conversationId != null">
+        conversation_id = #{conversationId,jdbcType=VARCHAR},
+      </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="loginName != null">
-        login_name = #{loginName,jdbcType=VARCHAR},
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="jpushRegistrationId != null">
-        jpush_registration_id = #{jpushRegistrationId,jdbcType=VARCHAR},
+      <if test="messageCount != null">
+        message_count = #{messageCount,jdbcType=INTEGER},
       </if>
-      <if test="headImageUrl != null">
-        head_image_url = #{headImageUrl,jdbcType=VARCHAR},
+      <if test="unreadMessageCount != null">
+        unread_message_count = #{unreadMessageCount,jdbcType=INTEGER},
       </if>
-      <if test="loginToken != null">
-        login_token = #{loginToken,jdbcType=VARCHAR},
-      </if>
-      <if test="nickname != null">
-        nickname = #{nickname,jdbcType=VARCHAR},
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -262,15 +262,15 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.eg.chatserver.bean.User">
-    update user
-    set user_id = #{userId,jdbcType=VARCHAR},
-      login_name = #{loginName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      jpush_registration_id = #{jpushRegistrationId,jdbcType=VARCHAR},
-      head_image_url = #{headImageUrl,jdbcType=VARCHAR},
-      login_token = #{loginToken,jdbcType=VARCHAR},
-      nickname = #{nickname,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.eg.chatserver.bean.Conversation">
+    update conversation
+    set conversation_id = #{conversationId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      target_id = #{targetId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      message_count = #{messageCount,jdbcType=INTEGER},
+      unread_message_count = #{unreadMessageCount,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

@@ -67,7 +67,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
     `id`                    bigint(20) NOT NULL AUTO_INCREMENT,
-    `uuid`                  varchar(255)    DEFAULT NULL,
+    `user_id`               varchar(255)    DEFAULT NULL,
     `login_name`            varchar(255)    DEFAULT NULL COMMENT '登陆名',
     `password`              varchar(255)    DEFAULT NULL,
     `jpush_registration_id` varchar(255)    DEFAULT NULL COMMENT '极光注册id',

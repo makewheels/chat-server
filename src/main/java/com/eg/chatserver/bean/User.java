@@ -19,6 +19,8 @@ public class User {
 
     private String nickname;
 
+    private String phone;
+
     private Date createTime;
 
     public Long getId() {
@@ -83,6 +85,14 @@ public class User {
 
     public void setNickname(String nickname) {
         this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
     }
 
     public Date getCreateTime() {

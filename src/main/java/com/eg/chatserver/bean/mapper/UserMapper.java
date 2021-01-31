@@ -2,12 +2,10 @@ package com.eg.chatserver.bean.mapper;
 
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.bean.UserExample;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-@Mapper
 public interface UserMapper {
     long countByExample(UserExample example);
 
