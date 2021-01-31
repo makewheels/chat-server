@@ -3,6 +3,7 @@ package com.eg.chatserver.message.person;
 import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.bean.Conversation;
 import com.eg.chatserver.bean.PersonMessage;
+import com.eg.chatserver.bean.PersonMessageExample;
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.bean.mapper.ConversationMapper;
 import com.eg.chatserver.bean.mapper.PersonMessageMapper;
@@ -10,12 +11,14 @@ import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.conversation.ConversationService;
 import com.eg.chatserver.jpush.JPushService;
+import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
 import com.eg.chatserver.message.person.bean.SendMessageResponse;
 import com.eg.chatserver.user.UserAccountService;
 import com.eg.chatserver.utils.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,7 +141,7 @@ public class PersonMessageService {
         updateConversationListCount(conversationList);
         log.info("send person message: {}", JSON.toJSONString(personMessage));
         String messageId = personMessage.getMessageId();
-        //TODO 推送
+        //推送
         User targetUser = userAccountService.findUserByUserId(toUserId);
         String jpushRegistrationId = targetUser.getJpushRegistrationId();
         jPushService.pushByRegistrationId(jpushRegistrationId, personMessage.getMessageId());
@@ -147,7 +150,45 @@ public class PersonMessageService {
         sendMessageResponse.setMessageId(messageId);
         sendMessageResponse.setConversationId(conversationId);
         sendMessageResponse.setMessageType(messageType);
+        sendMessageResponse.setFromUserId(userId);
+        sendMessageResponse.setToUserId(toUserId);
+        sendMessageResponse.setCreateTime(personMessage.getCreateTime());
         return Result.ok(sendMessageResponse);
     }
 
+    /**
+     * 根据messageId唯一查询一条消息
+     *
+     * @param messageId
+     * @return
+     */
+    public PersonMessage findSingleByMessageId(String messageId) {
+        PersonMessageExample personMessageExample = new PersonMessageExample();
+        personMessageExample.createCriteria().andMessageIdEqualTo(messageId);
+        List<PersonMessage> personMessageList = personMessageMapper.selectByExample(personMessageExample);
+        if (CollectionUtils.isEmpty(personMessageList)) {
+            return null;
+        } else {
+            return personMessageList.get(0);
+        }
+    }
+
+    /**
+     * 根据消息id查询一条消息
+     */
+    public Result<PullMessageResponse> getByMessageId(User user, String messageId) {
+        PersonMessage personMessage = findSingleByMessageId(messageId);
+        if (personMessage == null) {
+            return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
+        }
+        String userId = user.getUserId();
+        if (!userId.equals(personMessage.getFromUserId()) &&
+                !userId.equals(personMessage.getToUserId())) {
+            log.error("can not get other user's message, userId = {}, messageId = {}", userId, messageId);
+            return Result.error(ErrorCode.MESSAGE_CANT_GET_OTHER_USER_MESSAGE);
+        }
+        PullMessageResponse pullMessageResponse = new PullMessageResponse();
+        BeanUtils.copyProperties(personMessage, pullMessageResponse);
+        return Result.ok(pullMessageResponse);
+    }
 }

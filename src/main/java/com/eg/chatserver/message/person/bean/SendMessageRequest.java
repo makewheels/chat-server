@@ -23,7 +23,7 @@ public class SendMessageRequest {
     private String url;
     @ApiModelProperty(value = "是否是转发消息", example = "false")
     private Boolean isForward;
-    @ApiModelProperty(value = "源消息id", example = "sourceMessageId")
+    @ApiModelProperty(value = "源消息id", example = "pmsg9f1dc9519f4f47a0a6904810b0506ec4")
     private String sourceMessageId;
 
 }

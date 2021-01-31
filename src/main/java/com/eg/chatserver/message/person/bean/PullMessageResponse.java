@@ -1,7 +1,6 @@
 package com.eg.chatserver.message.person.bean;
 
 import com.eg.chatserver.message.MessageType;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -9,11 +8,10 @@ import java.util.Date;
 
 /**
  * @Author makewheels
- * @Time 2021.01.31 16:05:16
+ * @Time 2021.01.31 23:53:44
  */
 @Data
-@ApiModel(value = "发送对人的消息")
-public class SendMessageResponse {
+public class PullMessageResponse {
     @ApiModelProperty(value = "消息id", example = "pmsg9f1dc9519f4f47a0a6904810b0506ec4")
     private String messageId;
 
@@ -26,6 +24,31 @@ public class SendMessageResponse {
 
     private String toUserId;
 
+    private String url;
+
+    private String imagePreviewUrl;
+
+    private Boolean isForward;
+
+    private String sourceMessageId;
+
+    private Boolean isArrive;
+
+    private Date arriveTime;
+
+    private Boolean isRead;
+
+    private Date readTime;
+
+    private Boolean isDelete;
+
+    private Date deleteTime;
+
+    private Boolean isWithdraw;
+
+    private Date withdrawTime;
+
     private Date createTime;
 
+    private String content;
 }

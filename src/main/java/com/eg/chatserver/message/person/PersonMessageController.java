@@ -4,6 +4,8 @@ import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.message.MessageType;
+import com.eg.chatserver.message.person.bean.PullMessageRequest;
+import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
 import com.eg.chatserver.message.person.bean.SendMessageResponse;
 import com.eg.chatserver.user.UserAccountService;
@@ -47,5 +49,17 @@ public class PersonMessageController {
         }
         User user = userAccountService.getUserByRequest(request);
         return personMessageService.sendMessage(user, sendMessageRequest);
+    }
+
+    @PostMapping("pullByMessageId")
+    @ApiOperation(value = "根据消息id拉取一条消息")
+    public Result<PullMessageResponse> pullByMessageId(
+            HttpServletRequest request, @RequestBody PullMessageRequest pullMessageRequest) {
+        String messageId = pullMessageRequest.getMessageId();
+        if (StringUtils.isEmpty(messageId)) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
+        User user = userAccountService.getUserByRequest(request);
+        return personMessageService.getByMessageId(user,messageId);
     }
 }

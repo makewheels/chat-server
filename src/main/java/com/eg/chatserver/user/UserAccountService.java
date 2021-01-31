@@ -90,7 +90,6 @@ public class UserAccountService {
         user.setJpushRegistrationId(registerRequest.getJpushRegistrationId());
         //保存用户
         userMapper.insert(user);
-        //TODO 没有主键
         log.info("new user registered: " + JSON.toJSONString(user));
         return user;
     }
