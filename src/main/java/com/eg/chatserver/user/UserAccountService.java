@@ -149,6 +149,18 @@ public class UserAccountService {
     }
 
     /**
+     * 根据userId查找用户
+     *
+     * @param userId
+     * @return
+     */
+    public User findUserByUserId(String userId) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUserIdEqualTo(userId);
+        return findSingleUserByExample(userExample);
+    }
+
+    /**
      * 根据loginToken查数据库获取user
      *
      * @param loginToken
@@ -189,17 +201,16 @@ public class UserAccountService {
         boolean isLoginTokenExist = userRedisService.isLoginTokenExist(loginToken);
         if (isLoginTokenExist) {
             return true;
+        }
+        //如果redis里不存在，先查数据库
+        //这种情况，可能是因为，redis过期，也可能是服务重启
+        User user = findUserByLoginTokenFromSql(loginToken);
+        //如果从数据库找到了user，那么存入redis
+        if (user != null) {
+            userRedisService.setUserByLoginToken(loginToken, user);
+            return true;
         } else {
-            //如果redis里不存在，先查数据库
-            //这种情况，可能是因为，redis过期，也可能是服务重启
-            User user = findUserByLoginTokenFromSql(loginToken);
-            //如果从数据库找到了user，那么存入redis
-            if (user != null) {
-                userRedisService.setUserByLoginToken(loginToken, user);
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 

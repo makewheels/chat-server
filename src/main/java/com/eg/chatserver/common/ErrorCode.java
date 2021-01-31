@@ -10,14 +10,14 @@ public enum ErrorCode {
     NEED_LOGIN(1000, "请先登录"),
     CHECK_LOGIN_TOKEN_ERROR(1001, "检查loginToken错误"),
 
-    //注册
     REGISTER_LOGIN_NAME_ALREADY_EXISTS(1002, "登录名已存在"),
-    //登录
     LOGIN_LOGIN_NAME_PASSWORD_WRONG(1003, "登录名或密码错误"),
-
     SEARCH_USER_LOGIN_NAME_NOT_EXIST(1004, "搜索登录名不存在"),
+    LOGIN_JPUSH_REGISTRATION_ID_IS_EMPTY(1005, "极光推送id为空，请稍后再试"),
 
-    LOGIN_JPUSH_REGISTRATION_ID_IS_EMPTY(1005, "极光推送id为空"),
+    CONVERSATION_CREATE_TARGET_USER_NOT_EXIST(2000, "创建会话错误：目标用户不存在"),
+
+
     RUBBISH(1415926535, "我是垃圾，请忽略我");
 
     private int code;

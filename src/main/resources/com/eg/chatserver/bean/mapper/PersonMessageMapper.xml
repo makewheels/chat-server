@@ -6,6 +6,7 @@
     <result column="message_id" jdbcType="VARCHAR" property="messageId" />
     <result column="from_user_id" jdbcType="VARCHAR" property="fromUserId" />
     <result column="to_user_id" jdbcType="VARCHAR" property="toUserId" />
+    <result column="conversation_id" jdbcType="VARCHAR" property="conversationId" />
     <result column="message_type" jdbcType="VARCHAR" property="messageType" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="image_preview_url" jdbcType="VARCHAR" property="imagePreviewUrl" />
@@ -83,9 +84,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, message_id, from_user_id, to_user_id, message_type, url, image_preview_url, is_forward, 
-    source_message_id, is_arrive, arrive_time, is_read, read_time, is_delete, delete_time, 
-    is_withdraw, withdraw_time, create_time
+    id, message_id, from_user_id, to_user_id, conversation_id, message_type, url, image_preview_url, 
+    is_forward, source_message_id, is_arrive, arrive_time, is_read, read_time, is_delete, 
+    delete_time, is_withdraw, withdraw_time, create_time
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -142,19 +143,19 @@
   </delete>
   <insert id="insert" parameterType="com.eg.chatserver.bean.PersonMessage">
     insert into person_message (id, message_id, from_user_id, 
-      to_user_id, message_type, url, 
-      image_preview_url, is_forward, source_message_id, 
-      is_arrive, arrive_time, is_read, 
-      read_time, is_delete, delete_time, 
-      is_withdraw, withdraw_time, create_time, 
-      content)
+      to_user_id, conversation_id, message_type, 
+      url, image_preview_url, is_forward, 
+      source_message_id, is_arrive, arrive_time, 
+      is_read, read_time, is_delete, 
+      delete_time, is_withdraw, withdraw_time, 
+      create_time, content)
     values (#{id,jdbcType=BIGINT}, #{messageId,jdbcType=VARCHAR}, #{fromUserId,jdbcType=VARCHAR}, 
-      #{toUserId,jdbcType=VARCHAR}, #{messageType,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{imagePreviewUrl,jdbcType=VARCHAR}, #{isForward,jdbcType=BIT}, #{sourceMessageId,jdbcType=VARCHAR}, 
-      #{isArrive,jdbcType=BIT}, #{arriveTime,jdbcType=TIMESTAMP}, #{isRead,jdbcType=BIT}, 
-      #{readTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}, 
-      #{isWithdraw,jdbcType=BIT}, #{withdrawTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{toUserId,jdbcType=VARCHAR}, #{conversationId,jdbcType=VARCHAR}, #{messageType,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{imagePreviewUrl,jdbcType=VARCHAR}, #{isForward,jdbcType=BIT}, 
+      #{sourceMessageId,jdbcType=VARCHAR}, #{isArrive,jdbcType=BIT}, #{arriveTime,jdbcType=TIMESTAMP}, 
+      #{isRead,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=BIT}, 
+      #{deleteTime,jdbcType=TIMESTAMP}, #{isWithdraw,jdbcType=BIT}, #{withdrawTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.eg.chatserver.bean.PersonMessage">
     insert into person_message
@@ -170,6 +171,9 @@
       </if>
       <if test="toUserId != null">
         to_user_id,
+      </if>
+      <if test="conversationId != null">
+        conversation_id,
       </if>
       <if test="messageType != null">
         message_type,
@@ -229,6 +233,9 @@
       </if>
       <if test="toUserId != null">
         #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="conversationId != null">
+        #{conversationId,jdbcType=VARCHAR},
       </if>
       <if test="messageType != null">
         #{messageType,jdbcType=VARCHAR},
@@ -298,6 +305,9 @@
       <if test="record.toUserId != null">
         to_user_id = #{record.toUserId,jdbcType=VARCHAR},
       </if>
+      <if test="record.conversationId != null">
+        conversation_id = #{record.conversationId,jdbcType=VARCHAR},
+      </if>
       <if test="record.messageType != null">
         message_type = #{record.messageType,jdbcType=VARCHAR},
       </if>
@@ -354,6 +364,7 @@
       message_id = #{record.messageId,jdbcType=VARCHAR},
       from_user_id = #{record.fromUserId,jdbcType=VARCHAR},
       to_user_id = #{record.toUserId,jdbcType=VARCHAR},
+      conversation_id = #{record.conversationId,jdbcType=VARCHAR},
       message_type = #{record.messageType,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
@@ -379,6 +390,7 @@
       message_id = #{record.messageId,jdbcType=VARCHAR},
       from_user_id = #{record.fromUserId,jdbcType=VARCHAR},
       to_user_id = #{record.toUserId,jdbcType=VARCHAR},
+      conversation_id = #{record.conversationId,jdbcType=VARCHAR},
       message_type = #{record.messageType,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
@@ -408,6 +420,9 @@
       </if>
       <if test="toUserId != null">
         to_user_id = #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="conversationId != null">
+        conversation_id = #{conversationId,jdbcType=VARCHAR},
       </if>
       <if test="messageType != null">
         message_type = #{messageType,jdbcType=VARCHAR},
@@ -462,6 +477,7 @@
     set message_id = #{messageId,jdbcType=VARCHAR},
       from_user_id = #{fromUserId,jdbcType=VARCHAR},
       to_user_id = #{toUserId,jdbcType=VARCHAR},
+      conversation_id = #{conversationId,jdbcType=VARCHAR},
       message_type = #{messageType,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
@@ -484,6 +500,7 @@
     set message_id = #{messageId,jdbcType=VARCHAR},
       from_user_id = #{fromUserId,jdbcType=VARCHAR},
       to_user_id = #{toUserId,jdbcType=VARCHAR},
+      conversation_id = #{conversationId,jdbcType=VARCHAR},
       message_type = #{messageType,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},

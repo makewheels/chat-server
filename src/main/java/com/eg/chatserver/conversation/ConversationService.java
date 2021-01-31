@@ -7,6 +7,7 @@ import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.conversation.bean.CreateConversationRequest;
 import com.eg.chatserver.conversation.bean.CreateConversationResponse;
+import com.eg.chatserver.user.UserAccountService;
 import com.eg.chatserver.utils.Constants;
 import com.eg.chatserver.utils.UuidUtil;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -23,6 +24,8 @@ import java.util.Date;
 public class ConversationService {
     @Resource
     private ConversationMapper conversationMapper;
+    @Resource
+    private UserAccountService userAccountService;
 
     /**
      * 生成会话id
@@ -30,8 +33,7 @@ public class ConversationService {
      * @return
      */
     public String generateConversationId() {
-        return "conv" + UuidUtil.getRandomUUid()
-                + RandomStringUtils.randomAlphanumeric(8);
+        return "conv" + UuidUtil.getRandomUUid();
     }
 
     /**
@@ -62,17 +64,41 @@ public class ConversationService {
      */
     private Result<CreateConversationResponse> createPersonConversation(
             User user, CreateConversationRequest createConversationRequest) {
-        //根据userId查找用户
+        //根据userId查找目标用户
         String targetId = createConversationRequest.getTargetId();
+        User targetUser = userAccountService.findUserByUserId(targetId);
+        //如果目标用户不存在
+        if (targetUser == null) {
+            return Result.error(ErrorCode.CONVERSATION_CREATE_TARGET_USER_NOT_EXIST);
+        }
+        //创建会话
         Conversation conversation = new Conversation();
-        conversation.setConversationId(generateConversationId());
+        String conversationId = generateConversationId();
+        conversation.setConversationId(conversationId);
         conversation.setUserId(user.getUserId());
-
+        conversation.setTargetId(targetUser.getUserId());
         conversation.setType(createConversationRequest.getType());
+        conversation.setTitle(targetUser.getNickname() + " " + targetUser.getLoginName());
         Date date = new Date();
         conversation.setUpdateTime(date);
         conversation.setCreateTime(date);
-        return null;
+        conversationMapper.insert(conversation);
+        //再给目标用户也创建会话
+        Conversation conversationTarget = new Conversation();
+        conversationTarget.setConversationId(conversationId);
+        conversationTarget.setUserId(targetId);
+        conversationTarget.setTargetId(user.getUserId());
+        conversationTarget.setType(createConversationRequest.getType());
+        conversationTarget.setTitle(user.getNickname() + " " + user.getLoginName());
+        conversationTarget.setUpdateTime(date);
+        conversationTarget.setCreateTime(date);
+        conversationMapper.insert(conversationTarget);
+        //返回结果
+        CreateConversationResponse createConversationResponse = new CreateConversationResponse();
+        createConversationResponse.setConversationId(conversation.getConversationId());
+        createConversationResponse.setTargetId(targetId);
+        createConversationResponse.setType(createConversationRequest.getType());
+        return Result.ok(createConversationResponse);
     }
 
     /**

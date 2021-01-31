@@ -7,6 +7,7 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="target_id" jdbcType="VARCHAR" property="targetId" />
     <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="message_count" jdbcType="INTEGER" property="messageCount" />
     <result column="unread_message_count" jdbcType="INTEGER" property="unreadMessageCount" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, conversation_id, user_id, target_id, type, message_count, unread_message_count, 
+    id, conversation_id, user_id, target_id, type, title, message_count, unread_message_count, 
     update_time, create_time
   </sql>
   <select id="selectByExample" parameterType="com.eg.chatserver.bean.ConversationExample" resultMap="BaseResultMap">
@@ -107,13 +108,13 @@
   </delete>
   <insert id="insert" parameterType="com.eg.chatserver.bean.Conversation">
     insert into conversation (id, conversation_id, user_id, 
-      target_id, type, message_count, 
-      unread_message_count, update_time, create_time
-      )
+      target_id, type, title, 
+      message_count, unread_message_count, update_time, 
+      create_time)
     values (#{id,jdbcType=BIGINT}, #{conversationId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
-      #{targetId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{messageCount,jdbcType=INTEGER}, 
-      #{unreadMessageCount,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{targetId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{messageCount,jdbcType=INTEGER}, #{unreadMessageCount,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.eg.chatserver.bean.Conversation">
     insert into conversation
@@ -132,6 +133,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="title != null">
+        title,
       </if>
       <if test="messageCount != null">
         message_count,
@@ -161,6 +165,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="messageCount != null">
         #{messageCount,jdbcType=INTEGER},
@@ -200,6 +207,9 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=VARCHAR},
       </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
       <if test="record.messageCount != null">
         message_count = #{record.messageCount,jdbcType=INTEGER},
       </if>
@@ -224,6 +234,7 @@
       user_id = #{record.userId,jdbcType=VARCHAR},
       target_id = #{record.targetId,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
       message_count = #{record.messageCount,jdbcType=INTEGER},
       unread_message_count = #{record.unreadMessageCount,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -247,6 +258,9 @@
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
       <if test="messageCount != null">
         message_count = #{messageCount,jdbcType=INTEGER},
       </if>
@@ -268,6 +282,7 @@
       user_id = #{userId,jdbcType=VARCHAR},
       target_id = #{targetId,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
       message_count = #{messageCount,jdbcType=INTEGER},
       unread_message_count = #{unreadMessageCount,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

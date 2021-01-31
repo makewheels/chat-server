@@ -11,6 +11,8 @@ public class PersonMessage {
 
     private String toUserId;
 
+    private String conversationId;
+
     private String messageType;
 
     private String url;
@@ -71,6 +73,14 @@ public class PersonMessage {
 
     public void setToUserId(String toUserId) {
         this.toUserId = toUserId == null ? null : toUserId.trim();
+    }
+
+    public String getConversationId() {
+        return conversationId;
+    }
+
+    public void setConversationId(String conversationId) {
+        this.conversationId = conversationId == null ? null : conversationId.trim();
     }
 
     public String getMessageType() {

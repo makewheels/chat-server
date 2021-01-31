@@ -13,6 +13,8 @@ public class Conversation {
 
     private String type;
 
+    private String title;
+
     private Integer messageCount;
 
     private Integer unreadMessageCount;
@@ -59,6 +61,14 @@ public class Conversation {
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public Integer getMessageCount() {
