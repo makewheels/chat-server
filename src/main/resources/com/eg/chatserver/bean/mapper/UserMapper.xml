@@ -106,7 +106,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.User">
+  <insert id="insert" parameterType="com.eg.chatserver.bean.User"
+          useGeneratedKeys="true" keyProperty="id">
     insert into user (id, user_id, login_name, 
       password, login_token, jpush_registration_id, 
       head_image_url, nickname, phone, 
@@ -116,7 +117,8 @@
       #{headImageUrl,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.User">
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.User"
+          useGeneratedKeys="true" keyProperty="id">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
