@@ -10,7 +10,8 @@ import com.eg.chatserver.bean.mapper.PersonMessageMapper;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.conversation.ConversationService;
-import com.eg.chatserver.jpush.JPushService;
+import com.eg.chatserver.jpush.PushResult;
+import com.eg.chatserver.message.MessagePushService;
 import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
 import com.eg.chatserver.message.person.bean.SendMessageResponse;
@@ -42,7 +43,7 @@ public class PersonMessageService {
     @Resource
     private ConversationMapper conversationMapper;
     @Resource
-    private JPushService jPushService;
+    private MessagePushService messagePushService;
 
     /**
      * 生成消息id
@@ -142,9 +143,11 @@ public class PersonMessageService {
         log.info("send person message: {}", JSON.toJSONString(personMessage));
         String messageId = personMessage.getMessageId();
         //推送
-        User targetUser = userAccountService.findUserByUserId(toUserId);
-        String jpushRegistrationId = targetUser.getJpushRegistrationId();
-        jPushService.pushByRegistrationId(jpushRegistrationId, personMessage.getMessageId());
+        User toUser = userAccountService.findUserByUserId(toUserId);
+        PushResult pushResult = messagePushService.pushPersonMessage(toUser, messageId);
+        if (pushResult.isResultOK()) {
+            log.info("push success messageId = {}, pushResult = {}", messageId, JSON.toJSONString(pushResult));
+        }
         //返回
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
         sendMessageResponse.setMessageId(messageId);

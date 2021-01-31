@@ -2,6 +2,7 @@ package com.eg.chatserver.message;
 
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.jpush.JPushService;
+import com.eg.chatserver.jpush.PushResult;
 import com.eg.chatserver.utils.Constants;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +23,9 @@ public class MessagePushService {
      * @param user
      * @param messageId
      */
-    public void pushPersonMessage(User user, String messageId) {
+    public PushResult pushPersonMessage(User user, String messageId) {
         String content = Constants.PUSH_HEADER + "&cmd=pullMessage" +
                 "&type=person" + "&messageId=" + messageId;
-        jPushService.pushByRegistrationId(user.getJpushRegistrationId(), content);
+        return jPushService.pushByRegistrationId(user.getJpushRegistrationId(), content);
     }
 }

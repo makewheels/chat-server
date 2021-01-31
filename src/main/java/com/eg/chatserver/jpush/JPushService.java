@@ -33,7 +33,7 @@ public class JPushService {
      * @param message
      * @return
      */
-    public String pushByRegistrationId(String registrationId, String message) {
+    public com.eg.chatserver.jpush.PushResult pushByRegistrationId(String registrationId, String message) {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.registrationId(registrationId))
@@ -54,6 +54,7 @@ public class JPushService {
             log.info("Error Code: " + e.getErrorCode());
             log.info("Error Message: " + e.getErrorMessage());
         }
-        return JSON.toJSONString(result);
+        String json = JSON.toJSONString(result);
+        return JSON.parseObject(json, com.eg.chatserver.jpush.PushResult.class);
     }
 }
