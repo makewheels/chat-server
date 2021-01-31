@@ -1,6 +1,7 @@
 package com.eg.chatserver.conversation;
 
 import com.eg.chatserver.bean.User;
+import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.conversation.bean.CreateConversationRequest;
 import com.eg.chatserver.conversation.bean.CreateConversationResponse;
@@ -8,6 +9,7 @@ import com.eg.chatserver.user.UserAccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +35,10 @@ public class ConversationController {
     public Result<CreateConversationResponse> createConversation(
             @RequestBody CreateConversationRequest createConversationRequest,
             HttpServletRequest request) {
+        if (StringUtils.isEmpty(createConversationRequest.getTargetId()) ||
+                StringUtils.isEmpty(createConversationRequest.getType())) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
         User user = userAccountService.getUserByRequest(request);
         return conversationService.create(user, createConversationRequest);
     }

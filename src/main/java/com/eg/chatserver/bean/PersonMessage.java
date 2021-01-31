@@ -17,19 +17,23 @@ public class PersonMessage {
 
     private String imagePreviewUrl;
 
-    private Integer isArrive;
+    private Boolean isForward;
+
+    private String sourceMessageId;
+
+    private Boolean isArrive;
 
     private Date arriveTime;
 
-    private Integer isRead;
+    private Boolean isRead;
 
     private Date readTime;
 
-    private Integer isDelete;
+    private Boolean isDelete;
 
     private Date deleteTime;
 
-    private Integer isWithdraw;
+    private Boolean isWithdraw;
 
     private Date withdrawTime;
 
@@ -93,11 +97,27 @@ public class PersonMessage {
         this.imagePreviewUrl = imagePreviewUrl == null ? null : imagePreviewUrl.trim();
     }
 
-    public Integer getIsArrive() {
+    public Boolean getIsForward() {
+        return isForward;
+    }
+
+    public void setIsForward(Boolean isForward) {
+        this.isForward = isForward;
+    }
+
+    public String getSourceMessageId() {
+        return sourceMessageId;
+    }
+
+    public void setSourceMessageId(String sourceMessageId) {
+        this.sourceMessageId = sourceMessageId == null ? null : sourceMessageId.trim();
+    }
+
+    public Boolean getIsArrive() {
         return isArrive;
     }
 
-    public void setIsArrive(Integer isArrive) {
+    public void setIsArrive(Boolean isArrive) {
         this.isArrive = isArrive;
     }
 
@@ -109,11 +129,11 @@ public class PersonMessage {
         this.arriveTime = arriveTime;
     }
 
-    public Integer getIsRead() {
+    public Boolean getIsRead() {
         return isRead;
     }
 
-    public void setIsRead(Integer isRead) {
+    public void setIsRead(Boolean isRead) {
         this.isRead = isRead;
     }
 
@@ -125,11 +145,11 @@ public class PersonMessage {
         this.readTime = readTime;
     }
 
-    public Integer getIsDelete() {
+    public Boolean getIsDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(Integer isDelete) {
+    public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
     }
 
@@ -141,11 +161,11 @@ public class PersonMessage {
         this.deleteTime = deleteTime;
     }
 
-    public Integer getIsWithdraw() {
+    public Boolean getIsWithdraw() {
         return isWithdraw;
     }
 
-    public void setIsWithdraw(Integer isWithdraw) {
+    public void setIsWithdraw(Boolean isWithdraw) {
         this.isWithdraw = isWithdraw;
     }
 

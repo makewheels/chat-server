@@ -22,18 +22,18 @@ DROP TABLE IF EXISTS `conversation`;
 
 CREATE TABLE `conversation`
 (
-    `id`              bigint(20) NOT NULL AUTO_INCREMENT,
-    `conversation_id` varchar(255)    DEFAULT NULL,
-    `user_id`         varchar(255)    DEFAULT NULL COMMENT '创建人id',
-    `target_id`       varchar(255)    DEFAULT NULL COMMENT '目标id，可以是人，可以是群',
-    `type`            varchar(255)    DEFAULT NULL COMMENT '类型，标记是群，还是人，甚至是系统消息',
-    `update_time`     timestamp  NULL DEFAULT NULL,
-    `create_time`     timestamp  NULL DEFAULT NULL,
+    `id`                   bigint(20) NOT NULL AUTO_INCREMENT,
+    `conversation_id`      varchar(255)    DEFAULT NULL,
+    `user_id`              varchar(255)    DEFAULT NULL COMMENT '创建人id',
+    `target_id`            varchar(255)    DEFAULT NULL COMMENT '目标id，可以是人，可以是群',
+    `type`                 varchar(255)    DEFAULT NULL COMMENT '类型，标记是群，还是人，甚至是系统消息',
+    `message_count`        int(11)         DEFAULT NULL COMMENT '总消息数量',
+    `unread_message_count` int(11)         DEFAULT NULL COMMENT '未读消息数量',
+    `update_time`          timestamp  NULL DEFAULT NULL,
+    `create_time`          timestamp  NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
-
-/*Data for the table `conversation` */
 
 /*Table structure for table `person_message` */
 
@@ -49,16 +49,20 @@ CREATE TABLE `person_message`
     `content`           text,
     `url`               varchar(1000)   DEFAULT NULL,
     `image_preview_url` varchar(1000)   DEFAULT NULL COMMENT '图片预览',
-    `is_arrive`         int(11)         DEFAULT NULL COMMENT '是否已送达',
+    `is_forward`        bit(1)          DEFAULT NULL COMMENT '是否是转发',
+    `source_message_id` varchar(255)    DEFAULT NULL COMMENT '转发来源消息id',
+    `is_arrive`         bit(1)          DEFAULT NULL COMMENT '是否已送达',
     `arrive_time`       timestamp  NULL DEFAULT NULL COMMENT '送达时间',
-    `is_read`           int(11)         DEFAULT NULL COMMENT '是否已读',
+    `is_read`           bit(1)          DEFAULT NULL COMMENT '是否已读',
     `read_time`         timestamp  NULL DEFAULT NULL COMMENT '已读时间',
+    `is_delete`         bit(1)          DEFAULT NULL COMMENT '是否已删除',
+    `delete_time`       timestamp  NULL DEFAULT NULL COMMENT '删除时间',
+    `is_withdraw`       bit(1)          DEFAULT NULL COMMENT '是否已撤回',
+    `withdraw_time`     timestamp  NULL DEFAULT NULL COMMENT '撤回时间',
     `create_time`       timestamp  NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
-
-/*Data for the table `person_message` */
 
 /*Table structure for table `user` */
 
@@ -70,16 +74,15 @@ CREATE TABLE `user`
     `user_id`               varchar(255)    DEFAULT NULL,
     `login_name`            varchar(255)    DEFAULT NULL COMMENT '登陆名',
     `password`              varchar(255)    DEFAULT NULL,
+    `login_token`           varchar(255)    DEFAULT NULL COMMENT '自动登陆',
     `jpush_registration_id` varchar(255)    DEFAULT NULL COMMENT '极光注册id',
     `head_image_url`        varchar(1000)   DEFAULT NULL COMMENT '头像地址',
-    `login_token`           varchar(255)    DEFAULT NULL COMMENT '自动登陆',
     `nickname`              varchar(255)    DEFAULT NULL COMMENT '昵称',
+    `phone`                 varchar(255)    DEFAULT NULL COMMENT '手机',
     `create_time`           timestamp  NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
-
-/*Data for the table `user` */
 
 /*!40101 SET SQL_MODE = @OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;

@@ -6,9 +6,9 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="login_name" jdbcType="VARCHAR" property="loginName" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="login_token" jdbcType="VARCHAR" property="loginToken" />
     <result column="jpush_registration_id" jdbcType="VARCHAR" property="jpushRegistrationId" />
     <result column="head_image_url" jdbcType="VARCHAR" property="headImageUrl" />
-    <result column="login_token" jdbcType="VARCHAR" property="loginToken" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, login_name, password, jpush_registration_id, head_image_url, login_token, 
+    id, user_id, login_name, password, login_token, jpush_registration_id, head_image_url, 
     nickname, phone, create_time
   </sql>
   <select id="selectByExample" parameterType="com.eg.chatserver.bean.UserExample" resultMap="BaseResultMap">
@@ -108,12 +108,12 @@
   </delete>
   <insert id="insert" parameterType="com.eg.chatserver.bean.User">
     insert into user (id, user_id, login_name, 
-      password, jpush_registration_id, head_image_url, 
-      login_token, nickname, phone, 
+      password, login_token, jpush_registration_id, 
+      head_image_url, nickname, phone, 
       create_time)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{jpushRegistrationId,jdbcType=VARCHAR}, #{headImageUrl,jdbcType=VARCHAR}, 
-      #{loginToken,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{loginToken,jdbcType=VARCHAR}, #{jpushRegistrationId,jdbcType=VARCHAR}, 
+      #{headImageUrl,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.eg.chatserver.bean.User">
@@ -131,14 +131,14 @@
       <if test="password != null">
         password,
       </if>
+      <if test="loginToken != null">
+        login_token,
+      </if>
       <if test="jpushRegistrationId != null">
         jpush_registration_id,
       </if>
       <if test="headImageUrl != null">
         head_image_url,
-      </if>
-      <if test="loginToken != null">
-        login_token,
       </if>
       <if test="nickname != null">
         nickname,
@@ -163,14 +163,14 @@
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
+      <if test="loginToken != null">
+        #{loginToken,jdbcType=VARCHAR},
+      </if>
       <if test="jpushRegistrationId != null">
         #{jpushRegistrationId,jdbcType=VARCHAR},
       </if>
       <if test="headImageUrl != null">
         #{headImageUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="loginToken != null">
-        #{loginToken,jdbcType=VARCHAR},
       </if>
       <if test="nickname != null">
         #{nickname,jdbcType=VARCHAR},
@@ -204,14 +204,14 @@
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
       </if>
+      <if test="record.loginToken != null">
+        login_token = #{record.loginToken,jdbcType=VARCHAR},
+      </if>
       <if test="record.jpushRegistrationId != null">
         jpush_registration_id = #{record.jpushRegistrationId,jdbcType=VARCHAR},
       </if>
       <if test="record.headImageUrl != null">
         head_image_url = #{record.headImageUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="record.loginToken != null">
-        login_token = #{record.loginToken,jdbcType=VARCHAR},
       </if>
       <if test="record.nickname != null">
         nickname = #{record.nickname,jdbcType=VARCHAR},
@@ -233,9 +233,9 @@
       user_id = #{record.userId,jdbcType=VARCHAR},
       login_name = #{record.loginName,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
+      login_token = #{record.loginToken,jdbcType=VARCHAR},
       jpush_registration_id = #{record.jpushRegistrationId,jdbcType=VARCHAR},
       head_image_url = #{record.headImageUrl,jdbcType=VARCHAR},
-      login_token = #{record.loginToken,jdbcType=VARCHAR},
       nickname = #{record.nickname,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
@@ -255,14 +255,14 @@
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
       </if>
+      <if test="loginToken != null">
+        login_token = #{loginToken,jdbcType=VARCHAR},
+      </if>
       <if test="jpushRegistrationId != null">
         jpush_registration_id = #{jpushRegistrationId,jdbcType=VARCHAR},
       </if>
       <if test="headImageUrl != null">
         head_image_url = #{headImageUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="loginToken != null">
-        login_token = #{loginToken,jdbcType=VARCHAR},
       </if>
       <if test="nickname != null">
         nickname = #{nickname,jdbcType=VARCHAR},
@@ -281,9 +281,9 @@
     set user_id = #{userId,jdbcType=VARCHAR},
       login_name = #{loginName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
+      login_token = #{loginToken,jdbcType=VARCHAR},
       jpush_registration_id = #{jpushRegistrationId,jdbcType=VARCHAR},
       head_image_url = #{headImageUrl,jdbcType=VARCHAR},
-      login_token = #{loginToken,jdbcType=VARCHAR},
       nickname = #{nickname,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}

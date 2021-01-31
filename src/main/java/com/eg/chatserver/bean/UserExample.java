@@ -375,6 +375,76 @@ public class UserExample {
             return (Criteria) this;
         }
 
+        public Criteria andLoginTokenIsNull() {
+            addCriterion("login_token is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenIsNotNull() {
+            addCriterion("login_token is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenEqualTo(String value) {
+            addCriterion("login_token =", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenNotEqualTo(String value) {
+            addCriterion("login_token <>", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenGreaterThan(String value) {
+            addCriterion("login_token >", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenGreaterThanOrEqualTo(String value) {
+            addCriterion("login_token >=", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenLessThan(String value) {
+            addCriterion("login_token <", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenLessThanOrEqualTo(String value) {
+            addCriterion("login_token <=", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenLike(String value) {
+            addCriterion("login_token like", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenNotLike(String value) {
+            addCriterion("login_token not like", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenIn(List<String> values) {
+            addCriterion("login_token in", values, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenNotIn(List<String> values) {
+            addCriterion("login_token not in", values, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenBetween(String value1, String value2) {
+            addCriterion("login_token between", value1, value2, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenNotBetween(String value1, String value2) {
+            addCriterion("login_token not between", value1, value2, "loginToken");
+            return (Criteria) this;
+        }
+
         public Criteria andJpushRegistrationIdIsNull() {
             addCriterion("jpush_registration_id is null");
             return (Criteria) this;
@@ -512,76 +582,6 @@ public class UserExample {
 
         public Criteria andHeadImageUrlNotBetween(String value1, String value2) {
             addCriterion("head_image_url not between", value1, value2, "headImageUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenIsNull() {
-            addCriterion("login_token is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenIsNotNull() {
-            addCriterion("login_token is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenEqualTo(String value) {
-            addCriterion("login_token =", value, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenNotEqualTo(String value) {
-            addCriterion("login_token <>", value, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenGreaterThan(String value) {
-            addCriterion("login_token >", value, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenGreaterThanOrEqualTo(String value) {
-            addCriterion("login_token >=", value, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenLessThan(String value) {
-            addCriterion("login_token <", value, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenLessThanOrEqualTo(String value) {
-            addCriterion("login_token <=", value, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenLike(String value) {
-            addCriterion("login_token like", value, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenNotLike(String value) {
-            addCriterion("login_token not like", value, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenIn(List<String> values) {
-            addCriterion("login_token in", values, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenNotIn(List<String> values) {
-            addCriterion("login_token not in", values, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenBetween(String value1, String value2) {
-            addCriterion("login_token between", value1, value2, "loginToken");
-            return (Criteria) this;
-        }
-
-        public Criteria andLoginTokenNotBetween(String value1, String value2) {
-            addCriterion("login_token not between", value1, value2, "loginToken");
             return (Criteria) this;
         }
 

@@ -585,6 +585,136 @@ public class PersonMessageExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsForwardIsNull() {
+            addCriterion("is_forward is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardIsNotNull() {
+            addCriterion("is_forward is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardEqualTo(Boolean value) {
+            addCriterion("is_forward =", value, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardNotEqualTo(Boolean value) {
+            addCriterion("is_forward <>", value, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardGreaterThan(Boolean value) {
+            addCriterion("is_forward >", value, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_forward >=", value, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardLessThan(Boolean value) {
+            addCriterion("is_forward <", value, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_forward <=", value, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardIn(List<Boolean> values) {
+            addCriterion("is_forward in", values, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardNotIn(List<Boolean> values) {
+            addCriterion("is_forward not in", values, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_forward between", value1, value2, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsForwardNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_forward not between", value1, value2, "isForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdIsNull() {
+            addCriterion("source_message_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdIsNotNull() {
+            addCriterion("source_message_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdEqualTo(String value) {
+            addCriterion("source_message_id =", value, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdNotEqualTo(String value) {
+            addCriterion("source_message_id <>", value, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdGreaterThan(String value) {
+            addCriterion("source_message_id >", value, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdGreaterThanOrEqualTo(String value) {
+            addCriterion("source_message_id >=", value, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdLessThan(String value) {
+            addCriterion("source_message_id <", value, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdLessThanOrEqualTo(String value) {
+            addCriterion("source_message_id <=", value, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdLike(String value) {
+            addCriterion("source_message_id like", value, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdNotLike(String value) {
+            addCriterion("source_message_id not like", value, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdIn(List<String> values) {
+            addCriterion("source_message_id in", values, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdNotIn(List<String> values) {
+            addCriterion("source_message_id not in", values, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdBetween(String value1, String value2) {
+            addCriterion("source_message_id between", value1, value2, "sourceMessageId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSourceMessageIdNotBetween(String value1, String value2) {
+            addCriterion("source_message_id not between", value1, value2, "sourceMessageId");
+            return (Criteria) this;
+        }
+
         public Criteria andIsArriveIsNull() {
             addCriterion("is_arrive is null");
             return (Criteria) this;
@@ -595,52 +725,52 @@ public class PersonMessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveEqualTo(Integer value) {
+        public Criteria andIsArriveEqualTo(Boolean value) {
             addCriterion("is_arrive =", value, "isArrive");
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveNotEqualTo(Integer value) {
+        public Criteria andIsArriveNotEqualTo(Boolean value) {
             addCriterion("is_arrive <>", value, "isArrive");
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveGreaterThan(Integer value) {
+        public Criteria andIsArriveGreaterThan(Boolean value) {
             addCriterion("is_arrive >", value, "isArrive");
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIsArriveGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_arrive >=", value, "isArrive");
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveLessThan(Integer value) {
+        public Criteria andIsArriveLessThan(Boolean value) {
             addCriterion("is_arrive <", value, "isArrive");
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveLessThanOrEqualTo(Integer value) {
+        public Criteria andIsArriveLessThanOrEqualTo(Boolean value) {
             addCriterion("is_arrive <=", value, "isArrive");
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveIn(List<Integer> values) {
+        public Criteria andIsArriveIn(List<Boolean> values) {
             addCriterion("is_arrive in", values, "isArrive");
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveNotIn(List<Integer> values) {
+        public Criteria andIsArriveNotIn(List<Boolean> values) {
             addCriterion("is_arrive not in", values, "isArrive");
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveBetween(Integer value1, Integer value2) {
+        public Criteria andIsArriveBetween(Boolean value1, Boolean value2) {
             addCriterion("is_arrive between", value1, value2, "isArrive");
             return (Criteria) this;
         }
 
-        public Criteria andIsArriveNotBetween(Integer value1, Integer value2) {
+        public Criteria andIsArriveNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_arrive not between", value1, value2, "isArrive");
             return (Criteria) this;
         }
@@ -715,52 +845,52 @@ public class PersonMessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsReadEqualTo(Integer value) {
+        public Criteria andIsReadEqualTo(Boolean value) {
             addCriterion("is_read =", value, "isRead");
             return (Criteria) this;
         }
 
-        public Criteria andIsReadNotEqualTo(Integer value) {
+        public Criteria andIsReadNotEqualTo(Boolean value) {
             addCriterion("is_read <>", value, "isRead");
             return (Criteria) this;
         }
 
-        public Criteria andIsReadGreaterThan(Integer value) {
+        public Criteria andIsReadGreaterThan(Boolean value) {
             addCriterion("is_read >", value, "isRead");
             return (Criteria) this;
         }
 
-        public Criteria andIsReadGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIsReadGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_read >=", value, "isRead");
             return (Criteria) this;
         }
 
-        public Criteria andIsReadLessThan(Integer value) {
+        public Criteria andIsReadLessThan(Boolean value) {
             addCriterion("is_read <", value, "isRead");
             return (Criteria) this;
         }
 
-        public Criteria andIsReadLessThanOrEqualTo(Integer value) {
+        public Criteria andIsReadLessThanOrEqualTo(Boolean value) {
             addCriterion("is_read <=", value, "isRead");
             return (Criteria) this;
         }
 
-        public Criteria andIsReadIn(List<Integer> values) {
+        public Criteria andIsReadIn(List<Boolean> values) {
             addCriterion("is_read in", values, "isRead");
             return (Criteria) this;
         }
 
-        public Criteria andIsReadNotIn(List<Integer> values) {
+        public Criteria andIsReadNotIn(List<Boolean> values) {
             addCriterion("is_read not in", values, "isRead");
             return (Criteria) this;
         }
 
-        public Criteria andIsReadBetween(Integer value1, Integer value2) {
+        public Criteria andIsReadBetween(Boolean value1, Boolean value2) {
             addCriterion("is_read between", value1, value2, "isRead");
             return (Criteria) this;
         }
 
-        public Criteria andIsReadNotBetween(Integer value1, Integer value2) {
+        public Criteria andIsReadNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_read not between", value1, value2, "isRead");
             return (Criteria) this;
         }
@@ -835,52 +965,52 @@ public class PersonMessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteEqualTo(Integer value) {
+        public Criteria andIsDeleteEqualTo(Boolean value) {
             addCriterion("is_delete =", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteNotEqualTo(Integer value) {
+        public Criteria andIsDeleteNotEqualTo(Boolean value) {
             addCriterion("is_delete <>", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteGreaterThan(Integer value) {
+        public Criteria andIsDeleteGreaterThan(Boolean value) {
             addCriterion("is_delete >", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIsDeleteGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_delete >=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteLessThan(Integer value) {
+        public Criteria andIsDeleteLessThan(Boolean value) {
             addCriterion("is_delete <", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteLessThanOrEqualTo(Integer value) {
+        public Criteria andIsDeleteLessThanOrEqualTo(Boolean value) {
             addCriterion("is_delete <=", value, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteIn(List<Integer> values) {
+        public Criteria andIsDeleteIn(List<Boolean> values) {
             addCriterion("is_delete in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteNotIn(List<Integer> values) {
+        public Criteria andIsDeleteNotIn(List<Boolean> values) {
             addCriterion("is_delete not in", values, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteBetween(Integer value1, Integer value2) {
+        public Criteria andIsDeleteBetween(Boolean value1, Boolean value2) {
             addCriterion("is_delete between", value1, value2, "isDelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeleteNotBetween(Integer value1, Integer value2) {
+        public Criteria andIsDeleteNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_delete not between", value1, value2, "isDelete");
             return (Criteria) this;
         }
@@ -955,52 +1085,52 @@ public class PersonMessageExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawEqualTo(Integer value) {
+        public Criteria andIsWithdrawEqualTo(Boolean value) {
             addCriterion("is_withdraw =", value, "isWithdraw");
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawNotEqualTo(Integer value) {
+        public Criteria andIsWithdrawNotEqualTo(Boolean value) {
             addCriterion("is_withdraw <>", value, "isWithdraw");
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawGreaterThan(Integer value) {
+        public Criteria andIsWithdrawGreaterThan(Boolean value) {
             addCriterion("is_withdraw >", value, "isWithdraw");
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIsWithdrawGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_withdraw >=", value, "isWithdraw");
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawLessThan(Integer value) {
+        public Criteria andIsWithdrawLessThan(Boolean value) {
             addCriterion("is_withdraw <", value, "isWithdraw");
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawLessThanOrEqualTo(Integer value) {
+        public Criteria andIsWithdrawLessThanOrEqualTo(Boolean value) {
             addCriterion("is_withdraw <=", value, "isWithdraw");
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawIn(List<Integer> values) {
+        public Criteria andIsWithdrawIn(List<Boolean> values) {
             addCriterion("is_withdraw in", values, "isWithdraw");
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawNotIn(List<Integer> values) {
+        public Criteria andIsWithdrawNotIn(List<Boolean> values) {
             addCriterion("is_withdraw not in", values, "isWithdraw");
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawBetween(Integer value1, Integer value2) {
+        public Criteria andIsWithdrawBetween(Boolean value1, Boolean value2) {
             addCriterion("is_withdraw between", value1, value2, "isWithdraw");
             return (Criteria) this;
         }
 
-        public Criteria andIsWithdrawNotBetween(Integer value1, Integer value2) {
+        public Criteria andIsWithdrawNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_withdraw not between", value1, value2, "isWithdraw");
             return (Criteria) this;
         }

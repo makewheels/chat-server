@@ -11,11 +11,11 @@ public class User {
 
     private String password;
 
+    private String loginToken;
+
     private String jpushRegistrationId;
 
     private String headImageUrl;
-
-    private String loginToken;
 
     private String nickname;
 
@@ -55,6 +55,14 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
+    public String getLoginToken() {
+        return loginToken;
+    }
+
+    public void setLoginToken(String loginToken) {
+        this.loginToken = loginToken == null ? null : loginToken.trim();
+    }
+
     public String getJpushRegistrationId() {
         return jpushRegistrationId;
     }
@@ -69,14 +77,6 @@ public class User {
 
     public void setHeadImageUrl(String headImageUrl) {
         this.headImageUrl = headImageUrl == null ? null : headImageUrl.trim();
-    }
-
-    public String getLoginToken() {
-        return loginToken;
-    }
-
-    public void setLoginToken(String loginToken) {
-        this.loginToken = loginToken == null ? null : loginToken.trim();
     }
 
     public String getNickname() {
