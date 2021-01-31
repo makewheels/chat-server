@@ -12,7 +12,8 @@ import lombok.Data;
 @ApiModel(value = "申请创建会话")
 public class CreateConversationRequest {
 
-    @ApiModelProperty(value = "要和谁创建会话，可以是用户id，可以是群组id", example = "targetId")
+    @ApiModelProperty(value = "要和谁创建会话，可以是用户id，可以是群组id",
+            example = "user14f573dffc0142c38be97c9360fbbac3")
     private String targetId;
     @ApiModelProperty(value = "类型，是人还是群", example = "person")
     private String type;

@@ -64,7 +64,6 @@ public class ConversationService {
             User user, CreateConversationRequest createConversationRequest) {
         //根据userId查找用户
         String targetId = createConversationRequest.getTargetId();
-        usera
         Conversation conversation = new Conversation();
         conversation.setConversationId(generateConversationId());
         conversation.setUserId(user.getUserId());

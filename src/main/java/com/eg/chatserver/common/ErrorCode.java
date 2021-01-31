@@ -17,6 +17,7 @@ public enum ErrorCode {
 
     SEARCH_USER_LOGIN_NAME_NOT_EXIST(1004, "搜索登录名不存在"),
 
+    LOGIN_JPUSH_REGISTRATION_ID_IS_EMPTY(1005, "极光推送id为空"),
     RUBBISH(1415926535, "我是垃圾，请忽略我");
 
     private int code;

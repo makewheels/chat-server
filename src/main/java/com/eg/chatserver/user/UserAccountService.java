@@ -233,26 +233,27 @@ public class UserAccountService {
         if (user == null) {
             log.error("login fail, loginRequest = {}", JSON.toJSONString(loginRequest));
             return Result.error(ErrorCode.LOGIN_LOGIN_NAME_PASSWORD_WRONG);
-        } else {
-            //如果找到了该用户
-            //把他之前redis里的loginToken删掉
-            userRedisService.deleteUserByLoginToken(user.getLoginToken());
-            //生成新的loginToken
-            String newLoginToken = generateLoginToken();
-            user.setLoginToken(newLoginToken);
-            //更新mysql
-            userMapper.updateByPrimaryKey(user);
-            //存入redis
-            userRedisService.setUserByLoginToken(newLoginToken, user);
-            log.info("login success, user = {}", JSON.toJSONString(user));
-            //返回
-            UserInfoResponse userInfoResponse = new UserInfoResponse();
-            userInfoResponse.setLoginName(user.getLoginName());
-            userInfoResponse.setUserId(user.getUserId());
-            userInfoResponse.setHeadImageUrl(user.getHeadImageUrl());
-            userInfoResponse.setLoginToken(newLoginToken);
-            return Result.ok(userInfoResponse);
         }
+        //如果找到了该用户
+        //把他之前redis里的user干掉
+        userRedisService.deleteUserByLoginToken(user.getLoginToken());
+        //更新jpushRegistrationId
+        user.setJpushRegistrationId(loginRequest.getJpushRegistrationId());
+        //生成新的loginToken
+        String newLoginToken = generateLoginToken();
+        user.setLoginToken(newLoginToken);
+        //更新mysql
+        userMapper.updateByPrimaryKey(user);
+        //存入redis
+        userRedisService.setUserByLoginToken(newLoginToken, user);
+        log.info("login success, user = {}", JSON.toJSONString(user));
+        //返回
+        UserInfoResponse userInfoResponse = new UserInfoResponse();
+        userInfoResponse.setLoginName(user.getLoginName());
+        userInfoResponse.setUserId(user.getUserId());
+        userInfoResponse.setHeadImageUrl(user.getHeadImageUrl());
+        userInfoResponse.setLoginToken(newLoginToken);
+        return Result.ok(userInfoResponse);
     }
 
     /**
@@ -263,8 +264,9 @@ public class UserAccountService {
     public Result<Void> logout(User user) {
         //干掉redis里的user
         userRedisService.deleteUserByLoginToken(user.getLoginToken());
-        //删除数据库里的loginToken
+        //删除数据库里的loginToken和jpushRegistrationId
         user.setLoginToken(null);
+        user.setJpushRegistrationId(null);
         userMapper.updateByPrimaryKey(user);
         return Result.ok();
     }

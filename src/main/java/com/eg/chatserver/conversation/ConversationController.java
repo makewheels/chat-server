@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ public class ConversationController {
     private UserAccountService userAccountService;
 
     @ApiOperation(value = "创建会话")
-    @RequestMapping("/create")
+    @PostMapping("/create")
     public Result<CreateConversationResponse> createConversation(
             @RequestBody CreateConversationRequest createConversationRequest,
             HttpServletRequest request) {

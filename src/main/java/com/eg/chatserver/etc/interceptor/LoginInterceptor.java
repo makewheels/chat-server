@@ -42,7 +42,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         boolean checkAndLoadLoginToken = userAccountService.checkAndLoadLoginToken(loginToken);
         if (!checkAndLoadLoginToken) {
             //如果不存在此loginToken，返回错误信息，告诉他去登录
-            log.error("interceptor loginToken check error, loginToken = {}", loginToken);
+            log.error("interceptor loginToken check error, requestURI = {}, loginToken = {}"
+                    , request.getRequestURI(), loginToken);
             response.setCharacterEncoding("utf-8");
             Result<Void> error = Result.error(ErrorCode.NEED_LOGIN);
             response.getWriter().write(JSON.toJSONString(error));

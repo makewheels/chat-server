@@ -47,6 +47,8 @@ public class UserController {
         if (StringUtils.isBlank(loginRequest.getLoginName())
                 || StringUtils.isBlank(loginRequest.getPassword())) {
             return Result.error(ErrorCode.WRONG_PARAM);
+        } else if (StringUtils.isEmpty(loginRequest.getJpushRegistrationId())) {
+            return Result.error(ErrorCode.LOGIN_JPUSH_REGISTRATION_ID_IS_EMPTY);
         }
         return userAccountService.login(loginRequest);
     }
@@ -77,7 +79,7 @@ public class UserController {
     @PostMapping("searchUserByLoginName")
     @ApiOperation(value = "根据登录名精准搜索用户")
     public Result<SearchLoginNameResponse> searchUserByLoginName(
-            @ApiParam(name = "loginName", value = "登录名", example = "Name")
+            @ApiParam(name = "loginName", value = "登录名", example = "Name2")
             @RequestParam String loginName) {
         User user = userInfoService.searchUserByLoginName(loginName);
         if (user == null) {
