@@ -6,7 +6,6 @@ import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
-import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,22 +17,30 @@ public class OssService {
     private static final String regionId = "cn-beijing";
     private static final String accessKeyId = "LTAI4GCUwdYeH2YKnSPA8iV6";
     private static final String secret = "2cS8HB6ESVgaLFNWehIfFyVbFWp7kN";
+    private static final String bucketName = "chat-oss-bucket";
+    private static final String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
 
-    public static void main(String[] args) {
-        DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, secret);
-        IAcsClient client = new DefaultAcsClient(profile);
+    private final DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, secret);
+    private final IAcsClient client = new DefaultAcsClient(profile);
+
+    public AssumeRoleResponse getStsToken() {
         AssumeRoleRequest request = new AssumeRoleRequest();
         request.setRoleArn("acs:ram::1618784280874658:role/aliyunosstokengeneratorrole");
         request.setRoleSessionName("external-username");
         request.setDurationSeconds(900L);
         try {
-            AssumeRoleResponse response = client.getAcsResponse(request);
-            System.out.println(new Gson().toJson(response));
+            return client.getAcsResponse(request);
         } catch (ClientException e) {
             System.out.println("ErrCode:" + e.getErrCode());
             System.out.println("ErrMsg:" + e.getErrMsg());
             System.out.println("RequestId:" + e.getRequestId());
         }
+        return null;
+
+    }
+
+    public static void main(String[] args) {
+
     }
 
 }
