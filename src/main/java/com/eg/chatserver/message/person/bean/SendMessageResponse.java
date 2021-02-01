@@ -1,6 +1,5 @@
 package com.eg.chatserver.message.person.bean;
 
-import com.eg.chatserver.message.MessageType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -40,14 +40,6 @@ public class PullMessageResponse {
 
     private Date readTime;
 
-    private Boolean isDelete;
-
-    private Date deleteTime;
-
-    private Boolean isWithdraw;
-
-    private Date withdrawTime;
-
     private Date createTime;
 
     private String content;

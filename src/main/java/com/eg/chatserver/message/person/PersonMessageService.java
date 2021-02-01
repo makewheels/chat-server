@@ -87,8 +87,10 @@ public class PersonMessageService {
      * @param conversationList
      */
     private void updateConversationListCount(List<Conversation> conversationList) {
+        //更新两个conversation相同的时间
+        Date updateTime = new Date();
         for (Conversation conversation : conversationList) {
-            //如果是null，给零
+            //消息总量和未读数量，如果是null，给零
             Integer messageCount = conversation.getMessageCount();
             if (messageCount == null) {
                 messageCount = 0;
@@ -97,9 +99,13 @@ public class PersonMessageService {
             if (unreadMessageCount == null) {
                 unreadMessageCount = 0;
             }
-            conversation.setMessageCount(messageCount + 1);
-            conversation.setUnreadMessageCount(unreadMessageCount + 1);
-            conversationMapper.updateByPrimaryKey(conversation);
+            //更新对象
+            Conversation conversationUpdate = new Conversation();
+            conversationUpdate.setId(conversation.getId());
+            conversationUpdate.setMessageCount(messageCount + 1);
+            conversationUpdate.setUnreadMessageCount(unreadMessageCount + 1);
+            conversationUpdate.setUpdateTime(updateTime);
+            conversationMapper.updateByPrimaryKeySelective(conversationUpdate);
         }
     }
 

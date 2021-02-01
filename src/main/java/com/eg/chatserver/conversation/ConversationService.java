@@ -124,9 +124,9 @@ public class ConversationService {
         conversation.setTargetId(targetUser.getUserId());
         conversation.setType(type);
         conversation.setTitle(targetUser.getNickname() + " " + targetUser.getLoginName());
-        Date date = new Date();
-        conversation.setUpdateTime(date);
-        conversation.setCreateTime(date);
+        Date createTime = new Date();
+        conversation.setUpdateTime(createTime);
+        conversation.setCreateTime(createTime);
         conversationMapper.insert(conversation);
         //再给目标用户也创建会话
         Conversation conversationTarget = new Conversation();
@@ -135,8 +135,8 @@ public class ConversationService {
         conversationTarget.setTargetId(user.getUserId());
         conversationTarget.setType(type);
         conversationTarget.setTitle(user.getNickname() + " " + user.getLoginName());
-        conversationTarget.setUpdateTime(date);
-        conversationTarget.setCreateTime(date);
+        conversationTarget.setUpdateTime(createTime);
+        conversationTarget.setCreateTime(createTime);
         conversationMapper.insert(conversationTarget);
         log.info("create conversation user: {}", JSON.toJSONString(conversation));
         log.info("create conversation target: {}", JSON.toJSONString(conversationTarget));
