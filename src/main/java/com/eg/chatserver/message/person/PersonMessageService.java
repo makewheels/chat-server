@@ -74,10 +74,6 @@ public class PersonMessageService {
         personMessage.setContent(sendMessageRequest.getContent());
         personMessage.setUrl(sendMessageRequest.getUrl());
         personMessage.setCreateTime(new Date());
-        if (sendMessageRequest.getIsForward()) {
-            personMessage.setIsForward(true);
-            personMessage.setSourceMessageId(sendMessageRequest.getSourceMessageId());
-        }
         return personMessage;
     }
 

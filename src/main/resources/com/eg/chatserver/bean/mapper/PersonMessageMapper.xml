@@ -10,8 +10,6 @@
     <result column="message_type" jdbcType="VARCHAR" property="messageType" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="image_preview_url" jdbcType="VARCHAR" property="imagePreviewUrl" />
-    <result column="is_forward" jdbcType="BIT" property="isForward" />
-    <result column="source_message_id" jdbcType="VARCHAR" property="sourceMessageId" />
     <result column="is_arrive" jdbcType="BIT" property="isArrive" />
     <result column="arrive_time" jdbcType="TIMESTAMP" property="arriveTime" />
     <result column="is_read" jdbcType="BIT" property="isRead" />
@@ -81,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, message_id, from_user_id, to_user_id, conversation_id, message_type, url, image_preview_url, 
-    is_forward, source_message_id, is_arrive, arrive_time, is_read, read_time, create_time
+    is_arrive, arrive_time, is_read, read_time, create_time
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -139,18 +137,16 @@
   <insert id="insert" parameterType="com.eg.chatserver.bean.PersonMessage" useGeneratedKeys="true" keyProperty="id">
     insert into person_message (id, message_id, from_user_id, 
       to_user_id, conversation_id, message_type, 
-      url, image_preview_url, is_forward, 
-      source_message_id, is_arrive, arrive_time, 
-      is_read, read_time, create_time, 
-      content)
+      url, image_preview_url, is_arrive, 
+      arrive_time, is_read, read_time, 
+      create_time, content)
     values (#{id,jdbcType=BIGINT}, #{messageId,jdbcType=VARCHAR}, #{fromUserId,jdbcType=VARCHAR}, 
       #{toUserId,jdbcType=VARCHAR}, #{conversationId,jdbcType=VARCHAR}, #{messageType,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{imagePreviewUrl,jdbcType=VARCHAR}, #{isForward,jdbcType=BIT}, 
-      #{sourceMessageId,jdbcType=VARCHAR}, #{isArrive,jdbcType=BIT}, #{arriveTime,jdbcType=TIMESTAMP}, 
-      #{isRead,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{url,jdbcType=VARCHAR}, #{imagePreviewUrl,jdbcType=VARCHAR}, #{isArrive,jdbcType=BIT}, 
+      #{arriveTime,jdbcType=TIMESTAMP}, #{isRead,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.PersonMessage" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.PersonMessage">
     insert into person_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -176,12 +172,6 @@
       </if>
       <if test="imagePreviewUrl != null">
         image_preview_url,
-      </if>
-      <if test="isForward != null">
-        is_forward,
-      </if>
-      <if test="sourceMessageId != null">
-        source_message_id,
       </if>
       <if test="isArrive != null">
         is_arrive,
@@ -226,12 +216,6 @@
       </if>
       <if test="imagePreviewUrl != null">
         #{imagePreviewUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="isForward != null">
-        #{isForward,jdbcType=BIT},
-      </if>
-      <if test="sourceMessageId != null">
-        #{sourceMessageId,jdbcType=VARCHAR},
       </if>
       <if test="isArrive != null">
         #{isArrive,jdbcType=BIT},
@@ -286,12 +270,6 @@
       <if test="record.imagePreviewUrl != null">
         image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
       </if>
-      <if test="record.isForward != null">
-        is_forward = #{record.isForward,jdbcType=BIT},
-      </if>
-      <if test="record.sourceMessageId != null">
-        source_message_id = #{record.sourceMessageId,jdbcType=VARCHAR},
-      </if>
       <if test="record.isArrive != null">
         is_arrive = #{record.isArrive,jdbcType=BIT},
       </if>
@@ -325,8 +303,6 @@
       message_type = #{record.messageType,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
-      is_forward = #{record.isForward,jdbcType=BIT},
-      source_message_id = #{record.sourceMessageId,jdbcType=VARCHAR},
       is_arrive = #{record.isArrive,jdbcType=BIT},
       arrive_time = #{record.arriveTime,jdbcType=TIMESTAMP},
       is_read = #{record.isRead,jdbcType=BIT},
@@ -347,8 +323,6 @@
       message_type = #{record.messageType,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
-      is_forward = #{record.isForward,jdbcType=BIT},
-      source_message_id = #{record.sourceMessageId,jdbcType=VARCHAR},
       is_arrive = #{record.isArrive,jdbcType=BIT},
       arrive_time = #{record.arriveTime,jdbcType=TIMESTAMP},
       is_read = #{record.isRead,jdbcType=BIT},
@@ -382,12 +356,6 @@
       <if test="imagePreviewUrl != null">
         image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
       </if>
-      <if test="isForward != null">
-        is_forward = #{isForward,jdbcType=BIT},
-      </if>
-      <if test="sourceMessageId != null">
-        source_message_id = #{sourceMessageId,jdbcType=VARCHAR},
-      </if>
       <if test="isArrive != null">
         is_arrive = #{isArrive,jdbcType=BIT},
       </if>
@@ -418,8 +386,6 @@
       message_type = #{messageType,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
-      is_forward = #{isForward,jdbcType=BIT},
-      source_message_id = #{sourceMessageId,jdbcType=VARCHAR},
       is_arrive = #{isArrive,jdbcType=BIT},
       arrive_time = #{arriveTime,jdbcType=TIMESTAMP},
       is_read = #{isRead,jdbcType=BIT},
@@ -437,8 +403,6 @@
       message_type = #{messageType,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
-      is_forward = #{isForward,jdbcType=BIT},
-      source_message_id = #{sourceMessageId,jdbcType=VARCHAR},
       is_arrive = #{isArrive,jdbcType=BIT},
       arrive_time = #{arriveTime,jdbcType=TIMESTAMP},
       is_read = #{isRead,jdbcType=BIT},

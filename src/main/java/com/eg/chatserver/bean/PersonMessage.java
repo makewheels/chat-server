@@ -19,10 +19,6 @@ public class PersonMessage {
 
     private String imagePreviewUrl;
 
-    private Boolean isForward;
-
-    private String sourceMessageId;
-
     private Boolean isArrive;
 
     private Date arriveTime;
@@ -97,22 +93,6 @@ public class PersonMessage {
 
     public void setImagePreviewUrl(String imagePreviewUrl) {
         this.imagePreviewUrl = imagePreviewUrl == null ? null : imagePreviewUrl.trim();
-    }
-
-    public Boolean getIsForward() {
-        return isForward;
-    }
-
-    public void setIsForward(Boolean isForward) {
-        this.isForward = isForward;
-    }
-
-    public String getSourceMessageId() {
-        return sourceMessageId;
-    }
-
-    public void setSourceMessageId(String sourceMessageId) {
-        this.sourceMessageId = sourceMessageId == null ? null : sourceMessageId.trim();
     }
 
     public Boolean getIsArrive() {

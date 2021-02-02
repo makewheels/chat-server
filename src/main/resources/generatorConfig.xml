@@ -13,9 +13,9 @@
             <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
         </commentGenerator>
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://39.96.78.70:3307/chat?characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai"
+                        connectionURL="jdbc:mysql://localhost:3306/chat?characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai"
                         userId="root"
-                        password="fdd8f1hh81h4155h1545eyhf">
+                        password="mysqlmima123">
             <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 

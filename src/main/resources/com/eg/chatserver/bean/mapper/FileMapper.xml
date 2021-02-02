@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eg.chatserver.bean.mapper.FileMapper">
+  <resultMap id="BaseResultMap" type="com.eg.chatserver.bean.File">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="file_id" jdbcType="VARCHAR" property="fileId" />
+    <result column="size" jdbcType="BIGINT" property="size" />
+    <result column="original_name" jdbcType="VARCHAR" property="originalName" />
+    <result column="extension" jdbcType="VARCHAR" property="extension" />
+    <result column="bucket_name" jdbcType="VARCHAR" property="bucketName" />
+    <result column="object_name" jdbcType="VARCHAR" property="objectName" />
+    <result column="etag" jdbcType="VARCHAR" property="etag" />
+    <result column="oss_url" jdbcType="VARCHAR" property="ossUrl" />
+    <result column="image_preview_url" jdbcType="VARCHAR" property="imagePreviewUrl" />
+    <result column="audio_duration" jdbcType="INTEGER" property="audioDuration" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, file_id, size, original_name, extension, bucket_name, object_name, etag, oss_url, 
+    image_preview_url, audio_duration, create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.eg.chatserver.bean.FileExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from file
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from file
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.eg.chatserver.bean.FileExample">
+    delete from file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
+    insert into file (id, file_id, size, 
+      original_name, extension, bucket_name, 
+      object_name, etag, oss_url, 
+      image_preview_url, audio_duration, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{fileId,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
+      #{originalName,jdbcType=VARCHAR}, #{extension,jdbcType=VARCHAR}, #{bucketName,jdbcType=VARCHAR}, 
+      #{objectName,jdbcType=VARCHAR}, #{etag,jdbcType=VARCHAR}, #{ossUrl,jdbcType=VARCHAR}, 
+      #{imagePreviewUrl,jdbcType=VARCHAR}, #{audioDuration,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
+    insert into file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="originalName != null">
+        original_name,
+      </if>
+      <if test="extension != null">
+        extension,
+      </if>
+      <if test="bucketName != null">
+        bucket_name,
+      </if>
+      <if test="objectName != null">
+        object_name,
+      </if>
+      <if test="etag != null">
+        etag,
+      </if>
+      <if test="ossUrl != null">
+        oss_url,
+      </if>
+      <if test="imagePreviewUrl != null">
+        image_preview_url,
+      </if>
+      <if test="audioDuration != null">
+        audio_duration,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=BIGINT},
+      </if>
+      <if test="originalName != null">
+        #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="extension != null">
+        #{extension,jdbcType=VARCHAR},
+      </if>
+      <if test="bucketName != null">
+        #{bucketName,jdbcType=VARCHAR},
+      </if>
+      <if test="objectName != null">
+        #{objectName,jdbcType=VARCHAR},
+      </if>
+      <if test="etag != null">
+        #{etag,jdbcType=VARCHAR},
+      </if>
+      <if test="ossUrl != null">
+        #{ossUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePreviewUrl != null">
+        #{imagePreviewUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="audioDuration != null">
+        #{audioDuration,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.eg.chatserver.bean.FileExample" resultType="java.lang.Long">
+    select count(*) from file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update file
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.fileId != null">
+        file_id = #{record.fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.size != null">
+        size = #{record.size,jdbcType=BIGINT},
+      </if>
+      <if test="record.originalName != null">
+        original_name = #{record.originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extension != null">
+        extension = #{record.extension,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bucketName != null">
+        bucket_name = #{record.bucketName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.objectName != null">
+        object_name = #{record.objectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.etag != null">
+        etag = #{record.etag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ossUrl != null">
+        oss_url = #{record.ossUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imagePreviewUrl != null">
+        image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.audioDuration != null">
+        audio_duration = #{record.audioDuration,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update file
+    set id = #{record.id,jdbcType=BIGINT},
+      file_id = #{record.fileId,jdbcType=VARCHAR},
+      size = #{record.size,jdbcType=BIGINT},
+      original_name = #{record.originalName,jdbcType=VARCHAR},
+      extension = #{record.extension,jdbcType=VARCHAR},
+      bucket_name = #{record.bucketName,jdbcType=VARCHAR},
+      object_name = #{record.objectName,jdbcType=VARCHAR},
+      etag = #{record.etag,jdbcType=VARCHAR},
+      oss_url = #{record.ossUrl,jdbcType=VARCHAR},
+      image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
+      audio_duration = #{record.audioDuration,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eg.chatserver.bean.File">
+    update file
+    <set>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=BIGINT},
+      </if>
+      <if test="originalName != null">
+        original_name = #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="extension != null">
+        extension = #{extension,jdbcType=VARCHAR},
+      </if>
+      <if test="bucketName != null">
+        bucket_name = #{bucketName,jdbcType=VARCHAR},
+      </if>
+      <if test="objectName != null">
+        object_name = #{objectName,jdbcType=VARCHAR},
+      </if>
+      <if test="etag != null">
+        etag = #{etag,jdbcType=VARCHAR},
+      </if>
+      <if test="ossUrl != null">
+        oss_url = #{ossUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePreviewUrl != null">
+        image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="audioDuration != null">
+        audio_duration = #{audioDuration,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eg.chatserver.bean.File">
+    update file
+    set file_id = #{fileId,jdbcType=VARCHAR},
+      size = #{size,jdbcType=BIGINT},
+      original_name = #{originalName,jdbcType=VARCHAR},
+      extension = #{extension,jdbcType=VARCHAR},
+      bucket_name = #{bucketName,jdbcType=VARCHAR},
+      object_name = #{objectName,jdbcType=VARCHAR},
+      etag = #{etag,jdbcType=VARCHAR},
+      oss_url = #{ossUrl,jdbcType=VARCHAR},
+      image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
+      audio_duration = #{audioDuration,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
