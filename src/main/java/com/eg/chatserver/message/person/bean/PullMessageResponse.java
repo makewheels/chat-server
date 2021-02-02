@@ -24,14 +24,6 @@ public class PullMessageResponse {
 
     private String toUserId;
 
-    private String url;
-
-    private String imagePreviewUrl;
-
-    private Boolean isForward;
-
-    private String sourceMessageId;
-
     private Boolean isArrive;
 
     private Date arriveTime;

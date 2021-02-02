@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "拉取消息请求")
-public class PullMessageRequest {
+public class MessageIdRequest {
     @ApiModelProperty(value = "消息id", required = true, example = "pmsg9f1dc9519f4f47a0a6904810b0506ec4")
     private String messageId;
 

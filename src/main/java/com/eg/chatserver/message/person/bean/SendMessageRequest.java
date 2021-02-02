@@ -1,6 +1,7 @@
 package com.eg.chatserver.message.person.bean;
 
 import com.eg.chatserver.message.MessageType;
+import com.eg.chatserver.utils.UuidUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,11 +20,7 @@ public class SendMessageRequest {
     @ApiModelProperty(value = "消息内容", example = "hello baby!")
     private String content;
 
-    @ApiModelProperty(value = "文件地址", example = "url")
-    private String url;
-    @ApiModelProperty(value = "是否是转发消息", example = "false")
-    private Boolean isForward;
-    @ApiModelProperty(value = "源消息id", example = "pmsg9f1dc9519f4f47a0a6904810b0506ec4")
-    private String sourceMessageId;
+    @ApiModelProperty(value = "原始文件名", example = "IMG_001.jpg")
+    private String originalFileName;
 
 }

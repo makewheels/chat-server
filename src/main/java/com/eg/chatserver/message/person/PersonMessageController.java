@@ -4,7 +4,7 @@ import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.message.MessageType;
-import com.eg.chatserver.message.person.bean.PullMessageRequest;
+import com.eg.chatserver.message.person.bean.MessageIdRequest;
 import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
 import com.eg.chatserver.message.person.bean.SendMessageResponse;
@@ -54,12 +54,36 @@ public class PersonMessageController {
     @PostMapping("pullByMessageId")
     @ApiOperation(value = "根据消息id拉取一条消息")
     public Result<PullMessageResponse> pullByMessageId(
-            HttpServletRequest request, @RequestBody PullMessageRequest pullMessageRequest) {
-        String messageId = pullMessageRequest.getMessageId();
+            HttpServletRequest request, @RequestBody MessageIdRequest messageIdRequest) {
+        String messageId = messageIdRequest.getMessageId();
         if (StringUtils.isEmpty(messageId)) {
             return Result.error(ErrorCode.WRONG_PARAM);
         }
         User user = userAccountService.getUserByRequest(request);
-        return personMessageService.getByMessageId(user,messageId);
+        return personMessageService.getByMessageId(user, messageId);
+    }
+
+    @PostMapping("reportArrive")
+    @ApiOperation(value = "上报：消息已达")
+    public Result<Void> reportArrive(
+            HttpServletRequest request, @RequestBody MessageIdRequest messageIdRequest) {
+        String messageId = messageIdRequest.getMessageId();
+        if (StringUtils.isEmpty(messageId)) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
+        User user = userAccountService.getUserByRequest(request);
+        return personMessageService.reportArrive(user, messageId);
+    }
+
+    @PostMapping("reportRead")
+    @ApiOperation(value = "上报：消息已读")
+    public Result<Void> reportRead(
+            HttpServletRequest request, @RequestBody MessageIdRequest messageIdRequest) {
+        String messageId = messageIdRequest.getMessageId();
+        if (StringUtils.isEmpty(messageId)) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
+        User user = userAccountService.getUserByRequest(request);
+        return personMessageService.reportRead(user, messageId);
     }
 }

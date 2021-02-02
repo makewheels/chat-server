@@ -155,6 +155,7 @@ public class PersonMessageService {
         PersonMessage personMessage = createPersonMessage(sendMessageRequest, userId, toUserId);
         //保存消息
         personMessageMapper.insert(personMessage);
+        //更新conversation消息数量
         updateConversationListCount(conversationList);
         log.info("send person message: {}", JSON.toJSONString(personMessage));
         String messageId = personMessage.getMessageId();
@@ -193,21 +194,83 @@ public class PersonMessageService {
     }
 
     /**
+     * 根据用户和消息id查找一条消息
+     */
+    public PersonMessage findSingleByUserIdAndMessageId(String userId, String messageId) {
+        PersonMessageExample personMessageExample = new PersonMessageExample();
+        PersonMessageExample.Criteria criteria = personMessageExample.createCriteria();
+        criteria.andFromUserIdEqualTo(userId);
+        criteria.andMessageIdEqualTo(messageId);
+        List<PersonMessage> personMessageList = personMessageMapper.selectByExample(personMessageExample);
+        if (CollectionUtils.isEmpty(personMessageList)) {
+            return null;
+        } else {
+            return personMessageList.get(0);
+        }
+    }
+
+    /**
      * 根据消息id查询一条消息
      */
     public Result<PullMessageResponse> getByMessageId(User user, String messageId) {
-        PersonMessage personMessage = findSingleByMessageId(messageId);
+        PersonMessage personMessage = findSingleByUserIdAndMessageId(user.getUserId(), messageId);
         if (personMessage == null) {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
-        }
-        String userId = user.getUserId();
-        if (!userId.equals(personMessage.getFromUserId()) &&
-                !userId.equals(personMessage.getToUserId())) {
-            log.error("can not get other user's message, userId = {}, messageId = {}", userId, messageId);
-            return Result.error(ErrorCode.MESSAGE_CANT_GET_OTHER_USER_MESSAGE);
         }
         PullMessageResponse pullMessageResponse = new PullMessageResponse();
         BeanUtils.copyProperties(personMessage, pullMessageResponse);
         return Result.ok(pullMessageResponse);
+    }
+
+    /**
+     * 上报：消息已达
+     *
+     * @param user
+     * @param messageId
+     * @return
+     */
+    public Result<Void> reportArrive(User user, String messageId) {
+        PersonMessage personMessage = findSingleByUserIdAndMessageId(user.getUserId(), messageId);
+        if (personMessage == null) {
+            return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
+        }
+        //重复上报
+        if ((personMessage.getIsArrive() != null && personMessage.getIsArrive())
+                || personMessage.getArriveTime() != null) {
+            return Result.error(ErrorCode.MESSAGE_REPEAT_ARRIVE_REPEAT);
+        }
+        //更新数据库
+        PersonMessage personMessageUpdate = new PersonMessage();
+        personMessageUpdate.setId(personMessage.getId());
+        personMessageUpdate.setIsArrive(true);
+        personMessageUpdate.setArriveTime(new Date());
+        personMessageMapper.updateByPrimaryKeySelective(personMessageUpdate);
+        return Result.ok();
+    }
+
+    /**
+     * 上报：消息已读
+     *
+     * @param user
+     * @param messageId
+     * @return
+     */
+    public Result<Void> reportRead(User user, String messageId) {
+        PersonMessage personMessage = findSingleByUserIdAndMessageId(user.getUserId(), messageId);
+        if (personMessage == null) {
+            return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
+        }
+        //重复上报
+        if ((personMessage.getIsRead() != null && personMessage.getIsRead())
+                || personMessage.getReadTime() != null) {
+            return Result.error(ErrorCode.MESSAGE_REPEAT_ARRIVE_REPEAT);
+        }
+        //更新数据库
+        PersonMessage personMessageUpdate = new PersonMessage();
+        personMessageUpdate.setId(personMessage.getId());
+        personMessageUpdate.setIsRead(true);
+        personMessageUpdate.setReadTime(new Date());
+        personMessageMapper.updateByPrimaryKeySelective(personMessageUpdate);
+        return Result.ok();
     }
 }

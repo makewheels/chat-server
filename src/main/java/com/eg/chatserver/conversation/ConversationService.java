@@ -109,14 +109,17 @@ public class ConversationService {
         }
         String type = createConversationRequest.getType();
         //创建会话之前，先看该会话是否已经存在
-        Conversation conversationByUserIdAndTargetId = findConversationByUserIdAndTargetId(user.getUserId(), targetId);
+        Conversation conversationByUserIdAndTargetId
+                = findConversationByUserIdAndTargetId(user.getUserId(), targetId);
         //如果已存在，返回错误信息
         if (conversationByUserIdAndTargetId != null) {
             CreateConversationResponse createConversationResponse = new CreateConversationResponse();
-            createConversationResponse.setConversationId(conversationByUserIdAndTargetId.getConversationId());
+            createConversationResponse.setConversationId(
+                    conversationByUserIdAndTargetId.getConversationId());
             createConversationResponse.setType(type);
             createConversationResponse.setTargetId(targetId);
-            log.error("create conversation already exist: {}", JSON.toJSONString(conversationByUserIdAndTargetId));
+            log.error("create conversation already exist: {}",
+                    JSON.toJSONString(conversationByUserIdAndTargetId));
             return Result.error(ErrorCode.CONVERSATION_CREATE_REPEAT, createConversationResponse);
         }
         //开始创建会话
@@ -139,7 +142,7 @@ public class ConversationService {
         conversationTarget.setUserId(targetId);
         conversationTarget.setTargetId(user.getUserId());
         conversationTarget.setType(type);
-        conversationTarget.setTitle(user.getNickname() + " " + user.getLoginName());
+        conversationTarget.setTitle(user.getNickname());
         conversationTarget.setMessageCount(0);
         conversationTarget.setUnreadMessageCount(0);
         conversationTarget.setUpdateTime(createTime);
@@ -193,7 +196,7 @@ public class ConversationService {
         ConversationExample.Criteria criteria = conversationExample.createCriteria();
         criteria.andUserIdEqualTo(user.getUserId());
         //按时间倒序
-        conversationExample.setOrderByClause("update_time");
+        conversationExample.setOrderByClause("update_time desc");
         //查询
         List<Conversation> conversationList = conversationMapper.selectByExample(conversationExample);
         //会话列表
