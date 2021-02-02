@@ -1,42 +1,60 @@
 package com.eg.chatserver.oss;
 
-import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.internal.OSSHeaders;
-import com.aliyun.oss.model.*;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.common.comm.ResponseMessage;
+import com.aliyun.oss.model.Callback;
+import com.aliyun.oss.model.PutObjectRequest;
+import com.aliyun.oss.model.PutObjectResult;
+import com.aliyuncs.auth.sts.AssumeRoleResponse;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 public class TestOssUpload {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Endpoint以杭州为例，其它Region请按实际情况填写。
         String endpoint = "https://oss-cn-beijing.aliyuncs.com";
         String bucketName = "chat-oss-bucket";
 
-        // 阿里云主账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM账号进行API访问或日常运维，请登录RAM控制台创建RAM账号。
-        String accessKeyId = "STS.NUP1J3ELXVbXq2GGBXUJRZQtk";
-        String accessKeySecret = "He9YrU6BY1Zym2QyoTvrDYGBQZXKVYqPRmjFBtGcfAqa";
-        String securityToken = "CAISiwJ1q6Ft5B2yfSjIr5blevCHqJN54aCzcxT2o0INWcV+tZTfiTz2IHlKfXdoAe0fsvQ/nW1Y6fcTlrh+W4NIX0rNaY5t9ZlN9wqkbtJ8IlczcPpW5qe+EE2/VjTZvqaLEcibIfrZfvCyESOm8gZ43br9cxi7QlWhKufnoJV7b9MRLGLaBHg8c7UwHAZ5r9IAPnb8LOukNgWQ4lDdF011oAFx+wgdgOadupTCs0qB3AGgmrdF+Nivf8ieApMybMslYbCcx/drc6fN6ilU5iVR+b1+5K4+om6Z54/FWwQIv0XWareErYw+NnxwYqkrBqhDt+Pgkv51vOPekYntwgpKJ/tSVynPjnVWGEokgIkagAFazXoMoXsjh6hyCH8m0m2izt4PCkN2oSqZHcANWDU1gRoxLVYntVGaWHPG57AVRfSMCckrrPrUEk8o8Sf8gmVxefpBUCOtm+2nA4qmnJOr2prPu741QlIraIYX2+SsXNaMEudDv4rHl14o6R8HPdaB5AhKv8tv6147cW+m5LRLTg==";
+        OssService ossService = new OssService();
+        AssumeRoleResponse stsCredential = ossService.getStsCredential();
+        AssumeRoleResponse.Credentials credentials = stsCredential.getCredentials();
+        String accessKeyId = credentials.getAccessKeyId();
+        String accessKeySecret = credentials.getAccessKeySecret();
+        String securityToken = credentials.getSecurityToken();
 
         // 用户拿到STS临时凭证后，通过其中的安全令牌（SecurityToken）和临时访问密钥（AccessKeyId和AccessKeySecret）生成OSSClient。
         // 创建OSSClient实例。注意，这里使用到了上一步生成的临时访问凭证（STS访问凭证）。
-        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret, securityToken);
-        // 创建PutObjectRequest对象。
-        PutObjectRequest putObjectRequest = new PutObjectRequest(
-                bucketName, System.currentTimeMillis() + "",
-                new File("D:\\workSpace\\webstorm\\ChromeExtensionBilibiliPlayerListExpand\\manifest.json"));
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret, securityToken);
+        String content = "Hello OSS";
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,
+                "rubbish/" + System.currentTimeMillis() + "",
+                new ByteArrayInputStream(content.getBytes()));
 
-        // 如果需要上传时设置存储类型与访问权限，请参考以下示例代码。
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setHeader(OSSHeaders.OSS_STORAGE_CLASS, StorageClass.Standard.toString());
-        metadata.setObjectAcl(CannedAccessControlList.Private);
-        putObjectRequest.setMetadata(metadata);
+// 上传回调参数。
+        Callback callback = new Callback();
+        callback.setCallbackUrl("http://c19758058n.imwork.net:49979/chat-server/oss/aliyunCallback");
+        callback.setCallbackHost("oss-cn-beijing.aliyuncs.com");
+// 设置发起回调时请求body的值。
+        callback.setCallbackBody("{\\\"mimeType\\\":${mimeType},\\\"size\\\":${size}}");
+// 设置发起回调请求的Content-Type。
+        callback.setCalbackBodyType(Callback.CalbackBodyType.JSON);
+// 设置发起回调请求的自定义参数，由Key和Value组成，Key必须以x:开始。
+//        callback.addCallbackVar("x:var1", "value1");
+//        callback.addCallbackVar("x:var2", "value2");
+        putObjectRequest.setCallback(callback);
 
-        // 上传文件。
-//        ossClient.deleteObject(bucketName,"1612186397601");
-        ossClient.putObject(putObjectRequest);
+        PutObjectResult putObjectResult = ossClient.putObject(putObjectRequest);
 
-        // 关闭OSSClient。
+// 读取上传回调返回的消息内容。
+        byte[] buffer = new byte[1024];
+        ResponseMessage response = putObjectResult.getResponse();
+        response.getContent().read(buffer);
+// 数据读取完成后，获取的流必须关闭，否则会造成连接泄漏，导致请求无连接可用，程序无法正常工作。
+        putObjectResult.getResponse().getContent().close();
+        System.out.println(new String(buffer));
+// 关闭OSSClient。
         ossClient.shutdown();
-
     }
 }

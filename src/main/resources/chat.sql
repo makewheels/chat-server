@@ -52,6 +52,7 @@ CREATE TABLE `file`
     `extension`         varchar(255)    DEFAULT NULL COMMENT '拓展名',
     `bucket_name`       varchar(500)    DEFAULT NULL COMMENT 'bucket名',
     `object_name`       varchar(500)    DEFAULT NULL COMMENT '对象名',
+    `mime_type`         varchar(64)     DEFAULT NULL,
     `etag`              varchar(64)     DEFAULT NULL COMMENT 'md5',
     `oss_url`           varchar(500)    DEFAULT NULL COMMENT '对象存储url',
     `image_preview_url` varchar(500)    DEFAULT NULL COMMENT '预览图地址',
