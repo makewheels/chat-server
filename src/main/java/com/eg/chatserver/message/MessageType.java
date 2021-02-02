@@ -14,7 +14,7 @@ public class MessageType {
     public static final String AUDIO = "audio";
     public static final String IMAGE = "image";
     public static final String VIDEO = "video";
-    private static List<String> messageTypeList = new ArrayList<>();
+    private static final List<String> messageTypeList = new ArrayList<>();
 
     static {
         messageTypeList.add(TEXT);
