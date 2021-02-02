@@ -2,8 +2,9 @@ package com.eg.chatserver.bean.mapper;
 
 import com.eg.chatserver.bean.Conversation;
 import com.eg.chatserver.bean.ConversationExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface ConversationMapper {
     long countByExample(ConversationExample example);

@@ -2,8 +2,9 @@ package com.eg.chatserver.bean.mapper;
 
 import com.eg.chatserver.bean.File;
 import com.eg.chatserver.bean.FileExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FileMapper {
     long countByExample(FileExample example);
