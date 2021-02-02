@@ -19,7 +19,7 @@ import java.util.List;
 public class ChatServerApplication {
 
     public static void main(String[] args) throws IOException {
-        handleEnvironment();
+//        handleEnvironment();
 
         SpringApplication.run(ChatServerApplication.class, args);
     }

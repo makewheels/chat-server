@@ -74,9 +74,9 @@ public class ConversationService {
     public Result<CreateConversationResponse> create(
             User user, CreateConversationRequest createConversationRequest) {
         String type = createConversationRequest.getType();
-        if (type.equals(Constants.CONVERSATION_TYPE_PERSON)) {
+        if (type.equals(Constants.CONVERSATION.TYPE_PERSON)) {
             return createPersonConversation(user, createConversationRequest);
-        } else if (type.equals(Constants.CONVERSATION_TYPE_GROUP)) {
+        } else if (type.equals(Constants.CONVERSATION.TYPE_GROUP)) {
             return createGroupConversation(user, createConversationRequest);
         } else {
             return Result.error(ErrorCode.WRONG_PARAM);

@@ -37,7 +37,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
         //从header中获取loginToken
-        String loginToken = request.getHeader(Constants.KEY_LOGIN_TOKEN);
+        String loginToken = request.getHeader(Constants.KEY.LOGIN_TOKEN);
         //检查loginToken
         boolean checkAndLoadLoginToken = userAccountService.checkAndLoadLoginToken(loginToken);
         if (!checkAndLoadLoginToken) {

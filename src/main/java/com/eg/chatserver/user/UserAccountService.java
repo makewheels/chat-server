@@ -82,7 +82,7 @@ public class UserAccountService {
         //给密码hash
         user.setPassword(getPasswordHash(registerRequest.getPassword()));
         user.setCreateTime(new Date());
-        user.setHeadImageUrl(Constants.DEFAULT_HEAD_IMAGE_URL);
+        user.setHeadImageUrl(Constants.ALIYUN.DEFAULT_HEAD_IMAGE_URL);
         //生成loginToken
         String loginToken = generateLoginToken();
         user.setLoginToken(loginToken);
@@ -226,7 +226,7 @@ public class UserAccountService {
      */
     public User getUserByRequest(HttpServletRequest request) {
         //从header中获取loginToken
-        String loginToken = request.getHeader(Constants.KEY_LOGIN_TOKEN);
+        String loginToken = request.getHeader(Constants.KEY.LOGIN_TOKEN);
         return userRedisService.getUserByLoginToken(loginToken);
     }
 

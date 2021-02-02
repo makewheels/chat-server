@@ -67,7 +67,7 @@ public class UserController {
     @ApiOperation(value = "检查loginToken")
     public Result<Void> checkLoginToken(HttpServletRequest request) {
         //从header中获取loginToken
-        String loginToken = request.getHeader(Constants.KEY_LOGIN_TOKEN);
+        String loginToken = request.getHeader(Constants.KEY.LOGIN_TOKEN);
         //检查loginToken
         boolean checkAndLoadLoginToken = userAccountService.checkAndLoadLoginToken(loginToken);
         //校验通过
