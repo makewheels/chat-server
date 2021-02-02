@@ -12,6 +12,7 @@ import com.eg.chatserver.common.Result;
 import com.eg.chatserver.conversation.ConversationService;
 import com.eg.chatserver.jpush.PushResult;
 import com.eg.chatserver.message.MessagePushService;
+import com.eg.chatserver.message.MessageType;
 import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
 import com.eg.chatserver.message.person.bean.SendMessageResponse;
@@ -72,7 +73,6 @@ public class PersonMessageService {
         personMessage.setConversationId(sendMessageRequest.getConversationId());
         personMessage.setMessageType(sendMessageRequest.getMessageType());
         personMessage.setContent(sendMessageRequest.getContent());
-        personMessage.setUrl(sendMessageRequest.getUrl());
         personMessage.setCreateTime(new Date());
         return personMessage;
     }
@@ -88,13 +88,7 @@ public class PersonMessageService {
         for (Conversation conversation : conversationList) {
             //消息总量和未读数量，如果是null，给零
             Integer messageCount = conversation.getMessageCount();
-            if (messageCount == null) {
-                messageCount = 0;
-            }
             Integer unreadMessageCount = conversation.getUnreadMessageCount();
-            if (unreadMessageCount == null) {
-                unreadMessageCount = 0;
-            }
             //更新对象
             Conversation conversationUpdate = new Conversation();
             conversationUpdate.setId(conversation.getId());
@@ -113,6 +107,27 @@ public class PersonMessageService {
      */
     @Transactional
     public Result<SendMessageResponse> sendMessage(User user, SendMessageRequest sendMessageRequest) {
+        String messageType = sendMessageRequest.getMessageType();
+        if (messageType.equals(MessageType.TEXT)) {
+            return sendTextMessage(user, sendMessageRequest);
+        } else if (messageType.equals(MessageType.IMAGE)) {
+            return null;
+        } else if (messageType.equals(MessageType.AUDIO)) {
+            return null;
+        } else if (messageType.equals(MessageType.VIDEO)) {
+            return null;
+        }
+        return null;
+    }
+
+    /**
+     * 发送文本消息
+     *
+     * @param user
+     * @param sendMessageRequest
+     * @return
+     */
+    private Result<SendMessageResponse> sendTextMessage(User user, SendMessageRequest sendMessageRequest) {
         String conversationId = sendMessageRequest.getConversationId();
         //先根据会话id查找会话
         List<Conversation> conversationList
@@ -136,7 +151,6 @@ public class PersonMessageService {
                 toUserId = targetId;
             }
         }
-        String messageType = sendMessageRequest.getMessageType();
         //创建消息
         PersonMessage personMessage = createPersonMessage(sendMessageRequest, userId, toUserId);
         //保存消息

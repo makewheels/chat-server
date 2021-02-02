@@ -13,6 +13,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.eg.chatserver.bean.File;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.utils.Constants;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Date;
 
 /**
  * @Author makewheels
@@ -110,11 +112,13 @@ public class OssService {
     }
 
     /**
-     * 处理阿里云回调
+     * 处理阿里云上传回调
      *
      * @param callbackRequest
      */
     public Result<Void> aliyunCallback(CallbackRequest callbackRequest) {
+        String object = callbackRequest.getObject();
+        ObjectMetadata metaData = getMetaData(object);
         return Result.ok();
     }
 }

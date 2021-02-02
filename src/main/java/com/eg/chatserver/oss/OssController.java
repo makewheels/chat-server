@@ -28,7 +28,7 @@ public class OssController {
         if (!check) {
             log.error("aliyun oss callback check fail: {}", body);
             response.setStatus(HttpStatus.SC_BAD_REQUEST);
-            return Result.error(ErrorCode.FAIL);
+            return Result.error(ErrorCode.MESSAGE_OSS_CALLBACK_CHECK_SIGN_FAIL);
         }
         // {"bucket":"chat-oss-bucket",
         // "object":"rubbish/1612272492048.jpg",
