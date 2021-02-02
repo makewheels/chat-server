@@ -1,13 +1,17 @@
 package com.eg.chatserver.oss;
 
-import com.alibaba.fastjson.JSON;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.utils.BinaryUtil;
+import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
+import com.eg.chatserver.bean.File;
+import com.eg.chatserver.common.Result;
 import com.eg.chatserver.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -31,15 +35,17 @@ public class OssService {
     @Value("${oss.callbackurl}")
     private String ossCallbackUrl;
 
-    private static final String regionId = "cn-beijing";
-    private static final String accessKeyId = "LTAI4GCUwdYeH2YKnSPA8iV6";
-    private static final String secret = "2cS8HB6ESVgaLFNWehIfFyVbFWp7kN";
-    private static final String bucketName = Constants.ALIYUN.OSS_BUCKET_NAME;
-    private static final String endpoint = "http://oss-cn-beijing.aliyuncs.com";
-    private static final String roleArn = "acs:ram::1618784280874658:role/aliyunosstokengeneratorrole";
+    private String regionId = "cn-beijing";
+    private String accessKeyId = "LTAI4GCUwdYeH2YKnSPA8iV6";
+    private String accessKeySecret = "2cS8HB6ESVgaLFNWehIfFyVbFWp7kN";
+    private String bucketName = Constants.ALIYUN.OSS_BUCKET_NAME;
+    @Value("${oss.endpoint}")
+    private String endpoint;
+    private String roleArn = "acs:ram::1618784280874658:role/aliyunosstokengeneratorrole";
 
-    private final DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, secret);
+    private final DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
     private final IAcsClient client = new DefaultAcsClient(profile);
+
 
     /**
      * 获取sts凭证
@@ -66,7 +72,7 @@ public class OssService {
     /**
      * 阿里云回调验签
      */
-    public boolean checkCallback(HttpServletRequest request, CallbackRequest callbackRequest) {
+    public boolean checkCallback(HttpServletRequest request, String body) {
         String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKs/JBGzwUB2aVht4crBx3oIPBLNsjGsC0fTXv+nvlmklvkcolvpvXLTjaxUHR3W9LXxQ2EHXAJfCB+6H2YF1k8CAwEAAQ==";
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -81,8 +87,8 @@ public class OssService {
             if (StringUtils.isNotEmpty(queryString)) {
                 stringBuilder.append("?").append(queryString);
             }
-            if (callbackRequest != null) {
-                stringBuilder.append("\n").append(JSON.toJSONString(callbackRequest));
+            if (StringUtils.isNotEmpty(body)) {
+                stringBuilder.append("\n").append(body);
             }
             signature.update(stringBuilder.toString().getBytes());
             byte[] authorization = BinaryUtil.fromBase64String(request.getHeader("Authorization"));
@@ -93,4 +99,22 @@ public class OssService {
         return false;
     }
 
+    /**
+     * 获取文件元信息
+     */
+    public ObjectMetadata getMetaData(String objectName) {
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        ObjectMetadata objectMetadata = ossClient.getObjectMetadata(bucketName, objectName);
+        ossClient.shutdown();
+        return objectMetadata;
+    }
+
+    /**
+     * 处理阿里云回调
+     *
+     * @param callbackRequest
+     */
+    public Result<Void> aliyunCallback(CallbackRequest callbackRequest) {
+        return Result.ok();
+    }
 }

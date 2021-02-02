@@ -8,7 +8,12 @@ import lombok.Data;
  */
 @Data
 public class CallbackRequest {
-    private String mimeType;
+    private String bucket;
+    private String object;
+    private String etag;
     private long size;
-    private String var1;
+    private String mimeType;
+    private int imageInfoHeight;
+    private int imageInfoWidth;
+    private String imageInfoFormat;
 }
