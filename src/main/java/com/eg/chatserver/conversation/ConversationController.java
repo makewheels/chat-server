@@ -3,6 +3,7 @@ package com.eg.chatserver.conversation;
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
+import com.eg.chatserver.conversation.bean.ConversationResponse;
 import com.eg.chatserver.conversation.bean.CreateConversationRequest;
 import com.eg.chatserver.conversation.bean.CreateConversationResponse;
 import com.eg.chatserver.user.UserAccountService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @Author makewheels
@@ -42,6 +44,13 @@ public class ConversationController {
         }
         User user = userAccountService.getUserByRequest(request);
         return conversationService.create(user, createConversationRequest);
+    }
+
+    @ApiOperation(value = "拉取所有会话")
+    @PostMapping("/pullAllConversations")
+    public Result<List<ConversationResponse>> pullAllConversations(HttpServletRequest request) {
+        User user = userAccountService.getUserByRequest(request);
+        return conversationService.getAllConversations(user);
     }
 
 }

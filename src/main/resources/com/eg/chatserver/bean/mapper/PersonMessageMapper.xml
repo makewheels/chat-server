@@ -7,9 +7,8 @@
     <result column="from_user_id" jdbcType="VARCHAR" property="fromUserId" />
     <result column="to_user_id" jdbcType="VARCHAR" property="toUserId" />
     <result column="conversation_id" jdbcType="VARCHAR" property="conversationId" />
+    <result column="file_id" jdbcType="VARCHAR" property="fileId" />
     <result column="message_type" jdbcType="VARCHAR" property="messageType" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="image_preview_url" jdbcType="VARCHAR" property="imagePreviewUrl" />
     <result column="is_arrive" jdbcType="BIT" property="isArrive" />
     <result column="arrive_time" jdbcType="TIMESTAMP" property="arriveTime" />
     <result column="is_read" jdbcType="BIT" property="isRead" />
@@ -78,7 +77,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, message_id, from_user_id, to_user_id, conversation_id, message_type, url, image_preview_url, 
+    id, message_id, from_user_id, to_user_id, conversation_id, file_id, message_type, 
     is_arrive, arrive_time, is_read, read_time, create_time
   </sql>
   <sql id="Blob_Column_List">
@@ -134,19 +133,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.PersonMessage">
+  <insert id="insert" parameterType="com.eg.chatserver.bean.PersonMessage" useGeneratedKeys="true" keyProperty="id">
     insert into person_message (id, message_id, from_user_id, 
-      to_user_id, conversation_id, message_type, 
-      url, image_preview_url, is_arrive, 
-      arrive_time, is_read, read_time, 
-      create_time, content)
+      to_user_id, conversation_id, file_id, 
+      message_type, is_arrive, arrive_time, 
+      is_read, read_time, create_time, 
+      content)
     values (#{id,jdbcType=BIGINT}, #{messageId,jdbcType=VARCHAR}, #{fromUserId,jdbcType=VARCHAR}, 
-      #{toUserId,jdbcType=VARCHAR}, #{conversationId,jdbcType=VARCHAR}, #{messageType,jdbcType=VARCHAR}, 
-      #{url,jdbcType=VARCHAR}, #{imagePreviewUrl,jdbcType=VARCHAR}, #{isArrive,jdbcType=BIT}, 
-      #{arriveTime,jdbcType=TIMESTAMP}, #{isRead,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+      #{toUserId,jdbcType=VARCHAR}, #{conversationId,jdbcType=VARCHAR}, #{fileId,jdbcType=VARCHAR}, 
+      #{messageType,jdbcType=VARCHAR}, #{isArrive,jdbcType=BIT}, #{arriveTime,jdbcType=TIMESTAMP}, 
+      #{isRead,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.PersonMessage">
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.PersonMessage" useGeneratedKeys="true" keyProperty="id">
     insert into person_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -164,14 +163,11 @@
       <if test="conversationId != null">
         conversation_id,
       </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
       <if test="messageType != null">
         message_type,
-      </if>
-      <if test="url != null">
-        url,
-      </if>
-      <if test="imagePreviewUrl != null">
-        image_preview_url,
       </if>
       <if test="isArrive != null">
         is_arrive,
@@ -208,14 +204,11 @@
       <if test="conversationId != null">
         #{conversationId,jdbcType=VARCHAR},
       </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=VARCHAR},
+      </if>
       <if test="messageType != null">
         #{messageType,jdbcType=VARCHAR},
-      </if>
-      <if test="url != null">
-        #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="imagePreviewUrl != null">
-        #{imagePreviewUrl,jdbcType=VARCHAR},
       </if>
       <if test="isArrive != null">
         #{isArrive,jdbcType=BIT},
@@ -261,14 +254,11 @@
       <if test="record.conversationId != null">
         conversation_id = #{record.conversationId,jdbcType=VARCHAR},
       </if>
+      <if test="record.fileId != null">
+        file_id = #{record.fileId,jdbcType=VARCHAR},
+      </if>
       <if test="record.messageType != null">
         message_type = #{record.messageType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.url != null">
-        url = #{record.url,jdbcType=VARCHAR},
-      </if>
-      <if test="record.imagePreviewUrl != null">
-        image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.isArrive != null">
         is_arrive = #{record.isArrive,jdbcType=BIT},
@@ -300,9 +290,8 @@
       from_user_id = #{record.fromUserId,jdbcType=VARCHAR},
       to_user_id = #{record.toUserId,jdbcType=VARCHAR},
       conversation_id = #{record.conversationId,jdbcType=VARCHAR},
+      file_id = #{record.fileId,jdbcType=VARCHAR},
       message_type = #{record.messageType,jdbcType=VARCHAR},
-      url = #{record.url,jdbcType=VARCHAR},
-      image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
       is_arrive = #{record.isArrive,jdbcType=BIT},
       arrive_time = #{record.arriveTime,jdbcType=TIMESTAMP},
       is_read = #{record.isRead,jdbcType=BIT},
@@ -320,9 +309,8 @@
       from_user_id = #{record.fromUserId,jdbcType=VARCHAR},
       to_user_id = #{record.toUserId,jdbcType=VARCHAR},
       conversation_id = #{record.conversationId,jdbcType=VARCHAR},
+      file_id = #{record.fileId,jdbcType=VARCHAR},
       message_type = #{record.messageType,jdbcType=VARCHAR},
-      url = #{record.url,jdbcType=VARCHAR},
-      image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
       is_arrive = #{record.isArrive,jdbcType=BIT},
       arrive_time = #{record.arriveTime,jdbcType=TIMESTAMP},
       is_read = #{record.isRead,jdbcType=BIT},
@@ -347,14 +335,11 @@
       <if test="conversationId != null">
         conversation_id = #{conversationId,jdbcType=VARCHAR},
       </if>
+      <if test="fileId != null">
+        file_id = #{fileId,jdbcType=VARCHAR},
+      </if>
       <if test="messageType != null">
         message_type = #{messageType,jdbcType=VARCHAR},
-      </if>
-      <if test="url != null">
-        url = #{url,jdbcType=VARCHAR},
-      </if>
-      <if test="imagePreviewUrl != null">
-        image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
       </if>
       <if test="isArrive != null">
         is_arrive = #{isArrive,jdbcType=BIT},
@@ -383,9 +368,8 @@
       from_user_id = #{fromUserId,jdbcType=VARCHAR},
       to_user_id = #{toUserId,jdbcType=VARCHAR},
       conversation_id = #{conversationId,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=VARCHAR},
       message_type = #{messageType,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
       is_arrive = #{isArrive,jdbcType=BIT},
       arrive_time = #{arriveTime,jdbcType=TIMESTAMP},
       is_read = #{isRead,jdbcType=BIT},
@@ -400,9 +384,8 @@
       from_user_id = #{fromUserId,jdbcType=VARCHAR},
       to_user_id = #{toUserId,jdbcType=VARCHAR},
       conversation_id = #{conversationId,jdbcType=VARCHAR},
+      file_id = #{fileId,jdbcType=VARCHAR},
       message_type = #{messageType,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
       is_arrive = #{isArrive,jdbcType=BIT},
       arrive_time = #{arriveTime,jdbcType=TIMESTAMP},
       is_read = #{isRead,jdbcType=BIT},

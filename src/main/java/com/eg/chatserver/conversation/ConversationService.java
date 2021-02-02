@@ -7,6 +7,7 @@ import com.eg.chatserver.bean.User;
 import com.eg.chatserver.bean.mapper.ConversationMapper;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
+import com.eg.chatserver.conversation.bean.ConversationResponse;
 import com.eg.chatserver.conversation.bean.CreateConversationRequest;
 import com.eg.chatserver.conversation.bean.CreateConversationResponse;
 import com.eg.chatserver.user.UserAccountService;
@@ -14,9 +15,11 @@ import com.eg.chatserver.utils.Constants;
 import com.eg.chatserver.utils.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -123,7 +126,9 @@ public class ConversationService {
         conversation.setUserId(user.getUserId());
         conversation.setTargetId(targetUser.getUserId());
         conversation.setType(type);
-        conversation.setTitle(targetUser.getNickname() + " " + targetUser.getLoginName());
+        conversation.setTitle(targetUser.getNickname());
+        conversation.setMessageCount(0);
+        conversation.setUnreadMessageCount(0);
         Date createTime = new Date();
         conversation.setUpdateTime(createTime);
         conversation.setCreateTime(createTime);
@@ -135,6 +140,8 @@ public class ConversationService {
         conversationTarget.setTargetId(user.getUserId());
         conversationTarget.setType(type);
         conversationTarget.setTitle(user.getNickname() + " " + user.getLoginName());
+        conversationTarget.setMessageCount(0);
+        conversationTarget.setUnreadMessageCount(0);
         conversationTarget.setUpdateTime(createTime);
         conversationTarget.setCreateTime(createTime);
         conversationMapper.insert(conversationTarget);
@@ -175,4 +182,27 @@ public class ConversationService {
         return conversationMapper.selectByExample(conversationExample);
     }
 
+    /**
+     * 获取所有会话
+     *
+     * @return
+     */
+    public Result<List<ConversationResponse>> getAllConversations(User user) {
+        //准备条件查库
+        ConversationExample conversationExample = new ConversationExample();
+        ConversationExample.Criteria criteria = conversationExample.createCriteria();
+        criteria.andUserIdEqualTo(user.getUserId());
+        //按时间倒序
+        conversationExample.setOrderByClause("update_time");
+        //查询
+        List<Conversation> conversationList = conversationMapper.selectByExample(conversationExample);
+        //会话列表
+        List<ConversationResponse> conversationResponseList = new ArrayList<>();
+        for (Conversation conversation : conversationList) {
+            ConversationResponse conversationResponse = new ConversationResponse();
+            BeanUtils.copyProperties(conversation, conversationResponse);
+            conversationResponseList.add(conversationResponse);
+        }
+        return Result.ok(conversationResponseList);
+    }
 }

@@ -575,6 +575,196 @@ public class FileExample {
             return (Criteria) this;
         }
 
+        public Criteria andImageWidthIsNull() {
+            addCriterion("image_width is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthIsNotNull() {
+            addCriterion("image_width is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthEqualTo(Integer value) {
+            addCriterion("image_width =", value, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthNotEqualTo(Integer value) {
+            addCriterion("image_width <>", value, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthGreaterThan(Integer value) {
+            addCriterion("image_width >", value, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthGreaterThanOrEqualTo(Integer value) {
+            addCriterion("image_width >=", value, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthLessThan(Integer value) {
+            addCriterion("image_width <", value, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthLessThanOrEqualTo(Integer value) {
+            addCriterion("image_width <=", value, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthIn(List<Integer> values) {
+            addCriterion("image_width in", values, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthNotIn(List<Integer> values) {
+            addCriterion("image_width not in", values, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthBetween(Integer value1, Integer value2) {
+            addCriterion("image_width between", value1, value2, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageWidthNotBetween(Integer value1, Integer value2) {
+            addCriterion("image_width not between", value1, value2, "imageWidth");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightIsNull() {
+            addCriterion("image_height is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightIsNotNull() {
+            addCriterion("image_height is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightEqualTo(Integer value) {
+            addCriterion("image_height =", value, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightNotEqualTo(Integer value) {
+            addCriterion("image_height <>", value, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightGreaterThan(Integer value) {
+            addCriterion("image_height >", value, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightGreaterThanOrEqualTo(Integer value) {
+            addCriterion("image_height >=", value, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightLessThan(Integer value) {
+            addCriterion("image_height <", value, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightLessThanOrEqualTo(Integer value) {
+            addCriterion("image_height <=", value, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightIn(List<Integer> values) {
+            addCriterion("image_height in", values, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightNotIn(List<Integer> values) {
+            addCriterion("image_height not in", values, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightBetween(Integer value1, Integer value2) {
+            addCriterion("image_height between", value1, value2, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageHeightNotBetween(Integer value1, Integer value2) {
+            addCriterion("image_height not between", value1, value2, "imageHeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatIsNull() {
+            addCriterion("image_format is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatIsNotNull() {
+            addCriterion("image_format is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatEqualTo(String value) {
+            addCriterion("image_format =", value, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatNotEqualTo(String value) {
+            addCriterion("image_format <>", value, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatGreaterThan(String value) {
+            addCriterion("image_format >", value, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatGreaterThanOrEqualTo(String value) {
+            addCriterion("image_format >=", value, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatLessThan(String value) {
+            addCriterion("image_format <", value, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatLessThanOrEqualTo(String value) {
+            addCriterion("image_format <=", value, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatLike(String value) {
+            addCriterion("image_format like", value, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatNotLike(String value) {
+            addCriterion("image_format not like", value, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatIn(List<String> values) {
+            addCriterion("image_format in", values, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatNotIn(List<String> values) {
+            addCriterion("image_format not in", values, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatBetween(String value1, String value2) {
+            addCriterion("image_format between", value1, value2, "imageFormat");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageFormatNotBetween(String value1, String value2) {
+            addCriterion("image_format not between", value1, value2, "imageFormat");
+            return (Criteria) this;
+        }
+
         public Criteria andMimeTypeIsNull() {
             addCriterion("mime_type is null");
             return (Criteria) this;

@@ -445,6 +445,76 @@ public class PersonMessageExample {
             return (Criteria) this;
         }
 
+        public Criteria andFileIdIsNull() {
+            addCriterion("file_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdIsNotNull() {
+            addCriterion("file_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdEqualTo(String value) {
+            addCriterion("file_id =", value, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdNotEqualTo(String value) {
+            addCriterion("file_id <>", value, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdGreaterThan(String value) {
+            addCriterion("file_id >", value, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdGreaterThanOrEqualTo(String value) {
+            addCriterion("file_id >=", value, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdLessThan(String value) {
+            addCriterion("file_id <", value, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdLessThanOrEqualTo(String value) {
+            addCriterion("file_id <=", value, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdLike(String value) {
+            addCriterion("file_id like", value, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdNotLike(String value) {
+            addCriterion("file_id not like", value, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdIn(List<String> values) {
+            addCriterion("file_id in", values, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdNotIn(List<String> values) {
+            addCriterion("file_id not in", values, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdBetween(String value1, String value2) {
+            addCriterion("file_id between", value1, value2, "fileId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFileIdNotBetween(String value1, String value2) {
+            addCriterion("file_id not between", value1, value2, "fileId");
+            return (Criteria) this;
+        }
+
         public Criteria andMessageTypeIsNull() {
             addCriterion("message_type is null");
             return (Criteria) this;
@@ -512,146 +582,6 @@ public class PersonMessageExample {
 
         public Criteria andMessageTypeNotBetween(String value1, String value2) {
             addCriterion("message_type not between", value1, value2, "messageType");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlIsNull() {
-            addCriterion("url is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlIsNotNull() {
-            addCriterion("url is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlEqualTo(String value) {
-            addCriterion("url =", value, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlNotEqualTo(String value) {
-            addCriterion("url <>", value, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlGreaterThan(String value) {
-            addCriterion("url >", value, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("url >=", value, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlLessThan(String value) {
-            addCriterion("url <", value, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlLessThanOrEqualTo(String value) {
-            addCriterion("url <=", value, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlLike(String value) {
-            addCriterion("url like", value, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlNotLike(String value) {
-            addCriterion("url not like", value, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlIn(List<String> values) {
-            addCriterion("url in", values, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlNotIn(List<String> values) {
-            addCriterion("url not in", values, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlBetween(String value1, String value2) {
-            addCriterion("url between", value1, value2, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andUrlNotBetween(String value1, String value2) {
-            addCriterion("url not between", value1, value2, "url");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlIsNull() {
-            addCriterion("image_preview_url is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlIsNotNull() {
-            addCriterion("image_preview_url is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlEqualTo(String value) {
-            addCriterion("image_preview_url =", value, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlNotEqualTo(String value) {
-            addCriterion("image_preview_url <>", value, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlGreaterThan(String value) {
-            addCriterion("image_preview_url >", value, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlGreaterThanOrEqualTo(String value) {
-            addCriterion("image_preview_url >=", value, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlLessThan(String value) {
-            addCriterion("image_preview_url <", value, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlLessThanOrEqualTo(String value) {
-            addCriterion("image_preview_url <=", value, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlLike(String value) {
-            addCriterion("image_preview_url like", value, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlNotLike(String value) {
-            addCriterion("image_preview_url not like", value, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlIn(List<String> values) {
-            addCriterion("image_preview_url in", values, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlNotIn(List<String> values) {
-            addCriterion("image_preview_url not in", values, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlBetween(String value1, String value2) {
-            addCriterion("image_preview_url between", value1, value2, "imagePreviewUrl");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePreviewUrlNotBetween(String value1, String value2) {
-            addCriterion("image_preview_url not between", value1, value2, "imagePreviewUrl");
             return (Criteria) this;
         }
 

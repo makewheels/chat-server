@@ -13,11 +13,9 @@ public class PersonMessage {
 
     private String conversationId;
 
+    private String fileId;
+
     private String messageType;
-
-    private String url;
-
-    private String imagePreviewUrl;
 
     private Boolean isArrive;
 
@@ -71,28 +69,20 @@ public class PersonMessage {
         this.conversationId = conversationId == null ? null : conversationId.trim();
     }
 
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId == null ? null : fileId.trim();
+    }
+
     public String getMessageType() {
         return messageType;
     }
 
     public void setMessageType(String messageType) {
         this.messageType = messageType == null ? null : messageType.trim();
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
-
-    public String getImagePreviewUrl() {
-        return imagePreviewUrl;
-    }
-
-    public void setImagePreviewUrl(String imagePreviewUrl) {
-        this.imagePreviewUrl = imagePreviewUrl == null ? null : imagePreviewUrl.trim();
     }
 
     public Boolean getIsArrive() {

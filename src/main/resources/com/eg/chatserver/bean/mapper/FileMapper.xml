@@ -9,6 +9,9 @@
     <result column="extension" jdbcType="VARCHAR" property="extension" />
     <result column="bucket_name" jdbcType="VARCHAR" property="bucketName" />
     <result column="object_name" jdbcType="VARCHAR" property="objectName" />
+    <result column="image_width" jdbcType="INTEGER" property="imageWidth" />
+    <result column="image_height" jdbcType="INTEGER" property="imageHeight" />
+    <result column="image_format" jdbcType="VARCHAR" property="imageFormat" />
     <result column="mime_type" jdbcType="VARCHAR" property="mimeType" />
     <result column="etag" jdbcType="VARCHAR" property="etag" />
     <result column="oss_url" jdbcType="VARCHAR" property="ossUrl" />
@@ -75,8 +78,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, file_id, size, original_name, extension, bucket_name, object_name, mime_type, 
-    etag, oss_url, image_preview_url, audio_duration, create_time
+    id, file_id, size, original_name, extension, bucket_name, object_name, image_width, 
+    image_height, image_format, mime_type, etag, oss_url, image_preview_url, audio_duration, 
+    create_time
   </sql>
   <select id="selectByExample" parameterType="com.eg.chatserver.bean.FileExample" resultMap="BaseResultMap">
     select
@@ -109,19 +113,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.File">
+  <insert id="insert" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
     insert into file (id, file_id, size, 
       original_name, extension, bucket_name, 
-      object_name, mime_type, etag, 
+      object_name, image_width, image_height, 
+      image_format, mime_type, etag, 
       oss_url, image_preview_url, audio_duration, 
       create_time)
     values (#{id,jdbcType=BIGINT}, #{fileId,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
       #{originalName,jdbcType=VARCHAR}, #{extension,jdbcType=VARCHAR}, #{bucketName,jdbcType=VARCHAR}, 
-      #{objectName,jdbcType=VARCHAR}, #{mimeType,jdbcType=VARCHAR}, #{etag,jdbcType=VARCHAR}, 
+      #{objectName,jdbcType=VARCHAR}, #{imageWidth,jdbcType=INTEGER}, #{imageHeight,jdbcType=INTEGER}, 
+      #{imageFormat,jdbcType=VARCHAR}, #{mimeType,jdbcType=VARCHAR}, #{etag,jdbcType=VARCHAR}, 
       #{ossUrl,jdbcType=VARCHAR}, #{imagePreviewUrl,jdbcType=VARCHAR}, #{audioDuration,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.File">
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
     insert into file
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -144,6 +150,15 @@
       </if>
       <if test="objectName != null">
         object_name,
+      </if>
+      <if test="imageWidth != null">
+        image_width,
+      </if>
+      <if test="imageHeight != null">
+        image_height,
+      </if>
+      <if test="imageFormat != null">
+        image_format,
       </if>
       <if test="mimeType != null">
         mime_type,
@@ -185,6 +200,15 @@
       </if>
       <if test="objectName != null">
         #{objectName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageWidth != null">
+        #{imageWidth,jdbcType=INTEGER},
+      </if>
+      <if test="imageHeight != null">
+        #{imageHeight,jdbcType=INTEGER},
+      </if>
+      <if test="imageFormat != null">
+        #{imageFormat,jdbcType=VARCHAR},
       </if>
       <if test="mimeType != null">
         #{mimeType,jdbcType=VARCHAR},
@@ -236,6 +260,15 @@
       <if test="record.objectName != null">
         object_name = #{record.objectName,jdbcType=VARCHAR},
       </if>
+      <if test="record.imageWidth != null">
+        image_width = #{record.imageWidth,jdbcType=INTEGER},
+      </if>
+      <if test="record.imageHeight != null">
+        image_height = #{record.imageHeight,jdbcType=INTEGER},
+      </if>
+      <if test="record.imageFormat != null">
+        image_format = #{record.imageFormat,jdbcType=VARCHAR},
+      </if>
       <if test="record.mimeType != null">
         mime_type = #{record.mimeType,jdbcType=VARCHAR},
       </if>
@@ -268,6 +301,9 @@
       extension = #{record.extension,jdbcType=VARCHAR},
       bucket_name = #{record.bucketName,jdbcType=VARCHAR},
       object_name = #{record.objectName,jdbcType=VARCHAR},
+      image_width = #{record.imageWidth,jdbcType=INTEGER},
+      image_height = #{record.imageHeight,jdbcType=INTEGER},
+      image_format = #{record.imageFormat,jdbcType=VARCHAR},
       mime_type = #{record.mimeType,jdbcType=VARCHAR},
       etag = #{record.etag,jdbcType=VARCHAR},
       oss_url = #{record.ossUrl,jdbcType=VARCHAR},
@@ -299,6 +335,15 @@
       <if test="objectName != null">
         object_name = #{objectName,jdbcType=VARCHAR},
       </if>
+      <if test="imageWidth != null">
+        image_width = #{imageWidth,jdbcType=INTEGER},
+      </if>
+      <if test="imageHeight != null">
+        image_height = #{imageHeight,jdbcType=INTEGER},
+      </if>
+      <if test="imageFormat != null">
+        image_format = #{imageFormat,jdbcType=VARCHAR},
+      </if>
       <if test="mimeType != null">
         mime_type = #{mimeType,jdbcType=VARCHAR},
       </if>
@@ -328,6 +373,9 @@
       extension = #{extension,jdbcType=VARCHAR},
       bucket_name = #{bucketName,jdbcType=VARCHAR},
       object_name = #{objectName,jdbcType=VARCHAR},
+      image_width = #{imageWidth,jdbcType=INTEGER},
+      image_height = #{imageHeight,jdbcType=INTEGER},
+      image_format = #{imageFormat,jdbcType=VARCHAR},
       mime_type = #{mimeType,jdbcType=VARCHAR},
       etag = #{etag,jdbcType=VARCHAR},
       oss_url = #{ossUrl,jdbcType=VARCHAR},

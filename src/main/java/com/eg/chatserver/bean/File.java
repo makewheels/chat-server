@@ -17,6 +17,12 @@ public class File {
 
     private String objectName;
 
+    private Integer imageWidth;
+
+    private Integer imageHeight;
+
+    private String imageFormat;
+
     private String mimeType;
 
     private String etag;
@@ -83,6 +89,30 @@ public class File {
 
     public void setObjectName(String objectName) {
         this.objectName = objectName == null ? null : objectName.trim();
+    }
+
+    public Integer getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(Integer imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public Integer getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(Integer imageHeight) {
+        this.imageHeight = imageHeight;
+    }
+
+    public String getImageFormat() {
+        return imageFormat;
+    }
+
+    public void setImageFormat(String imageFormat) {
+        this.imageFormat = imageFormat == null ? null : imageFormat.trim();
     }
 
     public String getMimeType() {
