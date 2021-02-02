@@ -1,42 +1,31 @@
 package com.eg.chatserver.oss;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("oss")
 public class OssController {
-    public String GetPostBody(InputStream is, int contentLen) {
-        if (contentLen > 0) {
-            int readLen = 0;
-            int readLengthThisTime = 0;
-            byte[] message = new byte[contentLen];
-            try {
-                while (readLen != contentLen) {
-                    readLengthThisTime = is.read(message, readLen, contentLen - readLen);
-                    if (readLengthThisTime == -1) {// Should not happen.
-                        break;
-                    }
-                    readLen += readLengthThisTime;
-                }
-                return new String(message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return "";
-    }
+    @Resource
+    private OssService ossService;
 
     @RequestMapping("aliyunCallback")
-    public String callback(HttpServletRequest request) throws IOException {
-        String s = GetPostBody(request.getInputStream(),
-                Integer.parseInt(request.getHeader("content-length")));
-        System.out.println(s);
-        return "";
+    public String callback(@RequestBody CallbackRequest callbackRequest,
+                           HttpServletRequest request, HttpServletResponse response) {
+        boolean check = ossService.checkCallback(request, callbackRequest);
+        if (!check) {
+            response.setStatus(HttpStatus.SC_BAD_REQUEST);
+        }
+        System.out.println(check);
+        System.out.println(JSON.toJSONString(callbackRequest));
+        return "{\"a\":\"a=d&b=d%d=bbw\"}";
     }
 
 

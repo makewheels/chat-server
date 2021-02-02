@@ -9,6 +9,7 @@
     <result column="extension" jdbcType="VARCHAR" property="extension" />
     <result column="bucket_name" jdbcType="VARCHAR" property="bucketName" />
     <result column="object_name" jdbcType="VARCHAR" property="objectName" />
+    <result column="mime_type" jdbcType="VARCHAR" property="mimeType" />
     <result column="etag" jdbcType="VARCHAR" property="etag" />
     <result column="oss_url" jdbcType="VARCHAR" property="ossUrl" />
     <result column="image_preview_url" jdbcType="VARCHAR" property="imagePreviewUrl" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, file_id, size, original_name, extension, bucket_name, object_name, etag, oss_url, 
-    image_preview_url, audio_duration, create_time
+    id, file_id, size, original_name, extension, bucket_name, object_name, mime_type, 
+    etag, oss_url, image_preview_url, audio_duration, create_time
   </sql>
   <select id="selectByExample" parameterType="com.eg.chatserver.bean.FileExample" resultMap="BaseResultMap">
     select
@@ -108,19 +109,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="com.eg.chatserver.bean.File">
     insert into file (id, file_id, size, 
       original_name, extension, bucket_name, 
-      object_name, etag, oss_url, 
-      image_preview_url, audio_duration, create_time
-      )
+      object_name, mime_type, etag, 
+      oss_url, image_preview_url, audio_duration, 
+      create_time)
     values (#{id,jdbcType=BIGINT}, #{fileId,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
       #{originalName,jdbcType=VARCHAR}, #{extension,jdbcType=VARCHAR}, #{bucketName,jdbcType=VARCHAR}, 
-      #{objectName,jdbcType=VARCHAR}, #{etag,jdbcType=VARCHAR}, #{ossUrl,jdbcType=VARCHAR}, 
-      #{imagePreviewUrl,jdbcType=VARCHAR}, #{audioDuration,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{objectName,jdbcType=VARCHAR}, #{mimeType,jdbcType=VARCHAR}, #{etag,jdbcType=VARCHAR}, 
+      #{ossUrl,jdbcType=VARCHAR}, #{imagePreviewUrl,jdbcType=VARCHAR}, #{audioDuration,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.File">
     insert into file
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -143,6 +144,9 @@
       </if>
       <if test="objectName != null">
         object_name,
+      </if>
+      <if test="mimeType != null">
+        mime_type,
       </if>
       <if test="etag != null">
         etag,
@@ -181,6 +185,9 @@
       </if>
       <if test="objectName != null">
         #{objectName,jdbcType=VARCHAR},
+      </if>
+      <if test="mimeType != null">
+        #{mimeType,jdbcType=VARCHAR},
       </if>
       <if test="etag != null">
         #{etag,jdbcType=VARCHAR},
@@ -229,6 +236,9 @@
       <if test="record.objectName != null">
         object_name = #{record.objectName,jdbcType=VARCHAR},
       </if>
+      <if test="record.mimeType != null">
+        mime_type = #{record.mimeType,jdbcType=VARCHAR},
+      </if>
       <if test="record.etag != null">
         etag = #{record.etag,jdbcType=VARCHAR},
       </if>
@@ -258,6 +268,7 @@
       extension = #{record.extension,jdbcType=VARCHAR},
       bucket_name = #{record.bucketName,jdbcType=VARCHAR},
       object_name = #{record.objectName,jdbcType=VARCHAR},
+      mime_type = #{record.mimeType,jdbcType=VARCHAR},
       etag = #{record.etag,jdbcType=VARCHAR},
       oss_url = #{record.ossUrl,jdbcType=VARCHAR},
       image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
@@ -288,6 +299,9 @@
       <if test="objectName != null">
         object_name = #{objectName,jdbcType=VARCHAR},
       </if>
+      <if test="mimeType != null">
+        mime_type = #{mimeType,jdbcType=VARCHAR},
+      </if>
       <if test="etag != null">
         etag = #{etag,jdbcType=VARCHAR},
       </if>
@@ -314,6 +328,7 @@
       extension = #{extension,jdbcType=VARCHAR},
       bucket_name = #{bucketName,jdbcType=VARCHAR},
       object_name = #{objectName,jdbcType=VARCHAR},
+      mime_type = #{mimeType,jdbcType=VARCHAR},
       etag = #{etag,jdbcType=VARCHAR},
       oss_url = #{ossUrl,jdbcType=VARCHAR},
       image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},

@@ -17,6 +17,8 @@ public class File {
 
     private String objectName;
 
+    private String mimeType;
+
     private String etag;
 
     private String ossUrl;
@@ -81,6 +83,14 @@ public class File {
 
     public void setObjectName(String objectName) {
         this.objectName = objectName == null ? null : objectName.trim();
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType == null ? null : mimeType.trim();
     }
 
     public String getEtag() {

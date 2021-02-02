@@ -575,6 +575,76 @@ public class FileExample {
             return (Criteria) this;
         }
 
+        public Criteria andMimeTypeIsNull() {
+            addCriterion("mime_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeIsNotNull() {
+            addCriterion("mime_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeEqualTo(String value) {
+            addCriterion("mime_type =", value, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeNotEqualTo(String value) {
+            addCriterion("mime_type <>", value, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeGreaterThan(String value) {
+            addCriterion("mime_type >", value, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("mime_type >=", value, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeLessThan(String value) {
+            addCriterion("mime_type <", value, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeLessThanOrEqualTo(String value) {
+            addCriterion("mime_type <=", value, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeLike(String value) {
+            addCriterion("mime_type like", value, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeNotLike(String value) {
+            addCriterion("mime_type not like", value, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeIn(List<String> values) {
+            addCriterion("mime_type in", values, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeNotIn(List<String> values) {
+            addCriterion("mime_type not in", values, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeBetween(String value1, String value2) {
+            addCriterion("mime_type between", value1, value2, "mimeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMimeTypeNotBetween(String value1, String value2) {
+            addCriterion("mime_type not between", value1, value2, "mimeType");
+            return (Criteria) this;
+        }
+
         public Criteria andEtagIsNull() {
             addCriterion("etag is null");
             return (Criteria) this;
