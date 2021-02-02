@@ -1,11 +1,13 @@
 package com.eg.chatserver.oss;
 
+import com.alibaba.fastjson.JSON;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
+import com.eg.chatserver.utils.Constants;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,7 +29,7 @@ public class OssService {
         AssumeRoleRequest request = new AssumeRoleRequest();
         request.setRoleArn("acs:ram::1618784280874658:role/aliyunosstokengeneratorrole");
         request.setRoleSessionName("external-username");
-        request.setDurationSeconds(900L);
+        request.setDurationSeconds(Constants.ALIYUN.OSS_STS_CREDENTIALS_DURATION);
         try {
             return client.getAcsResponse(request);
         } catch (ClientException e) {
@@ -40,6 +42,9 @@ public class OssService {
     }
 
     public static void main(String[] args) {
+        OssService ossService = new OssService();
+        AssumeRoleResponse stsToken = ossService.getStsToken();
+        System.out.println(JSON.toJSONString(stsToken));
 
     }
 
