@@ -257,7 +257,10 @@ public class UserAccountService {
         String newLoginToken = generateLoginToken();
         user.setLoginToken(newLoginToken);
         //更新mysql
-        userMapper.updateByPrimaryKey(user);
+        User userUpdate = new User();
+        userUpdate.setId(user.getId());
+        userUpdate.setLoginToken(newLoginToken);
+        userMapper.updateByPrimaryKeySelective(userUpdate);
         //存入redis
         userRedisService.setUserByLoginToken(newLoginToken, user);
         log.info("login success, user = {}", JSON.toJSONString(user));
