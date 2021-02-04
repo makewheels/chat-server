@@ -84,7 +84,10 @@ public class UserController {
     public Result<SearchLoginNameResponse> searchUserByLoginName(
             @ApiParam(name = "loginName", value = "登录名", example = "Name2")
             @RequestParam String loginName) {
-        User user = userInfoService.searchUserByLoginName(loginName);
+        if (StringUtils.isBlank(loginName)) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
+        User user = userInfoService.searchUserByLoginName(loginName);o
         if (user == null) {
             return Result.error(ErrorCode.SEARCH_USER_LOGIN_NAME_NOT_EXIST);
         } else {
