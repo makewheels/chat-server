@@ -15,6 +15,8 @@ public class SearchLoginNameResponse {
     private String userId;
     @ApiModelProperty(value = "登陆名", example = "user001")
     private String loginName;
+    @ApiModelProperty(value = "昵称", example = "Alice")
+    private String nickName;
     @ApiModelProperty(value = "头像地址", example = "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1587979846,3695073765&fm=26&gp=0.jpg")
     private String headImageUrl;
 }

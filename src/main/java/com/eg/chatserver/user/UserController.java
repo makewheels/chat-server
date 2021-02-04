@@ -87,13 +87,14 @@ public class UserController {
         if (StringUtils.isBlank(loginName)) {
             return Result.error(ErrorCode.WRONG_PARAM);
         }
-        User user = userInfoService.searchUserByLoginName(loginName);o
+        User user = userInfoService.searchUserByLoginName(loginName);
         if (user == null) {
             return Result.error(ErrorCode.SEARCH_USER_LOGIN_NAME_NOT_EXIST);
         } else {
             SearchLoginNameResponse searchLoginNameResponse = new SearchLoginNameResponse();
             searchLoginNameResponse.setUserId(user.getUserId());
             searchLoginNameResponse.setLoginName(user.getLoginName());
+            searchLoginNameResponse.setNickName(user.getNickname());
             searchLoginNameResponse.setHeadImageUrl(user.getHeadImageUrl());
             return Result.ok(searchLoginNameResponse);
         }

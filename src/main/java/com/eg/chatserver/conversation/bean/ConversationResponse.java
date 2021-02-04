@@ -19,8 +19,13 @@ public class ConversationResponse {
     private String type;
 
     private String title;
+    private String headImageUrl;
+
+    private Integer messageCount;
 
     private Integer unreadMessageCount;
 
     private Date updateTime;
+
+    private Date createTime;
 }

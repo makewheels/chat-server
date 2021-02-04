@@ -204,6 +204,9 @@ public class ConversationService {
         for (Conversation conversation : conversationList) {
             ConversationResponse conversationResponse = new ConversationResponse();
             BeanUtils.copyProperties(conversation, conversationResponse);
+            String targetId = conversation.getTargetId();
+            User targetUser = userAccountService.findUserByUserId(targetId);
+            conversationResponse.setHeadImageUrl(targetUser.getHeadImageUrl());
             conversationResponseList.add(conversationResponse);
         }
         return Result.ok(conversationResponseList);

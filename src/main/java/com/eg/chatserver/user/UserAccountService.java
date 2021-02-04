@@ -158,6 +158,7 @@ public class UserAccountService {
      * @return
      */
     public User findUserByUserId(String userId) {
+        //TODO 这里应该做一个拦截，缓存到redis
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUserIdEqualTo(userId);
         return findSingleUserByExample(userExample);
