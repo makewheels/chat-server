@@ -48,4 +48,9 @@ public class OssController {
         return ossService.aliyunCallback(callbackRequest);
     }
 
+    @RequestMapping("getStsCredential")
+    public String getStsCredential() {
+        return JSON.toJSONString(ossService.getStsCredential());
+    }
+
 }

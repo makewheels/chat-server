@@ -31,6 +31,8 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/user/checkLoginToken")
                 .excludePathPatterns("/oss/aliyunCallback")
+
+//                .excludePathPatterns("/oss/getStsCredential")
         ;
     }
 }
