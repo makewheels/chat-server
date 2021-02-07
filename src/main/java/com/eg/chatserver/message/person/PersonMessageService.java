@@ -196,10 +196,10 @@ public class PersonMessageService {
     /**
      * 根据用户和消息id查找一条消息
      */
-    public PersonMessage findSingleByUserIdAndMessageId(String userId, String messageId) {
+    public PersonMessage findSingleByToUserIdAndMessageId(String userId, String messageId) {
         PersonMessageExample personMessageExample = new PersonMessageExample();
         PersonMessageExample.Criteria criteria = personMessageExample.createCriteria();
-        criteria.andFromUserIdEqualTo(userId);
+        criteria.andToUserIdEqualTo(userId);
         criteria.andMessageIdEqualTo(messageId);
         List<PersonMessage> personMessageList = personMessageMapper.selectByExample(personMessageExample);
         if (CollectionUtils.isEmpty(personMessageList)) {
@@ -213,7 +213,7 @@ public class PersonMessageService {
      * 根据消息id查询一条消息
      */
     public Result<PullMessageResponse> getByMessageId(User user, String messageId) {
-        PersonMessage personMessage = findSingleByUserIdAndMessageId(user.getUserId(), messageId);
+        PersonMessage personMessage = findSingleByToUserIdAndMessageId(user.getUserId(), messageId);
         if (personMessage == null) {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
         }
@@ -230,7 +230,7 @@ public class PersonMessageService {
      * @return
      */
     public Result<Void> reportArrive(User user, String messageId) {
-        PersonMessage personMessage = findSingleByUserIdAndMessageId(user.getUserId(), messageId);
+        PersonMessage personMessage = findSingleByToUserIdAndMessageId(user.getUserId(), messageId);
         if (personMessage == null) {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
         }
@@ -256,7 +256,7 @@ public class PersonMessageService {
      * @return
      */
     public Result<Void> reportRead(User user, String messageId) {
-        PersonMessage personMessage = findSingleByUserIdAndMessageId(user.getUserId(), messageId);
+        PersonMessage personMessage = findSingleByToUserIdAndMessageId(user.getUserId(), messageId);
         if (personMessage == null) {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
         }

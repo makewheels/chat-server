@@ -1,5 +1,6 @@
 package com.eg.chatserver.message.person;
 
+import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
@@ -9,11 +10,12 @@ import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
 import com.eg.chatserver.message.person.bean.SendMessageResponse;
 import com.eg.chatserver.user.UserAccountService;
+import com.eg.chatserver.user.bean.LoginRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Time 2021.01.31 12:50:11
  */
 @RestController
-@RequestMapping("message/person")
+@RequestMapping("/message/person")
 @Api(tags = "对人的消息 Controller")
 public class PersonMessageController {
     @Resource
@@ -33,10 +35,11 @@ public class PersonMessageController {
     @Resource
     private UserAccountService userAccountService;
 
-    @PostMapping("sendMessage")
+    @PostMapping("/sendMessage")
     @ApiOperation(value = "发送消息")
     public Result<SendMessageResponse> sendMessage(
-            HttpServletRequest request, @RequestBody SendMessageRequest sendMessageRequest) {
+            @RequestBody SendMessageRequest sendMessageRequest,
+            HttpServletRequest request) {
         String conversationId = sendMessageRequest.getConversationId();
         String messageType = sendMessageRequest.getMessageType();
         if (StringUtils.isEmpty(conversationId) || StringUtils.isEmpty(messageType)) {
@@ -51,7 +54,7 @@ public class PersonMessageController {
         return personMessageService.sendMessage(user, sendMessageRequest);
     }
 
-    @PostMapping("pullByMessageId")
+    @PostMapping("/pullByMessageId")
     @ApiOperation(value = "根据消息id拉取一条消息")
     public Result<PullMessageResponse> pullByMessageId(
             HttpServletRequest request, @RequestBody MessageIdRequest messageIdRequest) {
