@@ -1,6 +1,5 @@
 package com.eg.chatserver.message.person;
 
-import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
@@ -10,7 +9,6 @@ import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
 import com.eg.chatserver.message.person.bean.SendMessageResponse;
 import com.eg.chatserver.user.UserAccountService;
-import com.eg.chatserver.user.bean.LoginRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -63,7 +61,7 @@ public class PersonMessageController {
             return Result.error(ErrorCode.WRONG_PARAM);
         }
         User user = userAccountService.getUserByRequest(request);
-        return personMessageService.getByMessageId(user, messageId);
+        return personMessageService.pullByMessageId(user, messageId);
     }
 
     @PostMapping("reportArrive")

@@ -212,7 +212,7 @@ public class PersonMessageService {
     /**
      * 根据消息id查询一条消息
      */
-    public Result<PullMessageResponse> getByMessageId(User user, String messageId) {
+    public Result<PullMessageResponse> pullByMessageId(User user, String messageId) {
         PersonMessage personMessage = findSingleByToUserIdAndMessageId(user.getUserId(), messageId);
         if (personMessage == null) {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
