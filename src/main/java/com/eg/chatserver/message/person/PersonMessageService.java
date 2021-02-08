@@ -201,7 +201,7 @@ public class PersonMessageService {
         PersonMessageExample.Criteria criteria = personMessageExample.createCriteria();
         criteria.andToUserIdEqualTo(userId);
         criteria.andMessageIdEqualTo(messageId);
-        List<PersonMessage> personMessageList = personMessageMapper.selectByExample(personMessageExample);
+        List<PersonMessage> personMessageList = personMessageMapper.selectByExampleWithBLOBs(personMessageExample);
         if (CollectionUtils.isEmpty(personMessageList)) {
             return null;
         } else {
