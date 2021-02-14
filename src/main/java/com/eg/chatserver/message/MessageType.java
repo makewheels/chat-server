@@ -25,6 +25,7 @@ public class MessageType {
 
     /**
      * 获取所有消息类型
+     *
      * @return
      */
     public static List<String> getAllMessageTypes() {

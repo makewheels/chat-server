@@ -100,13 +100,16 @@ public class UserAccountService {
      * @param user
      * @return
      */
-    public UserInfoResponse getUserInfoResponse(User user) {
+    private UserInfoResponse getUserInfoResponse(User user) {
         //封装参数返回
         UserInfoResponse userInfoResponse = new UserInfoResponse();
         userInfoResponse.setUserId(user.getUserId());
         userInfoResponse.setLoginName(user.getLoginName());
         userInfoResponse.setHeadImageUrl(user.getHeadImageUrl());
         userInfoResponse.setLoginToken(user.getLoginToken());
+        userInfoResponse.setPhone(user.getPhone());
+        userInfoResponse.setCreateTime(user.getCreateTime());
+        userInfoResponse.setJpushRegistrationId(user.getJpushRegistrationId());
         return userInfoResponse;
     }
 
@@ -287,5 +290,10 @@ public class UserAccountService {
         user.setJpushRegistrationId(null);
         userMapper.updateByPrimaryKey(user);
         return Result.ok();
+    }
+
+    public Result<UserInfoResponse> getUserInfo(User user) {
+        UserInfoResponse userInfoResponse = getUserInfoResponse(user);
+        return Result.ok(userInfoResponse);
     }
 }

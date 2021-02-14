@@ -79,6 +79,13 @@ public class UserController {
         }
     }
 
+    @PostMapping("getUserInfo")
+    @ApiOperation(value = "获取用户信息")
+    public Result<UserInfoResponse> getUserInfo(HttpServletRequest request) {
+        User user = userAccountService.getUserByRequest(request);
+        return userAccountService.getUserInfo(user);
+    }
+
     @PostMapping("searchUserByLoginName")
     @ApiOperation(value = "根据登录名精准搜索用户")
     public Result<SearchLoginNameResponse> searchUserByLoginName(
