@@ -28,6 +28,5 @@ public class Constants {
 
     }
 
-    public static final String PUSH_HEADER = "version=1";
-
+    public static final String PUSH_VERSION = "1";
 }
