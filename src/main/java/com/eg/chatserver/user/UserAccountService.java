@@ -130,12 +130,12 @@ public class UserAccountService {
                     + JSON.toJSONString(registerRequest));
             return Result.error(ErrorCode.REGISTER_LOGIN_NAME_ALREADY_EXISTS);
         }
+        //清掉老的loginToken
+        clearJpushRegistrationId(registerRequest.getJpushRegistrationId());
         //如果不存在，执行注册，插入数据库，返回正确信息
         User user = registerSaveUser(registerRequest);
         //然后为用户自动登录一次，把user放到redis里
         userRedisService.setUserByLoginToken(user.getLoginToken(), user);
-        //清掉老的loginToken
-        clearJpushRegistrationId(registerRequest.getJpushRegistrationId());
         //返回注册结果
         UserInfoResponse registerResponse = getUserInfoResponse(user);
         return Result.ok(registerResponse);
