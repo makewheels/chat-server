@@ -1,9 +1,7 @@
-package com.eg.chatserver.message;
+package com.eg.chatserver.push;
 
 import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.bean.User;
-import com.eg.chatserver.jpush.JPushService;
-import com.eg.chatserver.jpush.PushResult;
 import com.eg.chatserver.utils.Constants;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,7 @@ public class MessagePushService {
         Map<String, String> map = new HashMap<>();
         map.put("version", Constants.PUSH_VERSION);
         map.put("cmd", "pullMessage");
-        map.put("type", "person");
+        map.put("type", Constants.CONVERSATION.TYPE_PERSON);
         map.put("messageId", messageId);
         return jPushService.pushByRegistrationId(user.getJpushRegistrationId(), JSON.toJSONString(map));
     }

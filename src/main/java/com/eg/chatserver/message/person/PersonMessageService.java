@@ -10,8 +10,8 @@ import com.eg.chatserver.bean.mapper.PersonMessageMapper;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.conversation.ConversationService;
-import com.eg.chatserver.jpush.PushResult;
-import com.eg.chatserver.message.MessagePushService;
+import com.eg.chatserver.push.PushResult;
+import com.eg.chatserver.push.MessagePushService;
 import com.eg.chatserver.message.MessageType;
 import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
@@ -164,7 +164,7 @@ public class PersonMessageService {
         User toUser = userAccountService.findUserByUserId(toUserId);
         //如果没有极光注册id
         if (StringUtils.isEmpty(toUser.getJpushRegistrationId())) {
-            log.warn("target user not online: {}", toUser);
+            log.warn("push to person message, target user not online: {}", JSON.toJSONString(toUser));
         } else {
             //正常执行推送
             PushResult pushResult = messagePushService.pushPersonMessage(toUser, messageId);

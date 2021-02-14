@@ -1,4 +1,4 @@
-package com.eg.chatserver.jpush;
+package com.eg.chatserver.push;
 
 import lombok.Data;
 

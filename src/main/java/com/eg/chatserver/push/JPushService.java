@@ -1,4 +1,4 @@
-package com.eg.chatserver.jpush;
+package com.eg.chatserver.push;
 
 import cn.jiguang.common.ClientConfig;
 import cn.jiguang.common.resp.APIConnectionException;
@@ -33,7 +33,7 @@ public class JPushService {
      * @param message
      * @return
      */
-    public com.eg.chatserver.jpush.PushResult pushByRegistrationId(String registrationId, String message) {
+    public com.eg.chatserver.push.PushResult pushByRegistrationId(String registrationId, String message) {
         PushPayload payload = PushPayload.newBuilder()
                 .setPlatform(Platform.all())
                 .setAudience(Audience.registrationId(registrationId))
@@ -55,6 +55,6 @@ public class JPushService {
             log.info("Error Message: " + e.getErrorMessage());
         }
         String json = JSON.toJSONString(result);
-        return JSON.parseObject(json, com.eg.chatserver.jpush.PushResult.class);
+        return JSON.parseObject(json, com.eg.chatserver.push.PushResult.class);
     }
 }
