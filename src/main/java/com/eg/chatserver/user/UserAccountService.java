@@ -223,19 +223,6 @@ public class UserAccountService {
     }
 
     /**
-     * 常用方法
-     * 根据loginToken获取redis里的user对象
-     *
-     * @param request
-     * @return
-     */
-    public User getUserByRequest(HttpServletRequest request) {
-        //从header中获取loginToken
-        String loginToken = request.getHeader(Constants.KEY.LOGIN_TOKEN);
-        return userRedisService.getUserByLoginToken(loginToken);
-    }
-
-    /**
      * 登录
      *
      * @param loginRequest
@@ -265,6 +252,12 @@ public class UserAccountService {
         User userUpdate = new User();
         userUpdate.setId(user.getId());
         userUpdate.setLoginToken(newLoginToken);
+        //TODO 这里是不是有个问题，如果在一台设备上，先登录了第一个用户。在未登出的情况下，再登陆第二个用户
+        //那第一个用户的极光id，岂不是没变，这肯定不行啊，如果有人给第一个人发消息，那岂不是第二个用户收到了？
+        //那我可以把第一个用户的极光id清掉，但是，在第一个用户不在线的情况下，如何推送呢？
+        //那这玩意没招啊，那只能是下次它登陆的时候，再拉取历史消息。你就比如，你微信登陆了别人的账号，
+        // 或者你直接卸载了微信，那你肯定接不到推送了啊
+        userUpdate.setJpushRegistrationId(user.getJpushRegistrationId());
         userMapper.updateByPrimaryKeySelective(userUpdate);
         //存入redis
         userRedisService.setUserByLoginToken(newLoginToken, user);
@@ -276,6 +269,19 @@ public class UserAccountService {
         userInfoResponse.setHeadImageUrl(user.getHeadImageUrl());
         userInfoResponse.setLoginToken(newLoginToken);
         return Result.ok(userInfoResponse);
+    }
+
+    /**
+     * 常用方法
+     * 根据loginToken获取redis里的user对象
+     *
+     * @param request
+     * @return
+     */
+    public User getUserByRequest(HttpServletRequest request) {
+        //从header中获取loginToken
+        String loginToken = request.getHeader(Constants.KEY.LOGIN_TOKEN);
+        return userRedisService.getUserByLoginToken(loginToken);
     }
 
     /**

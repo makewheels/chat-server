@@ -26,6 +26,7 @@ public class MessagePushService {
     public PushResult pushPersonMessage(User user, String messageId) {
         String content = Constants.PUSH_HEADER + "&cmd=pullMessage" +
                 "&type=person" + "&messageId=" + messageId;
-        return jPushService.pushByRegistrationId(user.getJpushRegistrationId(), content);
+        String jpushRegistrationId = user.getJpushRegistrationId();
+        return jPushService.pushByRegistrationId(jpushRegistrationId, content);
     }
 }

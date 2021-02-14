@@ -20,6 +20,7 @@ import com.eg.chatserver.user.UserAccountService;
 import com.eg.chatserver.utils.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -161,9 +162,15 @@ public class PersonMessageService {
         String messageId = personMessage.getMessageId();
         //推送
         User toUser = userAccountService.findUserByUserId(toUserId);
-        PushResult pushResult = messagePushService.pushPersonMessage(toUser, messageId);
-        if (pushResult.isResultOK()) {
-            log.info("push success messageId = {}, pushResult = {}", messageId, JSON.toJSONString(pushResult));
+        //如果没有极光注册id
+        if (StringUtils.isEmpty(toUser.getJpushRegistrationId())) {
+            log.warn("target user not online: {}", toUser);
+        } else {
+            //正常执行推送
+            PushResult pushResult = messagePushService.pushPersonMessage(toUser, messageId);
+            if (pushResult.isResultOK()) {
+                log.info("push success messageId = {}, pushResult = {}", messageId, JSON.toJSONString(pushResult));
+            }
         }
         //返回
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
