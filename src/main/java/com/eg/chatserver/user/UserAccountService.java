@@ -105,6 +105,7 @@ public class UserAccountService {
         UserInfoResponse userInfoResponse = new UserInfoResponse();
         userInfoResponse.setUserId(user.getUserId());
         userInfoResponse.setLoginName(user.getLoginName());
+        userInfoResponse.setNickname(user.getNickname());
         userInfoResponse.setHeadImageUrl(user.getHeadImageUrl());
         userInfoResponse.setLoginToken(user.getLoginToken());
         userInfoResponse.setPhone(user.getPhone());
