@@ -223,6 +223,23 @@ public class UserAccountService {
     }
 
     /**
+     * 清理掉老的极光注册id
+     *
+     * @param jpushRegistrationId
+     * @return
+     */
+    private int clearJpushRegistrationId(String jpushRegistrationId) {
+        UserExample userExampleSelect = new UserExample();
+        userExampleSelect.createCriteria().andJpushRegistrationIdEqualTo(jpushRegistrationId);
+        List<User> userList = userMapper.selectByExample(userExampleSelect);
+        for (User user : userList) {
+            user.setJpushRegistrationId(null);
+            return userMapper.updateByPrimaryKey(user);
+        }
+        return 0;
+    }
+
+    /**
      * 登录
      *
      * @param loginRequest
@@ -244,10 +261,13 @@ public class UserAccountService {
         //把他之前redis里的user干掉
         userRedisService.deleteUserByLoginToken(user.getLoginToken());
         //更新jpushRegistrationId
-        user.setJpushRegistrationId(loginRequest.getJpushRegistrationId());
+        String jpushRegistrationId = loginRequest.getJpushRegistrationId();
+        user.setJpushRegistrationId(jpushRegistrationId);
         //生成新的loginToken
         String newLoginToken = generateLoginToken();
         user.setLoginToken(newLoginToken);
+        //清掉老的loginToken
+        clearJpushRegistrationId(jpushRegistrationId);
         //更新mysql
         User userUpdate = new User();
         userUpdate.setId(user.getId());
@@ -257,6 +277,7 @@ public class UserAccountService {
         //那我可以把第一个用户的极光id清掉，但是，在第一个用户不在线的情况下，如何推送呢？
         //那这玩意没招啊，那只能是下次它登陆的时候，再拉取历史消息。你就比如，你微信登陆了别人的账号，
         // 或者你直接卸载了微信，那你肯定接不到推送了啊
+        //其实这里面涉及到另外一个问题，你极光id是根据设备来的，而不是根据用户id来的，这有好有坏
         userUpdate.setJpushRegistrationId(user.getJpushRegistrationId());
         userMapper.updateByPrimaryKeySelective(userUpdate);
         //存入redis
