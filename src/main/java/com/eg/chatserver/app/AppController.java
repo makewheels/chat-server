@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "App Controller")
 public class AppController {
 
-    @PostMapping("getLatestAppInfo")
+    @PostMapping("getLatestInfo")
     @ApiOperation(value = "获取最新版本信息")
     public Result<LatestAppInfoResponse> getLatestAppInfo() {
         LatestAppInfoResponse latestAppInfoResponse = new LatestAppInfoResponse();
