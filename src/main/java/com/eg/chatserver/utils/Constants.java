@@ -23,7 +23,7 @@ public class Constants {
 
         public static final String OSS_IMAGE_PROCESS_600 = "?x-oss-process=image/resize,w_600";
 
-        public static final long OSS_STS_CREDENTIAL_DURATION = 900L;
+        public static final long OSS_STS_CREDENTIAL_DURATION = 1200L;
         public static final String DEFAULT_HEAD_IMAGE_URL = OSS_PREFIX_CDN + "image/default-head.png";
 
     }

@@ -34,13 +34,13 @@ public class OssService {
     @Value("${oss.callbackurl}")
     private String ossCallbackUrl;
 
-    private String regionId = "cn-beijing";
-    private String accessKeyId = "LTAI4GCUwdYeH2YKnSPA8iV6";
-    private String accessKeySecret = "2cS8HB6ESVgaLFNWehIfFyVbFWp7kN";
-    private String bucketName = Constants.ALIYUN.OSS_BUCKET_NAME;
+    private final String regionId = "cn-beijing";
+    private final String accessKeyId = "LTAI4GCUwdYeH2YKnSPA8iV6";
+    private final String accessKeySecret = "2cS8HB6ESVgaLFNWehIfFyVbFWp7kN";
+    private final String bucketName = Constants.ALIYUN.OSS_BUCKET_NAME;
     @Value("${oss.endpoint}")
     private String endpoint;
-    private String roleArn = "acs:ram::1618784280874658:role/aliyunosstokengeneratorrole";
+    private final String roleArn = "acs:ram::1618784280874658:role/aliyunosstokengeneratorrole";
 
     private final DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
     private final IAcsClient client = new DefaultAcsClient(profile);

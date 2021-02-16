@@ -1,10 +1,14 @@
 package com.eg.chatserver.oss;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("oss")
 @Slf4j
+@Api(tags = "Oss Controller")
 public class OssController {
     @Resource
     private OssService ossService;
@@ -24,6 +29,7 @@ public class OssController {
     public Result<Void> aliyunCallback(
             HttpServletRequest request, HttpServletResponse response,
             @RequestBody String body) {
+        //签名校验
         boolean check = ossService.checkCallback(request, body);
         if (!check) {
             log.error("aliyun oss callback check fail: {}", body);
@@ -48,9 +54,11 @@ public class OssController {
         return ossService.aliyunCallback(callbackRequest);
     }
 
-    @RequestMapping("getStsCredential")
-    public String getStsCredential() {
-        return JSON.toJSONString(ossService.getStsCredential());
+    @PostMapping("getStsCredential")
+    @ApiOperation(value = "获取oss凭证")
+    public Result<AssumeRoleResponse.Credentials> getStsCredential() {
+        AssumeRoleResponse stsCredential = ossService.getStsCredential();
+        return Result.ok(stsCredential.getCredentials());
     }
 
 }
