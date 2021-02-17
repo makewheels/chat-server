@@ -27,6 +27,7 @@ public class AppController {
         latestAppInfoResponse.setVersionName("1.0.1");
         latestAppInfoResponse.setIsForceUpdate(false);
         latestAppInfoResponse.setApkDownloadUrl(Constants.ALIYUN.OSS_PREFIX_CDN + "apk/app-debug.apk");
+        latestAppInfoResponse.setApkSize(8922171L);
         return Result.ok(latestAppInfoResponse);
     }
 }
