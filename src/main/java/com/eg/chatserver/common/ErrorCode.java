@@ -28,8 +28,8 @@ public enum ErrorCode {
 
     RUBBISH(1415926535, "我是垃圾，请忽略我");
 
-    private int code;
-    private String value;
+    private final int code;
+    private final String value;
 
     ErrorCode(int code, String value) {
         this.code = code;
@@ -40,15 +40,8 @@ public enum ErrorCode {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
 }
