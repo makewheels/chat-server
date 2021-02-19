@@ -22,10 +22,10 @@ public class AppController {
     @ApiOperation(value = "获取最新版本信息")
     public Result<LatestAppInfoResponse> getLatestAppInfo() {
         LatestAppInfoResponse latestAppInfoResponse = new LatestAppInfoResponse();
-        latestAppInfoResponse.setVersionCode(6);
-        latestAppInfoResponse.setVersionName("1.0.5");
+        latestAppInfoResponse.setVersionCode(7);
+        latestAppInfoResponse.setVersionName("1.0.6");
         latestAppInfoResponse.setIsForceUpdate(false);
-        latestAppInfoResponse.setApkDownloadUrl("https://oss-chat.java8.icu/apk/alpha/Chat-6-1.0.5.apk");
+        latestAppInfoResponse.setApkDownloadUrl("https://oss-chat.java8.icu/apk/alpha/Chat-7-1.0.6.apk");
         latestAppInfoResponse.setApkSize(7894852L);
         return Result.ok(latestAppInfoResponse);
     }
