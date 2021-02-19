@@ -26,7 +26,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(getLoginInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(swaggerExcludePatterns)
-                .excludePathPatterns("/app/checkVersion")
+                .excludePathPatterns("/app/getLatestInfo")
                 .excludePathPatterns("/user/register")
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/user/checkLoginToken")
