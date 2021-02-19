@@ -1,20 +1,16 @@
 package com.eg.chatserver.rtc;
 
-import android.text.TextUtils;
-import android.util.Base64;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.zip.Deflater;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.zip.Deflater;
 
 /*
  * Module:   GenerateTestUserSig
@@ -96,7 +92,7 @@ public class GenerateTestUserSig {
      * @return 如果出错，会返回为空，或者有异常打印，成功返回有效的票据
      */
     private static String GenTLSSignature(long sdkappid, String userId, long expire, byte[] userbuf, String priKeyContent) {
-        if (TextUtils.isEmpty(priKeyContent)) {
+        if (StringUtils.isEmpty(priKeyContent)) {
             return "";
         }
         long currTime = System.currentTimeMillis() / 1000;
@@ -113,7 +109,7 @@ public class GenerateTestUserSig {
 
         String base64UserBuf = null;
         if (null != userbuf) {
-            base64UserBuf = Base64.encodeToString(userbuf, Base64.NO_WRAP);
+            base64UserBuf = Base64.getEncoder().encodeToString(userbuf);
             try {
                 sigDoc.put("TLS.userbuf", base64UserBuf);
             } catch (JSONException e) {
@@ -130,7 +126,7 @@ public class GenerateTestUserSig {
             e.printStackTrace();
         }
         Deflater compressor = new Deflater();
-        compressor.setInput(sigDoc.toString().getBytes(Charset.forName("UTF-8")));
+        compressor.setInput(sigDoc.toString().getBytes(StandardCharsets.UTF_8));
         compressor.finish();
         byte[] compressedBytes = new byte[2048];
         int compressedBytesLength = compressor.deflate(compressedBytes);
@@ -148,12 +144,12 @@ public class GenerateTestUserSig {
             contentToBeSigned += "TLS.userbuf:" + base64Userbuf + "\n";
         }
         try {
-            byte[] byteKey = priKeyContent.getBytes("UTF-8");
+            byte[] byteKey = priKeyContent.getBytes(StandardCharsets.UTF_8);
             Mac hmac = Mac.getInstance("HmacSHA256");
             SecretKeySpec keySpec = new SecretKeySpec(byteKey, "HmacSHA256");
             hmac.init(keySpec);
-            byte[] byteSig = hmac.doFinal(contentToBeSigned.getBytes("UTF-8"));
-            return new String(Base64.encode(byteSig, Base64.NO_WRAP));
+            byte[] byteSig = hmac.doFinal(contentToBeSigned.getBytes(StandardCharsets.UTF_8));
+            return new String(Base64.getEncoder().encode(byteSig));
         } catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -161,7 +157,7 @@ public class GenerateTestUserSig {
     }
 
     private static byte[] base64EncodeUrl(byte[] input) {
-        byte[] base64 = new String(Base64.encode(input, Base64.NO_WRAP)).getBytes();
+        byte[] base64 = new String(Base64.getEncoder().encode(input)).getBytes();
         for (int i = 0; i < base64.length; ++i)
             switch (base64[i]) {
                 case '+':
