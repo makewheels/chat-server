@@ -6,8 +6,8 @@ import com.eg.chatserver.common.Result;
 import com.eg.chatserver.message.MessageType;
 import com.eg.chatserver.message.person.bean.MessageIdRequest;
 import com.eg.chatserver.message.person.bean.PullMessageResponse;
-import com.eg.chatserver.message.person.bean.SendMessageRequest;
-import com.eg.chatserver.message.person.bean.SendMessageResponse;
+import com.eg.chatserver.message.person.bean.send.SendMessageRequest;
+import com.eg.chatserver.message.person.bean.send.SendMessageResponse;
 import com.eg.chatserver.user.UserAccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +34,7 @@ public class PersonMessageController {
     private UserAccountService userAccountService;
 
     @PostMapping("/sendMessage")
-    @ApiOperation(value = "发送消息")
+    @ApiOperation(value = "发消息")
     public Result<SendMessageResponse> sendMessage(
             @RequestBody SendMessageRequest sendMessageRequest,
             HttpServletRequest request) {

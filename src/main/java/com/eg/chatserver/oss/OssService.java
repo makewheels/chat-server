@@ -10,8 +10,10 @@ import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
+import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.utils.Constants;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,7 @@ import java.security.spec.X509EncodedKeySpec;
 @Service
 @Slf4j
 public class OssService {
+    @Getter
     @Value("${oss.callbackurl}")
     private String ossCallbackUrl;
 
@@ -116,5 +119,26 @@ public class OssService {
         String object = callbackRequest.getObject();
         ObjectMetadata metaData = getMetaData(object);
         return Result.ok();
+    }
+
+    /**
+     * 获取音频对象名
+     */
+    public String getAudioObjectName(User user, String fileId) {
+        return "audio/" + user.getUserId() + "/" + fileId;
+    }
+
+    /**
+     * 获取图片对象名
+     */
+    public String getImageObjectName(User user, String fileId) {
+        return "image/" + user.getUserId() + "/" + fileId;
+    }
+
+    /**
+     * 获取视频对象名
+     */
+    public String getVideoObjectName(User user, String fileId) {
+        return "video/" + user.getUserId() + "/" + fileId;
     }
 }

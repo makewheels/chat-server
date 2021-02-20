@@ -1,4 +1,4 @@
-package com.eg.chatserver.message.person.bean;
+package com.eg.chatserver.message.person.bean.send;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,4 +25,9 @@ public class SendMessageResponse {
 
     private Date createTime;
 
+    @ApiModelProperty(value = "阿里云对象存储名，为了让客户端上传时用", example = "conv7e4c9979a43c45748f6ae030e9b6350d")
+    private String objectName;
+
+    @ApiModelProperty(value = "阿里云对象存储上传后回调地址，给客户端上传时用", example = "conv7e4c9979a43c45748f6ae030e9b6350d")
+    private String callbackUrl;
 }

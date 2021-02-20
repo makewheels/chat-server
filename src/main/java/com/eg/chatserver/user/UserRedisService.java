@@ -61,4 +61,15 @@ public class UserRedisService {
         String loginTokenKey = RedisKey.getLoginTokenKey(loginToken);
         redisService.del(loginTokenKey);
     }
+
+    /**
+     * 删除用户redis缓存
+     *
+     * @param user
+     */
+    public void deleteUserCache(User user) {
+        //那就要看redis存了几种缓存
+        //现在是只有一种，就是loginToken，如果后面userId作为key，那还要删
+        deleteUserByLoginToken(user.getLoginToken());
+    }
 }

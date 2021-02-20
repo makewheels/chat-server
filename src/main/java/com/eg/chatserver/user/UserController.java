@@ -3,10 +3,7 @@ package com.eg.chatserver.user;
 import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
-import com.eg.chatserver.user.bean.LoginRequest;
-import com.eg.chatserver.user.bean.RegisterRequest;
-import com.eg.chatserver.user.bean.SearchLoginNameResponse;
-import com.eg.chatserver.user.bean.UserInfoResponse;
+import com.eg.chatserver.user.bean.*;
 import com.eg.chatserver.utils.Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +28,7 @@ public class UserController {
     private UserInfoService userInfoService;
 
     @PostMapping("register")
-    @ApiOperation(value = "用户注册")
+    @ApiOperation(value = "注册")
     public Result<UserInfoResponse> register(@RequestBody RegisterRequest registerRequest) {
         String loginName = registerRequest.getLoginName();
         String password = registerRequest.getPassword();
@@ -44,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("login")
-    @ApiOperation(value = "用户登录")
+    @ApiOperation(value = "登录")
     public Result<UserInfoResponse> login(@RequestBody LoginRequest loginRequest) {
         String loginName = loginRequest.getLoginName();
         String password = loginRequest.getPassword();
@@ -57,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("logout")
-    @ApiOperation(value = "用户登出")
+    @ApiOperation(value = "登出")
     public Result<Void> logout(HttpServletRequest httpServletRequest) {
         User user = userAccountService.getUserByRequest(httpServletRequest);
         return userAccountService.logout(user);
@@ -105,5 +102,30 @@ public class UserController {
             searchLoginNameResponse.setHeadImageUrl(user.getHeadImageUrl());
             return Result.ok(searchLoginNameResponse);
         }
+    }
+
+    @PostMapping("modifyNickname")
+    @ApiOperation(value = "修改昵称")
+    public Result<Void> modifyNickname(
+            @ApiParam(name = "newNickname", value = "修改昵称", example = "new name")
+            @RequestParam String newNickname, HttpServletRequest request) {
+        if (StringUtils.isBlank(newNickname)) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
+        User user = userAccountService.getUserByRequest(request);
+        return userInfoService.modifyNickname(user, newNickname);
+    }
+
+    @PostMapping("modifyPassword")
+    @ApiOperation(value = "修改密码")
+    public Result<Void> modifyPassword(
+            @RequestBody ModifyPasswordRequest modifyPasswordRequest, HttpServletRequest request) {
+        if (modifyPasswordRequest == null
+                || StringUtils.isBlank(modifyPasswordRequest.getOldPassword())
+                || StringUtils.isBlank(modifyPasswordRequest.getNewPassword())) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
+        User user = userAccountService.getUserByRequest(request);
+        return userInfoService.modifyPassword(user, modifyPasswordRequest);
     }
 }

@@ -260,7 +260,7 @@ public class UserAccountService {
         }
         //如果找到了该用户
         //把他之前redis里的user干掉
-        userRedisService.deleteUserByLoginToken(user.getLoginToken());
+        userRedisService.deleteUserCache(user);
         //更新jpushRegistrationId
         String jpushRegistrationId = loginRequest.getJpushRegistrationId();
         user.setJpushRegistrationId(jpushRegistrationId);
@@ -313,7 +313,7 @@ public class UserAccountService {
      */
     public Result<Void> logout(User user) {
         //干掉redis里的user
-        userRedisService.deleteUserByLoginToken(user.getLoginToken());
+        userRedisService.deleteUserCache(user);
         //删除数据库里的loginToken和jpushRegistrationId
         user.setLoginToken(null);
         user.setJpushRegistrationId(null);

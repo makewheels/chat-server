@@ -1,25 +1,26 @@
 package com.eg.chatserver.message.person;
 
 import com.alibaba.fastjson.JSON;
-import com.eg.chatserver.bean.Conversation;
-import com.eg.chatserver.bean.PersonMessage;
-import com.eg.chatserver.bean.PersonMessageExample;
-import com.eg.chatserver.bean.User;
+import com.eg.chatserver.bean.*;
 import com.eg.chatserver.bean.mapper.ConversationMapper;
+import com.eg.chatserver.bean.mapper.FileMapper;
 import com.eg.chatserver.bean.mapper.PersonMessageMapper;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.conversation.ConversationService;
-import com.eg.chatserver.push.PushResult;
-import com.eg.chatserver.push.MessagePushService;
 import com.eg.chatserver.message.MessageType;
 import com.eg.chatserver.message.person.bean.PullMessageResponse;
-import com.eg.chatserver.message.person.bean.SendMessageRequest;
-import com.eg.chatserver.message.person.bean.SendMessageResponse;
+import com.eg.chatserver.message.person.bean.send.SendMessageRequest;
+import com.eg.chatserver.message.person.bean.send.SendMessageResponse;
+import com.eg.chatserver.oss.OssService;
+import com.eg.chatserver.push.MessagePushService;
+import com.eg.chatserver.push.PushResult;
 import com.eg.chatserver.user.UserAccountService;
+import com.eg.chatserver.utils.Constants;
 import com.eg.chatserver.utils.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -37,15 +38,20 @@ import java.util.List;
 @Slf4j
 public class PersonMessageService {
     @Resource
-    private PersonMessageMapper personMessageMapper;
+    private UserAccountService userAccountService;
     @Resource
     private ConversationService conversationService;
     @Resource
-    private UserAccountService userAccountService;
+    private MessagePushService messagePushService;
+    @Resource
+    private OssService ossService;
+
+    @Resource
+    private PersonMessageMapper personMessageMapper;
     @Resource
     private ConversationMapper conversationMapper;
     @Resource
-    private MessagePushService messagePushService;
+    private FileMapper fileMapper;
 
     /**
      * 生成消息id
@@ -54,6 +60,15 @@ public class PersonMessageService {
      */
     private String generatePersonMessageId() {
         return "pmsg" + UuidUtil.getRandomUUid();
+    }
+
+    /**
+     * 生成文件id
+     *
+     * @return
+     */
+    private String generateFileId() {
+        return "file" + UuidUtil.getRandomUUid();
     }
 
     /**
@@ -72,8 +87,16 @@ public class PersonMessageService {
         personMessage.setFromUserId(userId);
         personMessage.setToUserId(toUserId);
         personMessage.setConversationId(sendMessageRequest.getConversationId());
-        personMessage.setMessageType(sendMessageRequest.getMessageType());
-        personMessage.setContent(sendMessageRequest.getContent());
+        String messageType = sendMessageRequest.getMessageType();
+        personMessage.setMessageType(messageType);
+        //如果是文本消息，设置内容
+        if (messageType.equals(MessageType.TEXT)) {
+            personMessage.setContent(sendMessageRequest.getContent());
+        } else if (messageType.equals(MessageType.AUDIO) || messageType.equals(MessageType.IMAGE)
+                || messageType.equals(MessageType.VIDEO)) {
+            //如果是文件，直接设置上文件id
+            personMessage.setFileId(generateFileId());
+        }
         personMessage.setCreateTime(new Date());
         return personMessage;
     }
@@ -101,50 +124,33 @@ public class PersonMessageService {
     }
 
     /**
-     * 发送对人的消息
+     * 准备发送消息要的东西，返回conversation和targetUser
      *
-     * @param sendMessageRequest
-     * @return
+     * @param conversationId
+     * @param userId
+     * @return 返回三个参数：
+     * 第1个参数，ErrorCode，如果为null，说明正常返回。如果有错误，那就返回错误码
+     * 第2个参数，conversationList
+     * 第3个参数，targetUser
      */
-    @Transactional
-    public Result<SendMessageResponse> sendMessage(User user, SendMessageRequest sendMessageRequest) {
-        String messageType = sendMessageRequest.getMessageType();
-        if (messageType.equals(MessageType.TEXT)) {
-            return sendTextMessage(user, sendMessageRequest);
-        } else if (messageType.equals(MessageType.IMAGE)) {
-            return null;
-        } else if (messageType.equals(MessageType.AUDIO)) {
-            return null;
-        } else if (messageType.equals(MessageType.VIDEO)) {
-            return null;
-        }
-        return null;
-    }
-
-    /**
-     * 发送文本消息
-     *
-     * @param user
-     * @param sendMessageRequest
-     * @return
-     */
-    private Result<SendMessageResponse> sendTextMessage(User user, SendMessageRequest sendMessageRequest) {
-        String conversationId = sendMessageRequest.getConversationId();
-        //先根据会话id查找会话
+    private Object[] prepareSendMessage(String conversationId, String userId) {
+        //根据会话id查找会话
         List<Conversation> conversationList
                 = conversationService.findConversationListByConversationId(conversationId);
+        Object[] objects = new Object[3];
         //如果没找到
         if (CollectionUtils.isEmpty(conversationList)) {
-            log.error("con not find conversation by id: {}", sendMessageRequest.getConversationId());
-            return Result.error(ErrorCode.MESSAGE_CANT_FIND_CONVERSATION);
+            log.error("con not find conversation by id: {}", conversationId);
+            objects[0] = ErrorCode.MESSAGE_CANT_FIND_CONVERSATION;
+            return objects;
+        } else if (conversationList.size() != 2) {
+            //因为是给个人发的消息，如果数量不为2，也是错误
+            log.error("conversation amount not equals two: {}", conversationId);
+            objects[0] = ErrorCode.MESSAGE_PERSON_CONVERSATION_AMOUNT_NOT_EQUALS_TWO;
+            return objects;
         }
-        //因为是给个人发的消息，如果数量不为2，也是错误
-        if (conversationList.size() != 2) {
-            return Result.error(ErrorCode.MESSAGE_PERSON_CONVERSATION_AMOUNT_NOT_EQUALS_TWO);
-        }
-        //到这说明已经找到了两个会话
+        objects[1] = conversationList;
         //找出targetUser
-        String userId = user.getUserId();
         String toUserId = null;
         for (Conversation conversation : conversationList) {
             String targetId = conversation.getTargetId();
@@ -152,34 +158,143 @@ public class PersonMessageService {
                 toUserId = targetId;
             }
         }
+        objects[2] = userAccountService.findUserByUserId(toUserId);
+        return objects;
+    }
+
+    /**
+     * 发送对人的消息
+     */
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public Result<SendMessageResponse> sendMessage(User user, SendMessageRequest sendMessageRequest) {
+        String conversationId = sendMessageRequest.getConversationId();
+        String userId = user.getUserId();
+        //准备发消息，获取conversation和targetUser
+        Object[] objects = prepareSendMessage(conversationId, userId);
+        //先看返回的状态码，如果不为空，那就有错误，返回错误
+        ErrorCode errorCode = (ErrorCode) objects[0];
+        if (errorCode != null)
+            return Result.error(errorCode);
+        //能到这说明没有错误了，继续发消息
+        List<Conversation> conversationList = (List<Conversation>) objects[1];
+        User toUser = (User) objects[2];
+        String toUserId = toUser.getUserId();
         //创建消息
         PersonMessage personMessage = createPersonMessage(sendMessageRequest, userId, toUserId);
         //保存消息
         personMessageMapper.insert(personMessage);
+        log.info("save person message: {}", JSON.toJSONString(personMessage));
         //更新conversation消息数量
         updateConversationListCount(conversationList);
-        log.info("send person message: {}", JSON.toJSONString(personMessage));
+        //在保存消息之后
+        SendMessageResponse sendMessageResponse = afterSaveMessage(
+                user, toUser, sendMessageRequest, personMessage);
+        return Result.ok(sendMessageResponse);
+    }
+
+    /**
+     * 发送消息的时候，在保存消息之后
+     */
+    private SendMessageResponse afterSaveMessage(
+            User fromUser, User toUser, SendMessageRequest sendMessageRequest,
+            PersonMessage personMessage) {
+        String messageType = sendMessageRequest.getMessageType();
         String messageId = personMessage.getMessageId();
-        //推送
-        User toUser = userAccountService.findUserByUserId(toUserId);
-        //如果没有极光注册id
-        if (StringUtils.isEmpty(toUser.getJpushRegistrationId())) {
-            log.warn("push to person message, target user not online: {}", JSON.toJSONString(toUser));
-        } else {
-            //正常执行推送
-            PushResult pushResult = messagePushService.pushPersonMessage(toUser, messageId);
-            if (pushResult.isResultOK()) {
-                log.info("push success messageId = {}, pushResult = {}", messageId, JSON.toJSONString(pushResult));
-            }
+        //如果是文本消息，那不需要后续的上传，直接推送
+        //如果不是文本消息，那还不能推送，要等后面文件上传完成之后再推送
+        //那我再想个问题哈，如果是视频文件呢？那是不是还要等转码完成
+        if (messageType.equals(MessageType.TEXT)) {
+            //推送给目标用户，告诉他messageId，让他去拉消息
+            //开子线程推送
+            new Thread(() ->
+                    pushMessageToTargetUser(toUser, messageId)
+            ).start();
         }
         //返回
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
         sendMessageResponse.setMessageId(messageId);
-        sendMessageResponse.setConversationId(conversationId);
-        sendMessageResponse.setFromUserId(userId);
-        sendMessageResponse.setToUserId(toUserId);
+        sendMessageResponse.setConversationId(sendMessageRequest.getConversationId());
+        sendMessageResponse.setFromUserId(fromUser.getUserId());
+        sendMessageResponse.setToUserId(toUser.getUserId());
         sendMessageResponse.setCreateTime(personMessage.getCreateTime());
-        return Result.ok(sendMessageResponse);
+        //如果是文件
+        if (messageType.equals(MessageType.AUDIO) || messageType.equals(MessageType.IMAGE)
+                || messageType.equals(MessageType.VIDEO)) {
+            //处理文件
+            handleFile(fromUser, sendMessageRequest, personMessage, sendMessageResponse);
+        }
+        return sendMessageResponse;
+    }
+
+    /**
+     * 发送消息之，处理文件
+     */
+    private void handleFile(
+            User fromUser, SendMessageRequest sendMessageRequest,
+            PersonMessage personMessage, SendMessageResponse sendMessageResponse) {
+        String messageType = sendMessageRequest.getMessageType();
+        //fileId在之前已经生成了，原因是，message在保存的时候需要关联fileId
+        String fileId = personMessage.getFileId();
+        //创建文件
+        File file = new File();
+        file.setFileId(fileId);
+        String originalFilename = sendMessageRequest.getOriginalFilename();
+        file.setOriginalName(originalFilename);
+        file.setExtension(FilenameUtils.getExtension(originalFilename));
+        file.setBucketName(Constants.ALIYUN.OSS_BUCKET_NAME);
+        file.setCreateTime(new Date());
+        String objectName = null;
+        switch (messageType) {
+            case MessageType.AUDIO: //音频
+                //给阿里云对象名
+                objectName = ossService.getAudioObjectName(fromUser, fileId);
+                //音频时长
+                file.setAudioDuration(sendMessageRequest.getAudioDuration());
+                break;
+            case MessageType.IMAGE: //图片
+                objectName = ossService.getImageObjectName(fromUser, fileId);
+                break;
+            case MessageType.VIDEO: //视频
+                objectName = ossService.getVideoObjectName(fromUser, fileId);
+                break;
+        }
+        //oss url
+        file.setOssUrl(Constants.ALIYUN.OSS_PREFIX + objectName);
+        //如果是图片，还要给预览图地址
+        if (messageType.equals(MessageType.IMAGE)) {
+            file.setImagePreviewUrl(file.getOssUrl() + Constants.ALIYUN.OSS_IMAGE_PREVIEW_PARAM);
+        }
+        file.setObjectName(objectName);
+        sendMessageResponse.setObjectName(objectName);
+        //甚至还需要再给阿里云回调参数
+        // 但是这里就先不给了，就让android直接传，messageId就行了
+        file.setObjectName(objectName);
+        //保存文件
+        fileMapper.insert(file);
+        //给阿里云回调地址
+        sendMessageResponse.setCallbackUrl(ossService.getOssCallbackUrl());
+    }
+
+
+    /**
+     * 向指定用户推送消息，告诉他拉取一条新消息
+     *
+     * @param toUser
+     * @param messageId
+     */
+    private void pushMessageToTargetUser(User toUser, String messageId) {
+        //如果没有极光注册id
+        if (StringUtils.isEmpty(toUser.getJpushRegistrationId())) {
+            log.warn("push to person message, target user not login: {}", JSON.toJSONString(toUser));
+        } else {
+            //正常执行推送
+            PushResult pushResult = messagePushService.pushPersonMessage(toUser, messageId);
+            if (pushResult.isResultOK()) {
+                log.info("push success messageId = {}, pushResult = {}", messageId,
+                        JSON.toJSONString(pushResult));
+            }
+        }
     }
 
     /**
@@ -188,7 +303,7 @@ public class PersonMessageService {
      * @param messageId
      * @return
      */
-    public PersonMessage findSingleByMessageId(String messageId) {
+    public PersonMessage findByMessageId(String messageId) {
         PersonMessageExample personMessageExample = new PersonMessageExample();
         PersonMessageExample.Criteria criteria = personMessageExample.createCriteria();
         criteria.andMessageIdEqualTo(messageId);
@@ -203,12 +318,13 @@ public class PersonMessageService {
     /**
      * 根据用户和消息id查找一条消息
      */
-    public PersonMessage findSingleByToUserIdAndMessageId(String userId, String messageId) {
+    public PersonMessage findByToUserIdAndMessageId(String userId, String messageId) {
         PersonMessageExample personMessageExample = new PersonMessageExample();
         PersonMessageExample.Criteria criteria = personMessageExample.createCriteria();
         criteria.andToUserIdEqualTo(userId);
         criteria.andMessageIdEqualTo(messageId);
-        List<PersonMessage> personMessageList = personMessageMapper.selectByExampleWithBLOBs(personMessageExample);
+        List<PersonMessage> personMessageList
+                = personMessageMapper.selectByExampleWithBLOBs(personMessageExample);
         if (CollectionUtils.isEmpty(personMessageList)) {
             return null;
         } else {
@@ -220,7 +336,7 @@ public class PersonMessageService {
      * 根据消息id查询一条消息
      */
     public Result<PullMessageResponse> pullByMessageId(User user, String messageId) {
-        PersonMessage personMessage = findSingleByToUserIdAndMessageId(user.getUserId(), messageId);
+        PersonMessage personMessage = findByToUserIdAndMessageId(user.getUserId(), messageId);
         if (personMessage == null) {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
         }
@@ -237,7 +353,7 @@ public class PersonMessageService {
      * @return
      */
     public Result<Void> reportArrive(User user, String messageId) {
-        PersonMessage personMessage = findSingleByToUserIdAndMessageId(user.getUserId(), messageId);
+        PersonMessage personMessage = findByToUserIdAndMessageId(user.getUserId(), messageId);
         if (personMessage == null) {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
         }
@@ -263,7 +379,7 @@ public class PersonMessageService {
      * @return
      */
     public Result<Void> reportRead(User user, String messageId) {
-        PersonMessage personMessage = findSingleByToUserIdAndMessageId(user.getUserId(), messageId);
+        PersonMessage personMessage = findByToUserIdAndMessageId(user.getUserId(), messageId);
         if (personMessage == null) {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
         }

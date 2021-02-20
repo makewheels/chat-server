@@ -11,4 +11,8 @@ public class RedisKey {
     public static String getLoginTokenKey(String loginToken) {
         return USER + ":loginToken:" + loginToken;
     }
+
+    public static String getUserIdKey(String userId) {
+        return USER + ":userId:" + userId;
+    }
 }
