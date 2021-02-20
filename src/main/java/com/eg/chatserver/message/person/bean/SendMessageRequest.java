@@ -1,4 +1,4 @@
-package com.eg.chatserver.message.person.bean.send;
+package com.eg.chatserver.message.person.bean;
 
 import com.eg.chatserver.message.MessageType;
 import io.swagger.annotations.ApiModel;
@@ -20,7 +20,7 @@ public class SendMessageRequest {
     private String content;
 
     @ApiModelProperty(value = "音频时长，单位毫秒", example = "3520")
-    private Integer audioDuration;
+    private Long audioDuration;
     @ApiModelProperty(value = "原始文件名", example = "IMG_001.jpg")
     private String originalFilename;
 }

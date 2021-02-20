@@ -10,8 +10,8 @@ import com.eg.chatserver.common.Result;
 import com.eg.chatserver.conversation.ConversationService;
 import com.eg.chatserver.message.MessageType;
 import com.eg.chatserver.message.person.bean.PullMessageResponse;
-import com.eg.chatserver.message.person.bean.send.SendMessageRequest;
-import com.eg.chatserver.message.person.bean.send.SendMessageResponse;
+import com.eg.chatserver.message.person.bean.SendMessageRequest;
+import com.eg.chatserver.message.person.bean.SendMessageResponse;
 import com.eg.chatserver.oss.OssService;
 import com.eg.chatserver.push.MessagePushService;
 import com.eg.chatserver.push.PushResult;
@@ -182,21 +182,21 @@ public class PersonMessageService {
         String toUserId = toUser.getUserId();
         //创建消息
         PersonMessage personMessage = createPersonMessage(sendMessageRequest, userId, toUserId);
-        //保存消息
-        personMessageMapper.insert(personMessage);
-        log.info("save person message: {}", JSON.toJSONString(personMessage));
         //更新conversation消息数量
         updateConversationListCount(conversationList);
-        //在保存消息之后
-        SendMessageResponse sendMessageResponse = afterSaveMessage(
+        //准备返回结果
+        SendMessageResponse sendMessageResponse = prepareSendMessageResponse(
                 user, toUser, sendMessageRequest, personMessage);
+        //保存消息
+        log.info("save person message: {}", JSON.toJSONString(personMessage));
+        personMessageMapper.insert(personMessage);
         return Result.ok(sendMessageResponse);
     }
 
     /**
      * 发送消息的时候，在保存消息之后
      */
-    private SendMessageResponse afterSaveMessage(
+    private SendMessageResponse prepareSendMessageResponse(
             User fromUser, User toUser, SendMessageRequest sendMessageRequest,
             PersonMessage personMessage) {
         String messageType = sendMessageRequest.getMessageType();
@@ -221,8 +221,14 @@ public class PersonMessageService {
         //如果是文件
         if (messageType.equals(MessageType.AUDIO) || messageType.equals(MessageType.IMAGE)
                 || messageType.equals(MessageType.VIDEO)) {
+            //尚未上传完成
+            personMessage.setIsUploadFinish(false);
             //处理文件
             handleFile(fromUser, sendMessageRequest, personMessage, sendMessageResponse);
+        } else {
+            //如果不是文件
+            //把上传完成字段置为true
+            personMessage.setIsUploadFinish(true);
         }
         return sendMessageResponse;
     }
@@ -244,6 +250,7 @@ public class PersonMessageService {
         file.setExtension(FilenameUtils.getExtension(originalFilename));
         file.setBucketName(Constants.ALIYUN.OSS_BUCKET_NAME);
         file.setCreateTime(new Date());
+        file.setType(messageType);
         String objectName = null;
         switch (messageType) {
             case MessageType.AUDIO: //音频
@@ -259,8 +266,9 @@ public class PersonMessageService {
                 objectName = ossService.getVideoObjectName(fromUser, fileId);
                 break;
         }
-        //oss url
+        //文件url
         file.setOssUrl(Constants.ALIYUN.OSS_PREFIX + objectName);
+        file.setCdnUrl(Constants.ALIYUN.OSS_PREFIX_CDN + objectName);
         //如果是图片，还要给预览图地址
         if (messageType.equals(MessageType.IMAGE)) {
             file.setImagePreviewUrl(file.getOssUrl() + Constants.ALIYUN.OSS_IMAGE_PREVIEW_PARAM);
