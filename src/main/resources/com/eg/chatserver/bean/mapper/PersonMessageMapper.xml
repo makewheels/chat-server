@@ -9,6 +9,7 @@
     <result column="conversation_id" jdbcType="VARCHAR" property="conversationId" />
     <result column="file_id" jdbcType="VARCHAR" property="fileId" />
     <result column="message_type" jdbcType="VARCHAR" property="messageType" />
+    <result column="is_upload_finish" jdbcType="BIT" property="isUploadFinish" />
     <result column="is_arrive" jdbcType="BIT" property="isArrive" />
     <result column="arrive_time" jdbcType="TIMESTAMP" property="arriveTime" />
     <result column="is_read" jdbcType="BIT" property="isRead" />
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, message_id, from_user_id, to_user_id, conversation_id, file_id, message_type, 
-    is_arrive, arrive_time, is_read, read_time, create_time
+    is_upload_finish, is_arrive, arrive_time, is_read, read_time, create_time
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -136,14 +137,14 @@
   <insert id="insert" parameterType="com.eg.chatserver.bean.PersonMessage" useGeneratedKeys="true" keyProperty="id">
     insert into person_message (id, message_id, from_user_id, 
       to_user_id, conversation_id, file_id, 
-      message_type, is_arrive, arrive_time, 
-      is_read, read_time, create_time, 
-      content)
+      message_type, is_upload_finish, is_arrive, 
+      arrive_time, is_read, read_time, 
+      create_time, content)
     values (#{id,jdbcType=BIGINT}, #{messageId,jdbcType=VARCHAR}, #{fromUserId,jdbcType=VARCHAR}, 
       #{toUserId,jdbcType=VARCHAR}, #{conversationId,jdbcType=VARCHAR}, #{fileId,jdbcType=VARCHAR}, 
-      #{messageType,jdbcType=VARCHAR}, #{isArrive,jdbcType=BIT}, #{arriveTime,jdbcType=TIMESTAMP}, 
-      #{isRead,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{messageType,jdbcType=VARCHAR}, #{isUploadFinish,jdbcType=BIT}, #{isArrive,jdbcType=BIT}, 
+      #{arriveTime,jdbcType=TIMESTAMP}, #{isRead,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.eg.chatserver.bean.PersonMessage" useGeneratedKeys="true" keyProperty="id">
     insert into person_message
@@ -168,6 +169,9 @@
       </if>
       <if test="messageType != null">
         message_type,
+      </if>
+      <if test="isUploadFinish != null">
+        is_upload_finish,
       </if>
       <if test="isArrive != null">
         is_arrive,
@@ -209,6 +213,9 @@
       </if>
       <if test="messageType != null">
         #{messageType,jdbcType=VARCHAR},
+      </if>
+      <if test="isUploadFinish != null">
+        #{isUploadFinish,jdbcType=BIT},
       </if>
       <if test="isArrive != null">
         #{isArrive,jdbcType=BIT},
@@ -260,6 +267,9 @@
       <if test="record.messageType != null">
         message_type = #{record.messageType,jdbcType=VARCHAR},
       </if>
+      <if test="record.isUploadFinish != null">
+        is_upload_finish = #{record.isUploadFinish,jdbcType=BIT},
+      </if>
       <if test="record.isArrive != null">
         is_arrive = #{record.isArrive,jdbcType=BIT},
       </if>
@@ -292,6 +302,7 @@
       conversation_id = #{record.conversationId,jdbcType=VARCHAR},
       file_id = #{record.fileId,jdbcType=VARCHAR},
       message_type = #{record.messageType,jdbcType=VARCHAR},
+      is_upload_finish = #{record.isUploadFinish,jdbcType=BIT},
       is_arrive = #{record.isArrive,jdbcType=BIT},
       arrive_time = #{record.arriveTime,jdbcType=TIMESTAMP},
       is_read = #{record.isRead,jdbcType=BIT},
@@ -311,6 +322,7 @@
       conversation_id = #{record.conversationId,jdbcType=VARCHAR},
       file_id = #{record.fileId,jdbcType=VARCHAR},
       message_type = #{record.messageType,jdbcType=VARCHAR},
+      is_upload_finish = #{record.isUploadFinish,jdbcType=BIT},
       is_arrive = #{record.isArrive,jdbcType=BIT},
       arrive_time = #{record.arriveTime,jdbcType=TIMESTAMP},
       is_read = #{record.isRead,jdbcType=BIT},
@@ -341,6 +353,9 @@
       <if test="messageType != null">
         message_type = #{messageType,jdbcType=VARCHAR},
       </if>
+      <if test="isUploadFinish != null">
+        is_upload_finish = #{isUploadFinish,jdbcType=BIT},
+      </if>
       <if test="isArrive != null">
         is_arrive = #{isArrive,jdbcType=BIT},
       </if>
@@ -370,6 +385,7 @@
       conversation_id = #{conversationId,jdbcType=VARCHAR},
       file_id = #{fileId,jdbcType=VARCHAR},
       message_type = #{messageType,jdbcType=VARCHAR},
+      is_upload_finish = #{isUploadFinish,jdbcType=BIT},
       is_arrive = #{isArrive,jdbcType=BIT},
       arrive_time = #{arriveTime,jdbcType=TIMESTAMP},
       is_read = #{isRead,jdbcType=BIT},
@@ -386,6 +402,7 @@
       conversation_id = #{conversationId,jdbcType=VARCHAR},
       file_id = #{fileId,jdbcType=VARCHAR},
       message_type = #{messageType,jdbcType=VARCHAR},
+      is_upload_finish = #{isUploadFinish,jdbcType=BIT},
       is_arrive = #{isArrive,jdbcType=BIT},
       arrive_time = #{arriveTime,jdbcType=TIMESTAMP},
       is_read = #{isRead,jdbcType=BIT},

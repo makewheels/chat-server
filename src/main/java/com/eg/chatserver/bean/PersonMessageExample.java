@@ -585,6 +585,66 @@ public class PersonMessageExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsUploadFinishIsNull() {
+            addCriterion("is_upload_finish is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishIsNotNull() {
+            addCriterion("is_upload_finish is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishEqualTo(Boolean value) {
+            addCriterion("is_upload_finish =", value, "isUploadFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishNotEqualTo(Boolean value) {
+            addCriterion("is_upload_finish <>", value, "isUploadFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishGreaterThan(Boolean value) {
+            addCriterion("is_upload_finish >", value, "isUploadFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_upload_finish >=", value, "isUploadFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishLessThan(Boolean value) {
+            addCriterion("is_upload_finish <", value, "isUploadFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_upload_finish <=", value, "isUploadFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishIn(List<Boolean> values) {
+            addCriterion("is_upload_finish in", values, "isUploadFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishNotIn(List<Boolean> values) {
+            addCriterion("is_upload_finish not in", values, "isUploadFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_upload_finish between", value1, value2, "isUploadFinish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsUploadFinishNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_upload_finish not between", value1, value2, "isUploadFinish");
+            return (Criteria) this;
+        }
+
         public Criteria andIsArriveIsNull() {
             addCriterion("is_arrive is null");
             return (Criteria) this;

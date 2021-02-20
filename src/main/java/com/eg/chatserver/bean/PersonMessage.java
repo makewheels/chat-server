@@ -17,6 +17,8 @@ public class PersonMessage {
 
     private String messageType;
 
+    private Boolean isUploadFinish;
+
     private Boolean isArrive;
 
     private Date arriveTime;
@@ -83,6 +85,14 @@ public class PersonMessage {
 
     public void setMessageType(String messageType) {
         this.messageType = messageType == null ? null : messageType.trim();
+    }
+
+    public Boolean getIsUploadFinish() {
+        return isUploadFinish;
+    }
+
+    public void setIsUploadFinish(Boolean isUploadFinish) {
+        this.isUploadFinish = isUploadFinish;
     }
 
     public Boolean getIsArrive() {

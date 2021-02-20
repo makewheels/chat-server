@@ -7,6 +7,8 @@ public class File {
 
     private String fileId;
 
+    private String type;
+
     private Long size;
 
     private String originalName;
@@ -29,9 +31,11 @@ public class File {
 
     private String ossUrl;
 
+    private String cdnUrl;
+
     private String imagePreviewUrl;
 
-    private Integer audioDuration;
+    private Long audioDuration;
 
     private Date createTime;
 
@@ -49,6 +53,14 @@ public class File {
 
     public void setFileId(String fileId) {
         this.fileId = fileId == null ? null : fileId.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     public Long getSize() {
@@ -139,6 +151,14 @@ public class File {
         this.ossUrl = ossUrl == null ? null : ossUrl.trim();
     }
 
+    public String getCdnUrl() {
+        return cdnUrl;
+    }
+
+    public void setCdnUrl(String cdnUrl) {
+        this.cdnUrl = cdnUrl == null ? null : cdnUrl.trim();
+    }
+
     public String getImagePreviewUrl() {
         return imagePreviewUrl;
     }
@@ -147,11 +167,11 @@ public class File {
         this.imagePreviewUrl = imagePreviewUrl == null ? null : imagePreviewUrl.trim();
     }
 
-    public Integer getAudioDuration() {
+    public Long getAudioDuration() {
         return audioDuration;
     }
 
-    public void setAudioDuration(Integer audioDuration) {
+    public void setAudioDuration(Long audioDuration) {
         this.audioDuration = audioDuration;
     }
 

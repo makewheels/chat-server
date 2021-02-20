@@ -235,6 +235,76 @@ public class FileExample {
             return (Criteria) this;
         }
 
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(String value) {
+            addCriterion("type =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(String value) {
+            addCriterion("type <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(String value) {
+            addCriterion("type >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("type >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(String value) {
+            addCriterion("type <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(String value) {
+            addCriterion("type <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLike(String value) {
+            addCriterion("type like", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotLike(String value) {
+            addCriterion("type not like", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<String> values) {
+            addCriterion("type in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<String> values) {
+            addCriterion("type not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(String value1, String value2) {
+            addCriterion("type between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(String value1, String value2) {
+            addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
         public Criteria andSizeIsNull() {
             addCriterion("size is null");
             return (Criteria) this;
@@ -975,6 +1045,76 @@ public class FileExample {
             return (Criteria) this;
         }
 
+        public Criteria andCdnUrlIsNull() {
+            addCriterion("cdn_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlIsNotNull() {
+            addCriterion("cdn_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlEqualTo(String value) {
+            addCriterion("cdn_url =", value, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlNotEqualTo(String value) {
+            addCriterion("cdn_url <>", value, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlGreaterThan(String value) {
+            addCriterion("cdn_url >", value, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("cdn_url >=", value, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlLessThan(String value) {
+            addCriterion("cdn_url <", value, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlLessThanOrEqualTo(String value) {
+            addCriterion("cdn_url <=", value, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlLike(String value) {
+            addCriterion("cdn_url like", value, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlNotLike(String value) {
+            addCriterion("cdn_url not like", value, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlIn(List<String> values) {
+            addCriterion("cdn_url in", values, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlNotIn(List<String> values) {
+            addCriterion("cdn_url not in", values, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlBetween(String value1, String value2) {
+            addCriterion("cdn_url between", value1, value2, "cdnUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andCdnUrlNotBetween(String value1, String value2) {
+            addCriterion("cdn_url not between", value1, value2, "cdnUrl");
+            return (Criteria) this;
+        }
+
         public Criteria andImagePreviewUrlIsNull() {
             addCriterion("image_preview_url is null");
             return (Criteria) this;
@@ -1055,52 +1195,52 @@ public class FileExample {
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationEqualTo(Integer value) {
+        public Criteria andAudioDurationEqualTo(Long value) {
             addCriterion("audio_duration =", value, "audioDuration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationNotEqualTo(Integer value) {
+        public Criteria andAudioDurationNotEqualTo(Long value) {
             addCriterion("audio_duration <>", value, "audioDuration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationGreaterThan(Integer value) {
+        public Criteria andAudioDurationGreaterThan(Long value) {
             addCriterion("audio_duration >", value, "audioDuration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationGreaterThanOrEqualTo(Integer value) {
+        public Criteria andAudioDurationGreaterThanOrEqualTo(Long value) {
             addCriterion("audio_duration >=", value, "audioDuration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationLessThan(Integer value) {
+        public Criteria andAudioDurationLessThan(Long value) {
             addCriterion("audio_duration <", value, "audioDuration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationLessThanOrEqualTo(Integer value) {
+        public Criteria andAudioDurationLessThanOrEqualTo(Long value) {
             addCriterion("audio_duration <=", value, "audioDuration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationIn(List<Integer> values) {
+        public Criteria andAudioDurationIn(List<Long> values) {
             addCriterion("audio_duration in", values, "audioDuration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationNotIn(List<Integer> values) {
+        public Criteria andAudioDurationNotIn(List<Long> values) {
             addCriterion("audio_duration not in", values, "audioDuration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationBetween(Integer value1, Integer value2) {
+        public Criteria andAudioDurationBetween(Long value1, Long value2) {
             addCriterion("audio_duration between", value1, value2, "audioDuration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationNotBetween(Integer value1, Integer value2) {
+        public Criteria andAudioDurationNotBetween(Long value1, Long value2) {
             addCriterion("audio_duration not between", value1, value2, "audioDuration");
             return (Criteria) this;
         }
