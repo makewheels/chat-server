@@ -28,6 +28,7 @@ public enum ErrorCode {
     MESSAGE_NOT_EXIST(3003, "消息不存在"),
     MESSAGE_OSS_CALLBACK_CHECK_SIGN_FAIL(3004, "阿里云对象存储回调，验签失败"),
     MESSAGE_REPEAT_ARRIVE_REPEAT(3005, "重复上报已送达"),
+    MESSAGE_UPLOAD_NOT_FINISH(3006, "文件上传未完成"),
 
     RUBBISH(1415926535, "我是垃圾，请忽略我");
 

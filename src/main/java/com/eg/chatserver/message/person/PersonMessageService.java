@@ -72,6 +72,15 @@ public class PersonMessageService {
     }
 
     /**
+     * 判断消息类型是不是文件
+     */
+    public boolean isFileTypeMessage(String messageType) {
+        return messageType.equals(MessageType.AUDIO)
+                || messageType.equals(MessageType.IMAGE)
+                || messageType.equals(MessageType.VIDEO);
+    }
+
+    /**
      * 创建一条消息
      *
      * @param sendMessageRequest
@@ -219,8 +228,7 @@ public class PersonMessageService {
         sendMessageResponse.setToUserId(toUser.getUserId());
         sendMessageResponse.setCreateTime(personMessage.getCreateTime());
         //如果是文件
-        if (messageType.equals(MessageType.AUDIO) || messageType.equals(MessageType.IMAGE)
-                || messageType.equals(MessageType.VIDEO)) {
+        if (isFileTypeMessage(messageType)) {
             //尚未上传完成
             personMessage.setIsUploadFinish(false);
             //处理文件
@@ -345,8 +353,13 @@ public class PersonMessageService {
      */
     public Result<PullMessageResponse> pullByMessageId(User user, String messageId) {
         PersonMessage personMessage = findByToUserIdAndMessageId(user.getUserId(), messageId);
+        //如果没找到这条消息
         if (personMessage == null) {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
+        }
+        //如果这条消息是文件，并且还没上传好
+        if (isFileTypeMessage(personMessage.getMessageType()) && !personMessage.getIsUploadFinish()) {
+            return Result.error(ErrorCode.MESSAGE_UPLOAD_NOT_FINISH);
         }
         PullMessageResponse pullMessageResponse = new PullMessageResponse();
         BeanUtils.copyProperties(personMessage, pullMessageResponse);
