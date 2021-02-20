@@ -23,6 +23,6 @@ public class SendMessageRequest {
     private Long audioDuration;
     @ApiModelProperty(value = "原始文件名", example = "IMG_001.jpg")
     private String originalFilename;
-    @ApiModelProperty(value = "文件md5", example = "IMG_001.jpg")
+    @ApiModelProperty(value = "文件md5", example = "69D266E25891BFE24665ABCB9244B7AB")
     private String md5;
 }

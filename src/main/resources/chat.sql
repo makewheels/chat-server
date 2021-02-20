@@ -61,6 +61,7 @@ CREATE TABLE `file`
     `image_height`      int(11)         DEFAULT NULL COMMENT '阿里云回调传来的图片高度',
     `image_format`      varchar(64)     DEFAULT NULL COMMENT '阿里云回调传来的图片格式',
     `mime_type`         varchar(64)     DEFAULT NULL COMMENT '阿里云回调传来的mime_type',
+    `md5`               varchar(64)     DEFAULT NULL COMMENT '客户端传来的md5，是大写的',
     `etag`              varchar(64)     DEFAULT NULL COMMENT '阿里云回调传来的md5，是大写的',
     `oss_url`           varchar(500)    DEFAULT NULL COMMENT '对象存储直接访问url',
     `cdn_url`           varchar(500)    DEFAULT NULL COMMENT 'CDN url',

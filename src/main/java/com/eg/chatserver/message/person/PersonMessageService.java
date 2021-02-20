@@ -220,7 +220,6 @@ public class PersonMessageService {
                     pushMessageToTargetUser(toUser, messageId)
             ).start();
         }
-        //返回
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
         sendMessageResponse.setMessageId(messageId);
         sendMessageResponse.setConversationId(sendMessageRequest.getConversationId());
@@ -229,8 +228,6 @@ public class PersonMessageService {
         sendMessageResponse.setCreateTime(personMessage.getCreateTime());
         //如果是文件
         if (isFileTypeMessage(messageType)) {
-            //尚未上传完成
-            personMessage.setIsUploadFinish(false);
             //处理文件
             handleFile(fromUser, sendMessageRequest, personMessage, sendMessageResponse);
         } else {
@@ -242,23 +239,41 @@ public class PersonMessageService {
     }
 
     /**
-     * 发送消息之，处理文件
+     * 根据md5查找文件对象
+     *
+     * @param md5
+     * @return
      */
-    private void handleFile(
-            User fromUser, SendMessageRequest sendMessageRequest,
-            PersonMessage personMessage, SendMessageResponse sendMessageResponse) {
+    private File findFileByMd5(String md5) {
+        FileExample fileExample = new FileExample();
+        fileExample.createCriteria().andMd5EqualTo(md5);
+        List<File> files = fileMapper.selectByExample(fileExample);
+        if (CollectionUtils.isNotEmpty(files)) {
+            return files.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * 创建File
+     *
+     * @return
+     */
+    private File createFile(SendMessageRequest sendMessageRequest, User fromUser,
+                            PersonMessage personMessage) {
         String messageType = sendMessageRequest.getMessageType();
-        //fileId在之前已经生成了，原因是，message在保存的时候需要关联fileId
         String fileId = personMessage.getFileId();
         //创建文件
         File file = new File();
+        //fileId在之前已经生成了，原因是，message在保存的时候需要关联fileId
         file.setFileId(fileId);
         String originalFilename = sendMessageRequest.getOriginalFilename();
         file.setOriginalName(originalFilename);
         file.setExtension(FilenameUtils.getExtension(originalFilename));
         file.setBucketName(Constants.ALIYUN.OSS_BUCKET_NAME);
-        file.setCreateTime(new Date());
+        file.setMd5(sendMessageRequest.getMd5());
         file.setType(messageType);
+        file.setCreateTime(new Date());
         String objectName = null;
         switch (messageType) {
             case MessageType.AUDIO: //音频
@@ -274,6 +289,8 @@ public class PersonMessageService {
                 objectName = ossService.getVideoObjectName(fromUser, fileId);
                 break;
         }
+        //对象名
+        file.setObjectName(objectName);
         //文件url
         file.setOssUrl(Constants.ALIYUN.OSS_PREFIX + objectName);
         file.setCdnUrl(Constants.ALIYUN.OSS_PREFIX_CDN + objectName);
@@ -281,13 +298,38 @@ public class PersonMessageService {
         if (messageType.equals(MessageType.IMAGE)) {
             file.setImagePreviewUrl(file.getOssUrl() + Constants.ALIYUN.OSS_IMAGE_PREVIEW_PARAM);
         }
-        file.setObjectName(objectName);
-        sendMessageResponse.setObjectName(objectName);
         //甚至还需要再给阿里云回调参数
         // 但是这里就先不给了，就让android直接传，messageId就行了
-        file.setObjectName(objectName);
-        //保存文件
-        fileMapper.insert(file);
+        return file;
+    }
+
+    /**
+     * 发送消息之，处理文件
+     */
+    private void handleFile(
+            User fromUser, SendMessageRequest sendMessageRequest,
+            PersonMessage personMessage, SendMessageResponse sendMessageResponse) {
+        //先根据md5找文件，如果已经有了，就不用保存新的文件了
+        //其实这种情况，我估计，也就是图片可能遇到
+        File file = findFileByMd5(sendMessageRequest.getMd5().toUpperCase());
+        //设置上传完成状态
+        personMessage.setIsUploadFinish(file != null);
+        //如果这个文件已经有了
+        if (file != null) {
+            //刷新消息里的fileId
+            personMessage.setFileId(file.getFileId());
+            //告诉客户端不需要上传了
+            sendMessageResponse.setIsNeedUpload(false);
+        } else {
+            //如果是新文件，那就正常创建保存
+            file = createFile(sendMessageRequest, fromUser, personMessage);
+            //保存文件
+            log.info("save file: {}", JSON.toJSONString(file));
+            fileMapper.insert(file);
+            //告诉客户端需要上传
+            sendMessageResponse.setIsNeedUpload(true);
+        }
+        sendMessageResponse.setObjectName(file.getObjectName());
         //给阿里云回调地址
         sendMessageResponse.setCallbackUrl(ossService.getOssCallbackUrl());
     }

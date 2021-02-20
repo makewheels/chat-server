@@ -27,6 +27,8 @@ public class File {
 
     private String mimeType;
 
+    private String md5;
+
     private String etag;
 
     private String ossUrl;
@@ -133,6 +135,14 @@ public class File {
 
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType == null ? null : mimeType.trim();
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5 == null ? null : md5.trim();
     }
 
     public String getEtag() {

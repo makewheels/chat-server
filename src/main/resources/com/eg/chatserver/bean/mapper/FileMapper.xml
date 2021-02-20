@@ -14,6 +14,7 @@
     <result column="image_height" jdbcType="INTEGER" property="imageHeight" />
     <result column="image_format" jdbcType="VARCHAR" property="imageFormat" />
     <result column="mime_type" jdbcType="VARCHAR" property="mimeType" />
+    <result column="md5" jdbcType="VARCHAR" property="md5" />
     <result column="etag" jdbcType="VARCHAR" property="etag" />
     <result column="oss_url" jdbcType="VARCHAR" property="ossUrl" />
     <result column="cdn_url" jdbcType="VARCHAR" property="cdnUrl" />
@@ -81,7 +82,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, file_id, type, size, original_name, extension, bucket_name, object_name, image_width, 
-    image_height, image_format, mime_type, etag, oss_url, cdn_url, image_preview_url, 
+    image_height, image_format, mime_type, md5, etag, oss_url, cdn_url, image_preview_url, 
     audio_duration, create_time
   </sql>
   <select id="selectByExample" parameterType="com.eg.chatserver.bean.FileExample" resultMap="BaseResultMap">
@@ -115,21 +116,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="com.eg.chatserver.bean.File">
     insert into file (id, file_id, type, 
       size, original_name, extension, 
       bucket_name, object_name, image_width, 
       image_height, image_format, mime_type, 
-      etag, oss_url, cdn_url, 
-      image_preview_url, audio_duration, create_time
-      )
+      md5, etag, oss_url, 
+      cdn_url, image_preview_url, audio_duration, 
+      create_time)
     values (#{id,jdbcType=BIGINT}, #{fileId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{size,jdbcType=BIGINT}, #{originalName,jdbcType=VARCHAR}, #{extension,jdbcType=VARCHAR}, 
       #{bucketName,jdbcType=VARCHAR}, #{objectName,jdbcType=VARCHAR}, #{imageWidth,jdbcType=INTEGER}, 
       #{imageHeight,jdbcType=INTEGER}, #{imageFormat,jdbcType=VARCHAR}, #{mimeType,jdbcType=VARCHAR}, 
-      #{etag,jdbcType=VARCHAR}, #{ossUrl,jdbcType=VARCHAR}, #{cdnUrl,jdbcType=VARCHAR}, 
-      #{imagePreviewUrl,jdbcType=VARCHAR}, #{audioDuration,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{md5,jdbcType=VARCHAR}, #{etag,jdbcType=VARCHAR}, #{ossUrl,jdbcType=VARCHAR}, 
+      #{cdnUrl,jdbcType=VARCHAR}, #{imagePreviewUrl,jdbcType=VARCHAR}, #{audioDuration,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
     insert into file
@@ -169,6 +170,9 @@
       </if>
       <if test="mimeType != null">
         mime_type,
+      </if>
+      <if test="md5 != null">
+        md5,
       </if>
       <if test="etag != null">
         etag,
@@ -225,6 +229,9 @@
       </if>
       <if test="mimeType != null">
         #{mimeType,jdbcType=VARCHAR},
+      </if>
+      <if test="md5 != null">
+        #{md5,jdbcType=VARCHAR},
       </if>
       <if test="etag != null">
         #{etag,jdbcType=VARCHAR},
@@ -291,6 +298,9 @@
       <if test="record.mimeType != null">
         mime_type = #{record.mimeType,jdbcType=VARCHAR},
       </if>
+      <if test="record.md5 != null">
+        md5 = #{record.md5,jdbcType=VARCHAR},
+      </if>
       <if test="record.etag != null">
         etag = #{record.etag,jdbcType=VARCHAR},
       </if>
@@ -328,6 +338,7 @@
       image_height = #{record.imageHeight,jdbcType=INTEGER},
       image_format = #{record.imageFormat,jdbcType=VARCHAR},
       mime_type = #{record.mimeType,jdbcType=VARCHAR},
+      md5 = #{record.md5,jdbcType=VARCHAR},
       etag = #{record.etag,jdbcType=VARCHAR},
       oss_url = #{record.ossUrl,jdbcType=VARCHAR},
       cdn_url = #{record.cdnUrl,jdbcType=VARCHAR},
@@ -374,6 +385,9 @@
       <if test="mimeType != null">
         mime_type = #{mimeType,jdbcType=VARCHAR},
       </if>
+      <if test="md5 != null">
+        md5 = #{md5,jdbcType=VARCHAR},
+      </if>
       <if test="etag != null">
         etag = #{etag,jdbcType=VARCHAR},
       </if>
@@ -408,6 +422,7 @@
       image_height = #{imageHeight,jdbcType=INTEGER},
       image_format = #{imageFormat,jdbcType=VARCHAR},
       mime_type = #{mimeType,jdbcType=VARCHAR},
+      md5 = #{md5,jdbcType=VARCHAR},
       etag = #{etag,jdbcType=VARCHAR},
       oss_url = #{ossUrl,jdbcType=VARCHAR},
       cdn_url = #{cdnUrl,jdbcType=VARCHAR},

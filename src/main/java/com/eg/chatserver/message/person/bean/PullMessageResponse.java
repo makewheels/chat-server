@@ -15,9 +15,9 @@ public class PullMessageResponse {
     @ApiModelProperty(value = "消息id", example = "pmsg9f1dc9519f4f47a0a6904810b0506ec4")
     private String messageId;
 
-    @ApiModelProperty(value = "会话id", required = true, example = "conv7e4c9979a43c45748f6ae030e9b6350d")
+    @ApiModelProperty(value = "会话id", example = "conv7e4c9979a43c45748f6ae030e9b6350d")
     private String conversationId;
-    @ApiModelProperty(value = "消息类型", required = true, example = MessageType.TEXT)
+    @ApiModelProperty(value = "消息类型", example = MessageType.TEXT)
     private String messageType;
 
     private String fromUserId;

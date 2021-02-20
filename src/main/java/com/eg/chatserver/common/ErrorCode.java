@@ -29,6 +29,7 @@ public enum ErrorCode {
     MESSAGE_OSS_CALLBACK_CHECK_SIGN_FAIL(3004, "阿里云对象存储回调，验签失败"),
     MESSAGE_REPEAT_ARRIVE_REPEAT(3005, "重复上报已送达"),
     MESSAGE_UPLOAD_NOT_FINISH(3006, "文件上传未完成"),
+    SEND_FILE_MESSAGE_WITHOUT_MD5(3007, "上传文件类型消息没有md5"),
 
     RUBBISH(1415926535, "我是垃圾，请忽略我");
 

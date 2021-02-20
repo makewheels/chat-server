@@ -48,6 +48,11 @@ public class PersonMessageController {
         if (!messageTypeExist) {
             return Result.error(ErrorCode.MESSAGE_TYPE_NOT_EXIST);
         }
+        //如果是文件，校验md5
+        if (personMessageService.isFileTypeMessage(messageType)
+                && StringUtils.isEmpty(sendMessageRequest.getMd5())) {
+            return Result.error(ErrorCode.SEND_FILE_MESSAGE_WITHOUT_MD5);
+        }
         User user = userAccountService.getUserByRequest(request);
         return personMessageService.sendMessage(user, sendMessageRequest);
     }
