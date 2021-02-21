@@ -8,6 +8,7 @@ import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.bean.ModifyPasswordRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,8 +50,19 @@ public class UserInfoService {
      */
     public Result<Void> modifyNickname(User user, String newNickname) {
         //TODO 修改昵称，打日志
+/*      我忘了这个咋改了呢
+        User nicknameUpdated = user;
+        nicknameUpdated.setNickname(newNickname);
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andNicknameEqualTo(user.getNickname());
+        userMapper.updateByExampleSelective(nicknameUpdated, userExample);*/
 
-        //删除用户缓存
+        // 修改
+        user.setNickname(newNickname);
+        userMapper.updateByPrimaryKey(user);
+        // 打印日志
+        log.info("modify nickname, new user info: {}", JSON.toJSONString(user));
+        // 删除用户缓存
         userRedisService.deleteUserCache(user);
         return Result.ok();
     }
@@ -73,7 +85,10 @@ public class UserInfoService {
         }
         //老密码校验通过，开始修改
         //TODO 修改密码，打日志
-
+        user.setPassword(newPassword);
+        userMapper.updateByPrimaryKey(user);
+        // 打印日志
+        log.info("modify password, new user info: {}", JSON.toJSONString(user));
         //删除用户缓存
         userRedisService.deleteUserCache(user);
         //修改密码成功，返回success
