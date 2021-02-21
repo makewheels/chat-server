@@ -30,7 +30,7 @@ public class OssController {
             HttpServletRequest request, HttpServletResponse response,
             @RequestBody String body) {
         //签名校验
-        boolean check = ossService.checkCallback(request, body);
+        boolean check = ossService.checkCallbackSign(request, body);
         if (!check) {
             log.error("aliyun oss callback check fail: {}", body);
             response.setStatus(HttpStatus.SC_BAD_REQUEST);

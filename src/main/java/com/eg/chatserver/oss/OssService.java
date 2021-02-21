@@ -49,8 +49,10 @@ public class OssService {
     private String endpoint;
     private final String roleArn = "acs:ram::1618784280874658:role/aliyunosstokengeneratorrole";
 
-    private final DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
-    private final IAcsClient client = new DefaultAcsClient(profile);
+    private IAcsClient getClient() {
+        DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
+        return new DefaultAcsClient(profile);
+    }
 
     /**
      * 获取sts凭证
@@ -63,7 +65,7 @@ public class OssService {
         request.setRoleSessionName("external-username");
         request.setDurationSeconds(Constants.ALIYUN.OSS_STS_CREDENTIAL_DURATION);
         try {
-            return client.getAcsResponse(request);
+            return getClient().getAcsResponse(request);
         } catch (ClientException e) {
             log.error("error on request sts credential");
             log.error("ErrCode: {}", e.getErrCode());
@@ -77,7 +79,7 @@ public class OssService {
     /**
      * 阿里云回调验签
      */
-    public boolean checkCallback(HttpServletRequest request, String body) {
+    public boolean checkCallbackSign(HttpServletRequest request, String body) {
         String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKs/JBGzwUB2aVht4crBx3oIPBLNsjGsC0fTXv+nvlmklvkcolvpvXLTjaxUHR3W9LXxQ2EHXAJfCB+6H2YF1k8CAwEAAQ==";
         try {
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
