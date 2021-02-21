@@ -70,6 +70,7 @@ CREATE TABLE `file`
     `create_time`       timestamp  NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `file_id` (`file_id`),
+    KEY `md5` (`md5`),
     KEY `etag` (`etag`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
