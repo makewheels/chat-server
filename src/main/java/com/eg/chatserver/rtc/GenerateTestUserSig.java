@@ -3,6 +3,7 @@ package com.eg.chatserver.rtc;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -30,8 +31,9 @@ import java.util.zip.Deflater;
 public class GenerateTestUserSig {
     private static final int SDKAPPID = 1400486439;
     private static final int EXPIRETIME = 604800;
-    private static final String SECRETKEY
-            = "1d51b8f3d194bc2b891be9eb776ff6e09da62307af12f57541979521f51862a2";
+
+    @Value("${rtc.SECRETKEY}")
+    private String SECRETKEY;
 
     /**
      * 计算 UserSig 签名
@@ -39,7 +41,7 @@ public class GenerateTestUserSig {
      * <p>
      * 文档：https://cloud.tencent.com/document/product/269/32688#Server
      */
-    public static String genTestUserSig(String userId) {
+    public String genTestUserSig(String userId) {
         return genTLSSignature(userId);
     }
 
@@ -49,8 +51,8 @@ public class GenerateTestUserSig {
      * @param userId 用户 id
      * @return 如果出错，会返回为空，或者有异常打印，成功返回有效的票据
      */
-    private static String genTLSSignature(String userId) {
-        if (StringUtils.isEmpty(GenerateTestUserSig.SECRETKEY)) {
+    private String genTLSSignature(String userId) {
+        if (StringUtils.isEmpty(SECRETKEY)) {
             return "";
         }
         long currTime = System.currentTimeMillis() / 1000;
@@ -86,7 +88,7 @@ public class GenerateTestUserSig {
     }
 
 
-    private static String hmacsha256(String userId, long currTime, String base64Userbuf) {
+    private String hmacsha256(String userId, long currTime, String base64Userbuf) {
         String contentToBeSigned = "TLS.identifier:" + userId + "\n"
                 + "TLS.sdkappid:" + (long) GenerateTestUserSig.SDKAPPID + "\n"
                 + "TLS.time:" + currTime + "\n"
@@ -95,7 +97,7 @@ public class GenerateTestUserSig {
             contentToBeSigned += "TLS.userbuf:" + base64Userbuf + "\n";
         }
         try {
-            byte[] byteKey = GenerateTestUserSig.SECRETKEY.getBytes(StandardCharsets.UTF_8);
+            byte[] byteKey = SECRETKEY.getBytes(StandardCharsets.UTF_8);
             Mac hmac = Mac.getInstance("HmacSHA256");
             SecretKeySpec keySpec = new SecretKeySpec(byteKey, "HmacSHA256");
             hmac.init(keySpec);

@@ -38,8 +38,12 @@ public class OssService {
     private String ossCallbackUrl;
 
     private final String regionId = "cn-beijing";
-    private final String accessKeyId = "LTAI4GCUwdYeH2YKnSPA8iV6";
-    private final String accessKeySecret = "2cS8HB6ESVgaLFNWehIfFyVbFWp7kN";
+
+    @Value("${oss.accessKeyId}")
+    private String accessKeyId;
+    @Value("${oss.accessKeySecret}")
+    private String accessKeySecret;
+
     private final String bucketName = Constants.ALIYUN.OSS_BUCKET_NAME;
     @Value("${oss.endpoint}")
     private String endpoint;
