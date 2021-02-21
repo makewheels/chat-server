@@ -7,6 +7,7 @@ import com.aliyun.oss.model.Callback;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +26,10 @@ public class TestOssUpload {
         String securityToken = credentials.getSecurityToken();
 
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret, securityToken);
-        File file = new File("C:\\Users\\thedoflin\\Downloads\\Snipaste_2021-02-02_21-39-03.jpg");
+        File file = new File("C:\\Users\\thedoflin\\Downloads\\ebook-master\\cbook.pdf");
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,
-                "rubbish/" + System.currentTimeMillis() + ".jpg", file);
+                "rubbish/" + System.currentTimeMillis() + "."
+                        + FilenameUtils.getBaseName(file.getName()), file);
 
         Callback callback = new Callback();
         callback.setCallbackUrl("http://c19758058n.imwork.net/chat-server/oss/aliyunCallback");
@@ -41,6 +43,7 @@ public class TestOssUpload {
                         "\\\"imageInfo.height\\\":${imageInfo.height}," +
                         "\\\"imageInfo.width\\\":${imageInfo.width}," +
                         "\\\"imageInfo.format\\\":${imageInfo.format}" +
+                        ",\\\"aaa\\\":\\\"bbbb\\\"" +
                         "}");
         callback.setCalbackBodyType(Callback.CalbackBodyType.JSON);
         callback.addCallbackVar("var1", "value1");

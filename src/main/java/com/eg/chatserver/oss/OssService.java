@@ -1,5 +1,6 @@
 package com.eg.chatserver.oss;
 
+import com.alibaba.fastjson.JSON;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.utils.BinaryUtil;
@@ -37,17 +38,18 @@ public class OssService {
     @Value("${oss.callbackurl}")
     private String ossCallbackUrl;
 
-    private final String regionId = "cn-beijing";
+    private final static String regionId = "cn-beijing";
 
     @Value("${oss.accessKeyId}")
-    private String accessKeyId;
+    private String accessKeyId = "LTAI4GCUwdYeH2YKnSPA8iV6";
+    //    private String accessKeyId;
     @Value("${oss.accessKeySecret}")
-    private String accessKeySecret;
+    private String accessKeySecret = "2cS8HB6ESVgaLFNWehIfFyVbFWp7kN";
+//    private String accessKeySecret;
 
-    private final String bucketName = Constants.ALIYUN.OSS_BUCKET_NAME;
+    private final static String bucketName = Constants.ALIYUN.OSS_BUCKET_NAME;
     @Value("${oss.endpoint}")
     private String endpoint;
-    private final String roleArn = "acs:ram::1618784280874658:role/aliyunosstokengeneratorrole";
 
     private IAcsClient getClient() {
         DefaultProfile profile = DefaultProfile.getProfile(regionId, accessKeyId, accessKeySecret);
@@ -61,6 +63,7 @@ public class OssService {
      */
     public AssumeRoleResponse getStsCredential() {
         AssumeRoleRequest request = new AssumeRoleRequest();
+        String roleArn = "acs:ram::1618784280874658:role/aliyunosstokengeneratorrole";
         request.setRoleArn(roleArn);
         request.setRoleSessionName("external-username");
         request.setDurationSeconds(Constants.ALIYUN.OSS_STS_CREDENTIAL_DURATION);
@@ -122,6 +125,7 @@ public class OssService {
      * @param callbackRequest
      */
     public Result<Void> aliyunCallback(CallbackRequest callbackRequest) {
+        System.out.println(JSON.toJSONString(callbackRequest));
         String object = callbackRequest.getObject();
         ObjectMetadata metaData = getMetaData(object);
         return Result.ok();

@@ -29,6 +29,8 @@ public class OssController {
     public Result<Void> aliyunCallback(
             HttpServletRequest request, HttpServletResponse response,
             @RequestBody String body) {
+        System.out.println(request.getQueryString());
+        System.out.println(body);
         //签名校验
         boolean check = ossService.checkCallbackSign(request, body);
         if (!check) {

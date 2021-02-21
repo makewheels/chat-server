@@ -16,4 +16,5 @@ public class CallbackRequest {
     private int imageInfoHeight;
     private int imageInfoWidth;
     private String imageInfoFormat;
+    private String var1;
 }
