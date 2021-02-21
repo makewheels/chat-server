@@ -9,6 +9,9 @@ import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.bean.LoginRequest;
 import com.eg.chatserver.user.bean.RegisterRequest;
 import com.eg.chatserver.user.bean.UserInfoResponse;
+import com.eg.chatserver.user.bean.phone.GetVerificationCodeRequest;
+import com.eg.chatserver.user.bean.phone.ModifyPhoneRedis;
+import com.eg.chatserver.user.bean.phone.SubmitVerificationCodeRequest;
 import com.eg.chatserver.utils.Constants;
 import com.eg.chatserver.utils.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,8 @@ public class UserAccountService {
     private UserMapper userMapper;
     @Resource
     private UserRedisService userRedisService;
+    @Resource
+    private SmsService smsService;
 
     /**
      * 获取密码hash
@@ -95,13 +100,12 @@ public class UserAccountService {
     }
 
     /**
-     * 获取注册的返回值
+     * 封装参数返回
      *
      * @param user
      * @return
      */
     private UserInfoResponse getUserInfoResponse(User user) {
-        //封装参数返回
         UserInfoResponse userInfoResponse = new UserInfoResponse();
         userInfoResponse.setUserId(user.getUserId());
         userInfoResponse.setLoginName(user.getLoginName());
@@ -321,8 +325,71 @@ public class UserAccountService {
         return Result.ok();
     }
 
+    /**
+     * 获取用户信息
+     *
+     * @param user
+     * @return
+     */
     public Result<UserInfoResponse> getUserInfo(User user) {
         UserInfoResponse userInfoResponse = getUserInfoResponse(user);
         return Result.ok(userInfoResponse);
+    }
+
+    /**
+     * 生成短信验证码
+     *
+     * @return
+     */
+    private String generateSmsVerificationCode() {
+        return RandomStringUtils.randomNumeric(6);
+    }
+
+    /**
+     * 修改手机：请求验证码
+     */
+    public Result<Void> modifyPhone_getVerificationCode(
+            User user, GetVerificationCodeRequest getVerificationCodeRequest) {
+        String newPhone = getVerificationCodeRequest.getNewPhone();
+        String password = getVerificationCodeRequest.getPassword();
+        //TODO 修改手机：请求验证码
+        //校验密码，如果错误返回错误信息
+
+        //判断新老手机是否一致，如果一致返回错误信息
+
+        //生成短信验证码
+        String verificationCode = generateSmsVerificationCode();
+        //发送短信
+        smsService.sendVerificationCode(newPhone, verificationCode);
+        //保存到redis，设置过期时间
+        // key是userId
+        // value是新手机号，验证码
+        ModifyPhoneRedis modifyPhoneRedis = new ModifyPhoneRedis();
+        modifyPhoneRedis.setNewPhone(newPhone);
+        modifyPhoneRedis.setVerificationCode(verificationCode);
+        userRedisService.setModifyPhone(user, modifyPhoneRedis);
+        //返回前端
+        return Result.ok();
+    }
+
+    /**
+     * 修改手机：提交验证码
+     */
+    public Result<Void> modifyPhone_submitVerificationCode(
+            User user, SubmitVerificationCodeRequest submitVerificationCodeRequest) {
+        //TODO 修改手机：提交验证码
+        //从redis获取：新手机号，验证码
+        ModifyPhoneRedis modifyPhoneRedis = userRedisService.getModifyPhone(user);
+        //如果获取不到，说明填写验证码的时间，过期了，返回错误信息
+
+        //校验验证码，如果错误，返回错误信息
+
+        //如果验证码校验通过，修改手机
+
+        //打日志，提现新老手机号
+
+        //删除用户缓存
+        userRedisService.deleteUserCache(user);
+        return null;
     }
 }

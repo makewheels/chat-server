@@ -5,6 +5,7 @@ import com.eg.chatserver.bean.User;
 import com.eg.chatserver.redis.RedisKey;
 import com.eg.chatserver.redis.RedisService;
 import com.eg.chatserver.redis.RedisTime;
+import com.eg.chatserver.user.bean.phone.ModifyPhoneRedis;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +26,7 @@ public class UserRedisService {
      * @return
      */
     public boolean isLoginTokenExist(String loginToken) {
-        String loginTokenKey = RedisKey.getLoginTokenKey(loginToken);
+        String loginTokenKey = RedisKey.loginToken(loginToken);
         return redisService.hasKey(loginTokenKey);
     }
 
@@ -36,7 +37,7 @@ public class UserRedisService {
      * @param user
      */
     public void setUserByLoginToken(String loginToken, User user) {
-        String loginTokenKey = RedisKey.getLoginTokenKey(loginToken);
+        String loginTokenKey = RedisKey.loginToken(loginToken);
         redisService.set(loginTokenKey, JSON.toJSONString(user), RedisTime.ONE_HOUR);
     }
 
@@ -47,7 +48,7 @@ public class UserRedisService {
      * @return
      */
     public User getUserByLoginToken(String loginToken) {
-        String loginTokenKey = RedisKey.getLoginTokenKey(loginToken);
+        String loginTokenKey = RedisKey.loginToken(loginToken);
         String json = (String) redisService.get(loginTokenKey);
         return JSON.parseObject(json, User.class);
     }
@@ -58,18 +59,33 @@ public class UserRedisService {
      * @param loginToken
      */
     public void deleteUserByLoginToken(String loginToken) {
-        String loginTokenKey = RedisKey.getLoginTokenKey(loginToken);
+        String loginTokenKey = RedisKey.loginToken(loginToken);
         redisService.del(loginTokenKey);
     }
 
+
+    //修改手机
+    public void setModifyPhone(User user, ModifyPhoneRedis modifyPhoneRedis) {
+        redisService.set(RedisKey.modifyPhone(user.getUserId()),
+                JSON.toJSONString(modifyPhoneRedis), RedisTime.TEN_MINUTES);
+    }
+
+    //修改手机
+    public ModifyPhoneRedis getModifyPhone(User user) {
+        String json = (String) redisService.get(RedisKey.modifyPhone(user.getUserId()));
+        return JSON.parseObject(json, ModifyPhoneRedis.class);
+    }
+
+    //修改手机
+    public void deleteModifyPhone(User user) {
+        redisService.del(RedisKey.modifyPhone(user.getUserId()));
+    }
+
     /**
-     * 删除用户redis缓存
-     *
-     * @param user
+     * 删除用户redis缓存，这里要删除所有的类型
      */
     public void deleteUserCache(User user) {
-        //那就要看redis存了几种缓存
-        //现在是只有一种，就是loginToken，如果后面userId作为key，那还要删
         deleteUserByLoginToken(user.getLoginToken());
+        deleteModifyPhone(user);
     }
 }

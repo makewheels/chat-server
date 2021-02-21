@@ -8,7 +8,6 @@ import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.bean.ModifyPasswordRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -94,4 +93,5 @@ public class UserInfoService {
         //修改密码成功，返回success
         return Result.ok();
     }
+
 }

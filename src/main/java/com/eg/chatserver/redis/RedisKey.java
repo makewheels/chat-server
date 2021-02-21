@@ -8,11 +8,15 @@ public class RedisKey {
     private static final String ROOT = "chat";
     private static final String USER = ROOT + ":user";
 
-    public static String getLoginTokenKey(String loginToken) {
+    public static String loginToken(String loginToken) {
         return USER + ":loginToken:" + loginToken;
     }
 
-    public static String getUserIdKey(String userId) {
+    public static String userId(String userId) {
         return USER + ":userId:" + userId;
+    }
+
+    public static String modifyPhone(String userId) {
+        return USER + ":modifyPhone:" + userId;
     }
 }

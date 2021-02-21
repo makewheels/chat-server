@@ -4,6 +4,8 @@ import com.eg.chatserver.bean.User;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.user.bean.*;
+import com.eg.chatserver.user.bean.phone.GetVerificationCodeRequest;
+import com.eg.chatserver.user.bean.phone.SubmitVerificationCodeRequest;
 import com.eg.chatserver.utils.Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -127,5 +129,29 @@ public class UserController {
         }
         User user = userAccountService.getUserByRequest(request);
         return userInfoService.modifyPassword(user, modifyPasswordRequest);
+    }
+
+    @PostMapping("modifyPhone/getVerificationCode")
+    @ApiOperation(value = "修改手机：请求验证码")
+    public Result<Void> modifyPhone_getVerificationCode(
+            HttpServletRequest request,
+            @RequestBody GetVerificationCodeRequest getVerificationCodeRequest) {
+        if (StringUtils.isBlank(getVerificationCodeRequest.getPassword())
+                || StringUtils.isBlank(getVerificationCodeRequest.getNewPhone())) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
+        User user = userAccountService.getUserByRequest(request);
+        return userAccountService.modifyPhone_getVerificationCode(user, getVerificationCodeRequest);
+    }
+
+    @PostMapping("modifyPhone/submitVerificationCode")
+    @ApiOperation(value = "修改手机：提交验证码")
+    public Result<Void> modifyPhone_submitVerificationCode(
+            HttpServletRequest request,
+            @RequestBody SubmitVerificationCodeRequest submitVerificationCodeRequest) {
+        if (StringUtils.isBlank(submitVerificationCodeRequest.getVerificationCode()))
+            return Result.error(ErrorCode.WRONG_PARAM);
+        User user = userAccountService.getUserByRequest(request);
+        return userAccountService.modifyPhone_submitVerificationCode(user, submitVerificationCodeRequest);
     }
 }
