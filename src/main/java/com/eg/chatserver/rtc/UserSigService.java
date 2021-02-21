@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -28,7 +29,8 @@ import java.util.zip.Deflater;
  *
  * Reference：https://cloud.tencent.com/document/product/269/32688#Server
  */
-public class GenerateTestUserSig {
+@Service
+public class UserSigService {
     private static final int SDKAPPID = 1400486439;
     private static final int EXPIRETIME = 604800;
 
@@ -60,8 +62,8 @@ public class GenerateTestUserSig {
         try {
             sigDoc.put("TLS.ver", "2.0");
             sigDoc.put("TLS.identifier", userId);
-            sigDoc.put("TLS.sdkappid", (long) GenerateTestUserSig.SDKAPPID);
-            sigDoc.put("TLS.expire", (long) GenerateTestUserSig.EXPIRETIME);
+            sigDoc.put("TLS.sdkappid", (long) UserSigService.SDKAPPID);
+            sigDoc.put("TLS.expire", (long) UserSigService.EXPIRETIME);
             sigDoc.put("TLS.time", currTime);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -90,9 +92,9 @@ public class GenerateTestUserSig {
 
     private String hmacsha256(String userId, long currTime, String base64Userbuf) {
         String contentToBeSigned = "TLS.identifier:" + userId + "\n"
-                + "TLS.sdkappid:" + (long) GenerateTestUserSig.SDKAPPID + "\n"
+                + "TLS.sdkappid:" + (long) UserSigService.SDKAPPID + "\n"
                 + "TLS.time:" + currTime + "\n"
-                + "TLS.expire:" + (long) GenerateTestUserSig.EXPIRETIME + "\n";
+                + "TLS.expire:" + (long) UserSigService.EXPIRETIME + "\n";
         if (null != base64Userbuf) {
             contentToBeSigned += "TLS.userbuf:" + base64Userbuf + "\n";
         }
