@@ -49,18 +49,14 @@ public class UserInfoService {
      */
     public Result<Void> modifyNickname(User user, String newNickname) {
         //TODO 修改昵称，打日志
-/*      我忘了这个咋改了呢
-        User nicknameUpdated = user;
-        nicknameUpdated.setNickname(newNickname);
-        UserExample userExample = new UserExample();
-        userExample.createCriteria().andNicknameEqualTo(user.getNickname());
-        userMapper.updateByExampleSelective(nicknameUpdated, userExample);*/
-
         // 修改
-        user.setNickname(newNickname);
-        userMapper.updateByPrimaryKey(user);
+        User nicknameUpdate= new User();
+        nicknameUpdate.setId(user.getId());
+        nicknameUpdate.setNickname(newNickname);
+        userMapper.updateByPrimaryKeySelective(nicknameUpdate);
+//        user.setNickname(newNickname);
         // 打印日志
-        log.info("modify nickname, new user info: {}", JSON.toJSONString(user));
+        log.info("modify nickname, new user info: {}", JSON.toJSONString(nicknameUpdate));
         // 删除用户缓存
         userRedisService.deleteUserCache(user);
         return Result.ok();
@@ -84,10 +80,12 @@ public class UserInfoService {
         }
         //老密码校验通过，开始修改
         //TODO 修改密码，打日志
-        user.setPassword(newPassword);
-        userMapper.updateByPrimaryKey(user);
-        // 打印日志
-        log.info("modify password, new user info: {}", JSON.toJSONString(user));
+        User passwordUpdate = new User();
+        passwordUpdate.setId(user.getId());
+        passwordUpdate.setPassword(newPassword);
+        userMapper.updateByPrimaryKeySelective(passwordUpdate);
+        // 打印日志\
+        log.info("modify password, new user info: {}", JSON.toJSONString(passwordUpdate));
         //删除用户缓存
         userRedisService.deleteUserCache(user);
         //修改密码成功，返回success
