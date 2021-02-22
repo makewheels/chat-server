@@ -7,6 +7,8 @@ package com.eg.chatserver.redis;
  * @Time 2021.01.30 13:26:46
  */
 public class RedisTime {
+
     public static final long ONE_HOUR = 60 * 60;
     public static final long TEN_MINUTES = 10 * 60;
+    public static final long ONE_MINUTE = 60;
 }

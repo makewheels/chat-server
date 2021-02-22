@@ -6,6 +6,7 @@ import com.eg.chatserver.bean.UserExample;
 import com.eg.chatserver.bean.mapper.UserMapper;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
+import com.eg.chatserver.redis.RedisService;
 import com.eg.chatserver.user.bean.LoginRequest;
 import com.eg.chatserver.user.bean.RegisterRequest;
 import com.eg.chatserver.user.bean.UserInfoResponse;
@@ -38,7 +39,8 @@ public class UserAccountService {
     private UserRedisService userRedisService;
     @Resource
     private SmsService smsService;
-
+    @Resource
+    private RedisService redisService;
     /**
      * 获取密码hash
      *
@@ -352,11 +354,16 @@ public class UserAccountService {
             User user, GetVerificationCodeRequest getVerificationCodeRequest) {
         String newPhone = getVerificationCodeRequest.getNewPhone();
         String password = getVerificationCodeRequest.getPassword();
-        //TODO 修改手机：请求验证码
         //校验密码，如果错误返回错误信息
-
+        if (!user.getPassword().equals(getPasswordHash(password))) {
+            log.warn("Get verification code, password wrong, user: {}", JSON.toJSONString(user));
+            return Result.error(ErrorCode. MODIFY_PHONE_PASSWORD_WRONG);
+        }
         //判断新老手机是否一致，如果一致返回错误信息
-
+        if (user.getPhone()!=null && newPhone.equals(user.getPhone())) {
+            log.warn("Get verification code, the same phone number, user: {}", JSON.toJSONString(user));
+            return Result.error(ErrorCode. MODIFY_PHONE_PHONE_SAME);
+        }
         //生成短信验证码
         String verificationCode = generateSmsVerificationCode();
         //发送短信
@@ -368,6 +375,8 @@ public class UserAccountService {
         modifyPhoneRedis.setNewPhone(newPhone);
         modifyPhoneRedis.setVerificationCode(verificationCode);
         userRedisService.setModifyPhone(user, modifyPhoneRedis);
+
+
         //返回前端
         return Result.ok();
     }
@@ -377,19 +386,29 @@ public class UserAccountService {
      */
     public Result<Void> modifyPhone_submitVerificationCode(
             User user, SubmitVerificationCodeRequest submitVerificationCodeRequest) {
-        //TODO 修改手机：提交验证码
         //从redis获取：新手机号，验证码
         ModifyPhoneRedis modifyPhoneRedis = userRedisService.getModifyPhone(user);
         //如果获取不到，说明填写验证码的时间，过期了，返回错误信息
-
+        if (modifyPhoneRedis==null) {
+            log.error("modify phone fail, verification code timeout = {}", JSON.toJSONString(user));
+            return Result.error(ErrorCode.MODIFY_PHONE_VERIFICATIONCODE_EXPIRE);
+        }
         //校验验证码，如果错误，返回错误信息
-
+        if (!modifyPhoneRedis.getVerificationCode().equals(submitVerificationCodeRequest.getVerificationCode())) {
+            log.warn("Get verification code, verification code wrong , user: {}", JSON.toJSONString(user));
+            return Result.error(ErrorCode. MODIFY_PHONE_VERIFICATIONCODE_WRONG);
+        }
         //如果验证码校验通过，修改手机
-
+        String newPhone = modifyPhoneRedis.getNewPhone();
+        User phoneUpdate= new User();
+        phoneUpdate.setId(user.getId());
+        phoneUpdate.setPhone(modifyPhoneRedis.getNewPhone());
+        userMapper.updateByPrimaryKeySelective(phoneUpdate);
+        user.setPhone(newPhone);
         //打日志，提现新老手机号
-
+        log.info("modify phone successfully , user: {}", JSON.toJSONString(user));
         //删除用户缓存
         userRedisService.deleteUserCache(user);
-        return null;
+        return Result.ok();
     }
 }

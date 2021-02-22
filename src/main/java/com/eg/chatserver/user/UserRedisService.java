@@ -67,7 +67,8 @@ public class UserRedisService {
     //修改手机
     public void setModifyPhone(User user, ModifyPhoneRedis modifyPhoneRedis) {
         redisService.set(RedisKey.modifyPhone(user.getUserId()),
-                JSON.toJSONString(modifyPhoneRedis), RedisTime.TEN_MINUTES);
+                //JSON.toJSONString(modifyPhoneRedis), RedisTime.TEN_MINUTES);
+                JSON.toJSONString(modifyPhoneRedis), RedisTime.ONE_MINUTE);
     }
 
     //修改手机
