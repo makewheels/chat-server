@@ -52,26 +52,22 @@ CREATE TABLE `file`
     `id`                bigint(20) NOT NULL AUTO_INCREMENT,
     `file_id`           varchar(64)     DEFAULT NULL,
     `type`              varchar(64)     DEFAULT NULL COMMENT '文件类型，例如：image,audio,video',
-    `size`              bigint(20)      DEFAULT NULL COMMENT '阿里云回调传来的文件大小',
+    `size`              bigint(20)      DEFAULT NULL COMMENT '文件大小',
     `original_name`     varchar(255)    DEFAULT NULL COMMENT '原始文件名',
     `extension`         varchar(255)    DEFAULT NULL COMMENT '拓展名',
     `bucket_name`       varchar(500)    DEFAULT NULL COMMENT 'bucket名',
     `object_name`       varchar(500)    DEFAULT NULL COMMENT '对象名',
-    `image_width`       int(11)         DEFAULT NULL COMMENT '阿里云回调传来的图片宽度',
-    `image_height`      int(11)         DEFAULT NULL COMMENT '阿里云回调传来的图片高度',
-    `image_format`      varchar(64)     DEFAULT NULL COMMENT '阿里云回调传来的图片格式',
-    `mime_type`         varchar(64)     DEFAULT NULL COMMENT '阿里云回调传来的mime_type',
-    `md5`               varchar(64)     DEFAULT NULL COMMENT '客户端传来的md5，是大写的',
-    `etag`              varchar(64)     DEFAULT NULL COMMENT '阿里云回调传来的md5，是大写的',
+    `image_width`       int(11)         DEFAULT NULL COMMENT '图片宽度',
+    `image_height`      int(11)         DEFAULT NULL COMMENT '图片高度',
+    `md5`               varchar(64)     DEFAULT NULL COMMENT '客户端传来的md5',
     `oss_url`           varchar(500)    DEFAULT NULL COMMENT '对象存储直接访问url',
     `cdn_url`           varchar(500)    DEFAULT NULL COMMENT 'CDN url',
     `image_preview_url` varchar(500)    DEFAULT NULL COMMENT '预览图地址',
-    `audio_duration`    bigint(20)      DEFAULT NULL COMMENT '语音时长，单位毫秒',
+    `duration`          bigint(20)      DEFAULT NULL COMMENT '语音或视频时长，单位毫秒',
     `create_time`       timestamp  NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `file_id` (`file_id`),
-    KEY `md5` (`md5`),
-    KEY `etag` (`etag`)
+    KEY `md5` (`md5`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 

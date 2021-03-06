@@ -136,6 +136,14 @@
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
             <version>2.1.0</version>
         </dependency>
+
+        <!--腾讯云-->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>5.6.35</version>
+        </dependency>
+
     </dependencies>
 
     <build>
