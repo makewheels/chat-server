@@ -25,11 +25,9 @@ public class SendMessageResponse {
 
     private Date createTime;
 
-    @ApiModelProperty(value = "阿里云对象存储名，为了让客户端上传时用", example = "conv7e4c9979a43c45748f6ae030e9b6350d")
+    @ApiModelProperty(value = "对象存储名，为了让客户端上传时用", example = "conv7e4c9979a43c45748f6ae030e9b6350d")
     private String objectName;
-    @ApiModelProperty(value = "阿里云对象存储上传后回调地址，给客户端上传时用", example = "conv7e4c9979a43c45748f6ae030e9b6350d")
-    private String callbackUrl;
     @ApiModelProperty(value = "是否需要上传，因为可能md5已经存在，那客户端不用再重复上传，" +
-            "但是这也是一条新的消息，需要拉取", example = "true")
+            "但是这也是一条新的消息，需要对方拉取", example = "true")
     private Boolean isNeedUpload;
 }

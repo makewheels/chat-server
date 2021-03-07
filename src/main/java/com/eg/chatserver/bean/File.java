@@ -23,13 +23,7 @@ public class File {
 
     private Integer imageHeight;
 
-    private String imageFormat;
-
-    private String mimeType;
-
     private String md5;
-
-    private String etag;
 
     private String ossUrl;
 
@@ -37,7 +31,7 @@ public class File {
 
     private String imagePreviewUrl;
 
-    private Long audioDuration;
+    private Long duration;
 
     private Date createTime;
 
@@ -121,36 +115,12 @@ public class File {
         this.imageHeight = imageHeight;
     }
 
-    public String getImageFormat() {
-        return imageFormat;
-    }
-
-    public void setImageFormat(String imageFormat) {
-        this.imageFormat = imageFormat == null ? null : imageFormat.trim();
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType == null ? null : mimeType.trim();
-    }
-
     public String getMd5() {
         return md5;
     }
 
     public void setMd5(String md5) {
         this.md5 = md5 == null ? null : md5.trim();
-    }
-
-    public String getEtag() {
-        return etag;
-    }
-
-    public void setEtag(String etag) {
-        this.etag = etag == null ? null : etag.trim();
     }
 
     public String getOssUrl() {
@@ -177,12 +147,12 @@ public class File {
         this.imagePreviewUrl = imagePreviewUrl == null ? null : imagePreviewUrl.trim();
     }
 
-    public Long getAudioDuration() {
-        return audioDuration;
+    public Long getDuration() {
+        return duration;
     }
 
-    public void setAudioDuration(Long audioDuration) {
-        this.audioDuration = audioDuration;
+    public void setDuration(Long duration) {
+        this.duration = duration;
     }
 
     public Date getCreateTime() {

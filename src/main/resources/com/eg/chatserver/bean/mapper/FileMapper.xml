@@ -12,14 +12,11 @@
     <result column="object_name" jdbcType="VARCHAR" property="objectName" />
     <result column="image_width" jdbcType="INTEGER" property="imageWidth" />
     <result column="image_height" jdbcType="INTEGER" property="imageHeight" />
-    <result column="image_format" jdbcType="VARCHAR" property="imageFormat" />
-    <result column="mime_type" jdbcType="VARCHAR" property="mimeType" />
     <result column="md5" jdbcType="VARCHAR" property="md5" />
-    <result column="etag" jdbcType="VARCHAR" property="etag" />
     <result column="oss_url" jdbcType="VARCHAR" property="ossUrl" />
     <result column="cdn_url" jdbcType="VARCHAR" property="cdnUrl" />
     <result column="image_preview_url" jdbcType="VARCHAR" property="imagePreviewUrl" />
-    <result column="audio_duration" jdbcType="BIGINT" property="audioDuration" />
+    <result column="duration" jdbcType="BIGINT" property="duration" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -82,8 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, file_id, type, size, original_name, extension, bucket_name, object_name, image_width, 
-    image_height, image_format, mime_type, md5, etag, oss_url, cdn_url, image_preview_url, 
-    audio_duration, create_time
+    image_height, md5, oss_url, cdn_url, image_preview_url, duration, create_time
   </sql>
   <select id="selectByExample" parameterType="com.eg.chatserver.bean.FileExample" resultMap="BaseResultMap">
     select
@@ -120,19 +116,17 @@
     insert into file (id, file_id, type, 
       size, original_name, extension, 
       bucket_name, object_name, image_width, 
-      image_height, image_format, mime_type, 
-      md5, etag, oss_url, 
-      cdn_url, image_preview_url, audio_duration, 
+      image_height, md5, oss_url, 
+      cdn_url, image_preview_url, duration, 
       create_time)
     values (#{id,jdbcType=BIGINT}, #{fileId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{size,jdbcType=BIGINT}, #{originalName,jdbcType=VARCHAR}, #{extension,jdbcType=VARCHAR}, 
       #{bucketName,jdbcType=VARCHAR}, #{objectName,jdbcType=VARCHAR}, #{imageWidth,jdbcType=INTEGER}, 
-      #{imageHeight,jdbcType=INTEGER}, #{imageFormat,jdbcType=VARCHAR}, #{mimeType,jdbcType=VARCHAR}, 
-      #{md5,jdbcType=VARCHAR}, #{etag,jdbcType=VARCHAR}, #{ossUrl,jdbcType=VARCHAR}, 
-      #{cdnUrl,jdbcType=VARCHAR}, #{imagePreviewUrl,jdbcType=VARCHAR}, #{audioDuration,jdbcType=BIGINT}, 
+      #{imageHeight,jdbcType=INTEGER}, #{md5,jdbcType=VARCHAR}, #{ossUrl,jdbcType=VARCHAR}, 
+      #{cdnUrl,jdbcType=VARCHAR}, #{imagePreviewUrl,jdbcType=VARCHAR}, #{duration,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.File">
     insert into file
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -165,17 +159,8 @@
       <if test="imageHeight != null">
         image_height,
       </if>
-      <if test="imageFormat != null">
-        image_format,
-      </if>
-      <if test="mimeType != null">
-        mime_type,
-      </if>
       <if test="md5 != null">
         md5,
-      </if>
-      <if test="etag != null">
-        etag,
       </if>
       <if test="ossUrl != null">
         oss_url,
@@ -186,8 +171,8 @@
       <if test="imagePreviewUrl != null">
         image_preview_url,
       </if>
-      <if test="audioDuration != null">
-        audio_duration,
+      <if test="duration != null">
+        duration,
       </if>
       <if test="createTime != null">
         create_time,
@@ -224,17 +209,8 @@
       <if test="imageHeight != null">
         #{imageHeight,jdbcType=INTEGER},
       </if>
-      <if test="imageFormat != null">
-        #{imageFormat,jdbcType=VARCHAR},
-      </if>
-      <if test="mimeType != null">
-        #{mimeType,jdbcType=VARCHAR},
-      </if>
       <if test="md5 != null">
         #{md5,jdbcType=VARCHAR},
-      </if>
-      <if test="etag != null">
-        #{etag,jdbcType=VARCHAR},
       </if>
       <if test="ossUrl != null">
         #{ossUrl,jdbcType=VARCHAR},
@@ -245,8 +221,8 @@
       <if test="imagePreviewUrl != null">
         #{imagePreviewUrl,jdbcType=VARCHAR},
       </if>
-      <if test="audioDuration != null">
-        #{audioDuration,jdbcType=BIGINT},
+      <if test="duration != null">
+        #{duration,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -292,17 +268,8 @@
       <if test="record.imageHeight != null">
         image_height = #{record.imageHeight,jdbcType=INTEGER},
       </if>
-      <if test="record.imageFormat != null">
-        image_format = #{record.imageFormat,jdbcType=VARCHAR},
-      </if>
-      <if test="record.mimeType != null">
-        mime_type = #{record.mimeType,jdbcType=VARCHAR},
-      </if>
       <if test="record.md5 != null">
         md5 = #{record.md5,jdbcType=VARCHAR},
-      </if>
-      <if test="record.etag != null">
-        etag = #{record.etag,jdbcType=VARCHAR},
       </if>
       <if test="record.ossUrl != null">
         oss_url = #{record.ossUrl,jdbcType=VARCHAR},
@@ -313,8 +280,8 @@
       <if test="record.imagePreviewUrl != null">
         image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
       </if>
-      <if test="record.audioDuration != null">
-        audio_duration = #{record.audioDuration,jdbcType=BIGINT},
+      <if test="record.duration != null">
+        duration = #{record.duration,jdbcType=BIGINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -336,14 +303,11 @@
       object_name = #{record.objectName,jdbcType=VARCHAR},
       image_width = #{record.imageWidth,jdbcType=INTEGER},
       image_height = #{record.imageHeight,jdbcType=INTEGER},
-      image_format = #{record.imageFormat,jdbcType=VARCHAR},
-      mime_type = #{record.mimeType,jdbcType=VARCHAR},
       md5 = #{record.md5,jdbcType=VARCHAR},
-      etag = #{record.etag,jdbcType=VARCHAR},
       oss_url = #{record.ossUrl,jdbcType=VARCHAR},
       cdn_url = #{record.cdnUrl,jdbcType=VARCHAR},
       image_preview_url = #{record.imagePreviewUrl,jdbcType=VARCHAR},
-      audio_duration = #{record.audioDuration,jdbcType=BIGINT},
+      duration = #{record.duration,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -379,17 +343,8 @@
       <if test="imageHeight != null">
         image_height = #{imageHeight,jdbcType=INTEGER},
       </if>
-      <if test="imageFormat != null">
-        image_format = #{imageFormat,jdbcType=VARCHAR},
-      </if>
-      <if test="mimeType != null">
-        mime_type = #{mimeType,jdbcType=VARCHAR},
-      </if>
       <if test="md5 != null">
         md5 = #{md5,jdbcType=VARCHAR},
-      </if>
-      <if test="etag != null">
-        etag = #{etag,jdbcType=VARCHAR},
       </if>
       <if test="ossUrl != null">
         oss_url = #{ossUrl,jdbcType=VARCHAR},
@@ -400,8 +355,8 @@
       <if test="imagePreviewUrl != null">
         image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
       </if>
-      <if test="audioDuration != null">
-        audio_duration = #{audioDuration,jdbcType=BIGINT},
+      <if test="duration != null">
+        duration = #{duration,jdbcType=BIGINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -420,14 +375,11 @@
       object_name = #{objectName,jdbcType=VARCHAR},
       image_width = #{imageWidth,jdbcType=INTEGER},
       image_height = #{imageHeight,jdbcType=INTEGER},
-      image_format = #{imageFormat,jdbcType=VARCHAR},
-      mime_type = #{mimeType,jdbcType=VARCHAR},
       md5 = #{md5,jdbcType=VARCHAR},
-      etag = #{etag,jdbcType=VARCHAR},
       oss_url = #{ossUrl,jdbcType=VARCHAR},
       cdn_url = #{cdnUrl,jdbcType=VARCHAR},
       image_preview_url = #{imagePreviewUrl,jdbcType=VARCHAR},
-      audio_duration = #{audioDuration,jdbcType=BIGINT},
+      duration = #{duration,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

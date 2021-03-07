@@ -765,146 +765,6 @@ public class FileExample {
             return (Criteria) this;
         }
 
-        public Criteria andImageFormatIsNull() {
-            addCriterion("image_format is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatIsNotNull() {
-            addCriterion("image_format is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatEqualTo(String value) {
-            addCriterion("image_format =", value, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatNotEqualTo(String value) {
-            addCriterion("image_format <>", value, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatGreaterThan(String value) {
-            addCriterion("image_format >", value, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatGreaterThanOrEqualTo(String value) {
-            addCriterion("image_format >=", value, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatLessThan(String value) {
-            addCriterion("image_format <", value, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatLessThanOrEqualTo(String value) {
-            addCriterion("image_format <=", value, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatLike(String value) {
-            addCriterion("image_format like", value, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatNotLike(String value) {
-            addCriterion("image_format not like", value, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatIn(List<String> values) {
-            addCriterion("image_format in", values, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatNotIn(List<String> values) {
-            addCriterion("image_format not in", values, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatBetween(String value1, String value2) {
-            addCriterion("image_format between", value1, value2, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andImageFormatNotBetween(String value1, String value2) {
-            addCriterion("image_format not between", value1, value2, "imageFormat");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeIsNull() {
-            addCriterion("mime_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeIsNotNull() {
-            addCriterion("mime_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeEqualTo(String value) {
-            addCriterion("mime_type =", value, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeNotEqualTo(String value) {
-            addCriterion("mime_type <>", value, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeGreaterThan(String value) {
-            addCriterion("mime_type >", value, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("mime_type >=", value, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeLessThan(String value) {
-            addCriterion("mime_type <", value, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeLessThanOrEqualTo(String value) {
-            addCriterion("mime_type <=", value, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeLike(String value) {
-            addCriterion("mime_type like", value, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeNotLike(String value) {
-            addCriterion("mime_type not like", value, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeIn(List<String> values) {
-            addCriterion("mime_type in", values, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeNotIn(List<String> values) {
-            addCriterion("mime_type not in", values, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeBetween(String value1, String value2) {
-            addCriterion("mime_type between", value1, value2, "mimeType");
-            return (Criteria) this;
-        }
-
-        public Criteria andMimeTypeNotBetween(String value1, String value2) {
-            addCriterion("mime_type not between", value1, value2, "mimeType");
-            return (Criteria) this;
-        }
-
         public Criteria andMd5IsNull() {
             addCriterion("md5 is null");
             return (Criteria) this;
@@ -972,76 +832,6 @@ public class FileExample {
 
         public Criteria andMd5NotBetween(String value1, String value2) {
             addCriterion("md5 not between", value1, value2, "md5");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagIsNull() {
-            addCriterion("etag is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagIsNotNull() {
-            addCriterion("etag is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagEqualTo(String value) {
-            addCriterion("etag =", value, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagNotEqualTo(String value) {
-            addCriterion("etag <>", value, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagGreaterThan(String value) {
-            addCriterion("etag >", value, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagGreaterThanOrEqualTo(String value) {
-            addCriterion("etag >=", value, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagLessThan(String value) {
-            addCriterion("etag <", value, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagLessThanOrEqualTo(String value) {
-            addCriterion("etag <=", value, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagLike(String value) {
-            addCriterion("etag like", value, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagNotLike(String value) {
-            addCriterion("etag not like", value, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagIn(List<String> values) {
-            addCriterion("etag in", values, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagNotIn(List<String> values) {
-            addCriterion("etag not in", values, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagBetween(String value1, String value2) {
-            addCriterion("etag between", value1, value2, "etag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEtagNotBetween(String value1, String value2) {
-            addCriterion("etag not between", value1, value2, "etag");
             return (Criteria) this;
         }
 
@@ -1255,63 +1045,63 @@ public class FileExample {
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationIsNull() {
-            addCriterion("audio_duration is null");
+        public Criteria andDurationIsNull() {
+            addCriterion("duration is null");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationIsNotNull() {
-            addCriterion("audio_duration is not null");
+        public Criteria andDurationIsNotNull() {
+            addCriterion("duration is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationEqualTo(Long value) {
-            addCriterion("audio_duration =", value, "audioDuration");
+        public Criteria andDurationEqualTo(Long value) {
+            addCriterion("duration =", value, "duration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationNotEqualTo(Long value) {
-            addCriterion("audio_duration <>", value, "audioDuration");
+        public Criteria andDurationNotEqualTo(Long value) {
+            addCriterion("duration <>", value, "duration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationGreaterThan(Long value) {
-            addCriterion("audio_duration >", value, "audioDuration");
+        public Criteria andDurationGreaterThan(Long value) {
+            addCriterion("duration >", value, "duration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationGreaterThanOrEqualTo(Long value) {
-            addCriterion("audio_duration >=", value, "audioDuration");
+        public Criteria andDurationGreaterThanOrEqualTo(Long value) {
+            addCriterion("duration >=", value, "duration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationLessThan(Long value) {
-            addCriterion("audio_duration <", value, "audioDuration");
+        public Criteria andDurationLessThan(Long value) {
+            addCriterion("duration <", value, "duration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationLessThanOrEqualTo(Long value) {
-            addCriterion("audio_duration <=", value, "audioDuration");
+        public Criteria andDurationLessThanOrEqualTo(Long value) {
+            addCriterion("duration <=", value, "duration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationIn(List<Long> values) {
-            addCriterion("audio_duration in", values, "audioDuration");
+        public Criteria andDurationIn(List<Long> values) {
+            addCriterion("duration in", values, "duration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationNotIn(List<Long> values) {
-            addCriterion("audio_duration not in", values, "audioDuration");
+        public Criteria andDurationNotIn(List<Long> values) {
+            addCriterion("duration not in", values, "duration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationBetween(Long value1, Long value2) {
-            addCriterion("audio_duration between", value1, value2, "audioDuration");
+        public Criteria andDurationBetween(Long value1, Long value2) {
+            addCriterion("duration between", value1, value2, "duration");
             return (Criteria) this;
         }
 
-        public Criteria andAudioDurationNotBetween(Long value1, Long value2) {
-            addCriterion("audio_duration not between", value1, value2, "audioDuration");
+        public Criteria andDurationNotBetween(Long value1, Long value2) {
+            addCriterion("duration not between", value1, value2, "duration");
             return (Criteria) this;
         }
 

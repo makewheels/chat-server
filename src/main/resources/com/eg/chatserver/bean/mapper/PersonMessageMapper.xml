@@ -134,7 +134,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.PersonMessage" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="com.eg.chatserver.bean.PersonMessage">
     insert into person_message (id, message_id, from_user_id, 
       to_user_id, conversation_id, file_id, 
       message_type, is_upload_finish, is_arrive, 
@@ -146,7 +146,7 @@
       #{arriveTime,jdbcType=TIMESTAMP}, #{isRead,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, 
       #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.PersonMessage" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.eg.chatserver.bean.PersonMessage">
     insert into person_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
