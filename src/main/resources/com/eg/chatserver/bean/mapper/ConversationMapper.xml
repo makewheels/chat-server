@@ -106,7 +106,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.Conversation">
+  <insert id="insert" parameterType="com.eg.chatserver.bean.Conversation" useGeneratedKeys="true" keyProperty="id">
     insert into conversation (id, conversation_id, user_id, 
       target_id, type, title, 
       message_count, unread_message_count, update_time, 

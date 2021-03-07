@@ -112,7 +112,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.eg.chatserver.bean.File">
+  <insert id="insert" parameterType="com.eg.chatserver.bean.File" useGeneratedKeys="true" keyProperty="id">
     insert into file (id, file_id, type, 
       size, original_name, extension, 
       bucket_name, object_name, image_width, 
