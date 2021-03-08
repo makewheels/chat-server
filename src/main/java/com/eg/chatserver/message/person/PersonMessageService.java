@@ -280,7 +280,7 @@ public class PersonMessageService {
                 //给阿里云对象名
                 objectName = ossService.getAudioObjectName(fromUser, fileId);
                 //音频时长
-                file.setAudioDuration(sendMessageRequest.getAudioDuration());
+                file.setDuration(sendMessageRequest.getAudioDuration());
                 break;
             case MessageType.IMAGE: //图片
                 objectName = ossService.getImageObjectName(fromUser, fileId);
@@ -330,8 +330,6 @@ public class PersonMessageService {
             sendMessageResponse.setIsNeedUpload(true);
         }
         sendMessageResponse.setObjectName(file.getObjectName());
-        //给阿里云回调地址
-        sendMessageResponse.setCallbackUrl(ossService.getOssCallbackUrl());
     }
 
 

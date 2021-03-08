@@ -89,7 +89,6 @@ public class UserSigService {
                 0, compressedBytesLength)));
     }
 
-
     private String hmacsha256(String userId, long currTime, String base64Userbuf) {
         String contentToBeSigned = "TLS.identifier:" + userId + "\n"
                 + "TLS.sdkappid:" + (long) UserSigService.SDKAPPID + "\n"
