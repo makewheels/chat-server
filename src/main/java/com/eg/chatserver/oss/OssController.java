@@ -1,5 +1,6 @@
 package com.eg.chatserver.oss;
 
+import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.common.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +23,8 @@ public class OssController {
     @PostMapping("/getCredential")
     @ApiOperation(value = "获取临时凭证")
     public Result<Void> getCredential(HttpServletRequest request) {
-        ossService.getCredential(900, "*");
+        OssCredential credential = ossService.getCredential(900, "*");
+        System.out.println(JSON.toJSONString(credential));
         return Result.ok();
     }
 

@@ -12,6 +12,7 @@ import com.eg.chatserver.message.MessageType;
 import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
 import com.eg.chatserver.message.person.bean.SendMessageResponse;
+import com.eg.chatserver.oss.OssCredential;
 import com.eg.chatserver.oss.OssService;
 import com.eg.chatserver.push.MessagePushService;
 import com.eg.chatserver.push.PushResult;
@@ -194,7 +195,7 @@ public class PersonMessageService {
         //更新conversation消息数量
         updateConversationListCount(conversationList);
         //准备返回结果
-        SendMessageResponse sendMessageResponse = prepareSendMessageResponse(
+        SendMessageResponse sendMessageResponse = getSendMessageResponse(
                 user, toUser, sendMessageRequest, personMessage);
         //保存消息
         log.info("save person message: {}", JSON.toJSONString(personMessage));
@@ -205,7 +206,7 @@ public class PersonMessageService {
     /**
      * 发送消息的时候，在保存消息之后
      */
-    private SendMessageResponse prepareSendMessageResponse(
+    private SendMessageResponse getSendMessageResponse(
             User fromUser, User toUser, SendMessageRequest sendMessageRequest,
             PersonMessage personMessage) {
         String messageType = sendMessageRequest.getMessageType();
@@ -328,8 +329,11 @@ public class PersonMessageService {
             fileMapper.insert(file);
             //告诉客户端需要上传
             sendMessageResponse.setIsNeedUpload(true);
+            //获取临时上传凭证
+            OssCredential ossCredential = ossService.getCredential(1200, file.getObjectName());
+            sendMessageResponse.setOssCredential(ossCredential);
         }
-        sendMessageResponse.setObjectName(file.getObjectName());
+        sendMessageResponse.setObject(file.getObjectName());
     }
 
 
