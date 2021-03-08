@@ -330,6 +330,7 @@ public class PersonMessageService {
             fileMapper.insert(file);
             //告诉客户端需要上传
             sendMessageResponse.setIsNeedUpload(true);
+            sendMessageResponse.setRegion(ossService.getRegion());
             sendMessageResponse.setBucket(file.getBucketName());
             sendMessageResponse.setObject(file.getObjectName());
             //获取临时上传凭证

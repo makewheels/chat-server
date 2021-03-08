@@ -21,6 +21,7 @@ public class SendMessageResponse {
     private Date createTime;
 
     //以下只有在上传文件的时候才调用
+    private String region;
     private String bucket;
     private String object;
 
