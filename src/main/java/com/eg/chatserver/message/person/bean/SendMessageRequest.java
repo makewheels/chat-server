@@ -19,10 +19,18 @@ public class SendMessageRequest {
     @ApiModelProperty(value = "消息内容", example = "hello baby!")
     private String content;
 
-    @ApiModelProperty(value = "音频时长，单位毫秒", example = "3520")
-    private Long audioDuration;
     @ApiModelProperty(value = "原始文件名", example = "IMG_001.jpg")
     private String originalFilename;
     @ApiModelProperty(value = "文件md5", example = "69D266E25891BFE24665ABCB9244B7AB")
     private String md5;
+    @ApiModelProperty(value = "文件大小", example = "68689920")
+    private Long size;
+
+    @ApiModelProperty(value = "音视频时长，单位毫秒", example = "3520")
+    private Long duration;
+
+    @ApiModelProperty(value = "图片宽度", example = "1920")
+    private Integer imageWidth;
+    @ApiModelProperty(value = "图片高度", example = "1080")
+    private Integer imageHeight;
 }

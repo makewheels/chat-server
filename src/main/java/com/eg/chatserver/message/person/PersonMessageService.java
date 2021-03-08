@@ -282,7 +282,7 @@ public class PersonMessageService {
                 //给阿里云对象名
                 objectName = ossService.getAudioObjectName(fromUser, fileId, extension);
                 //音频时长
-                file.setDuration(sendMessageRequest.getAudioDuration());
+                file.setDuration(sendMessageRequest.getDuration());
                 break;
             case MessageType.IMAGE: //图片
                 objectName = ossService.getImageObjectName(fromUser, fileId, extension);
