@@ -34,8 +34,8 @@ public class UserSigService {
     private static final int SDKAPPID = 1400486439;
     private static final int EXPIRETIME = 604800;
 
-    @Value("${rtc.SECRETKEY}")
-    private String SECRETKEY;
+    @Value("${tencent.rtc.secretkey}")
+    private String secretkey;
 
     /**
      * 计算 UserSig 签名
@@ -54,7 +54,7 @@ public class UserSigService {
      * @return 如果出错，会返回为空，或者有异常打印，成功返回有效的票据
      */
     private String genTLSSignature(String userId) {
-        if (StringUtils.isEmpty(SECRETKEY)) {
+        if (StringUtils.isEmpty(secretkey)) {
             return "";
         }
         long currTime = System.currentTimeMillis() / 1000;
@@ -98,7 +98,7 @@ public class UserSigService {
             contentToBeSigned += "TLS.userbuf:" + base64Userbuf + "\n";
         }
         try {
-            byte[] byteKey = SECRETKEY.getBytes(StandardCharsets.UTF_8);
+            byte[] byteKey = secretkey.getBytes(StandardCharsets.UTF_8);
             Mac hmac = Mac.getInstance("HmacSHA256");
             SecretKeySpec keySpec = new SecretKeySpec(byteKey, "HmacSHA256");
             hmac.init(keySpec);

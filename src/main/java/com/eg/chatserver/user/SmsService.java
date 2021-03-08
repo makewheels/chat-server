@@ -21,9 +21,9 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class SmsService {
-    @Value("${aliyun.sms.accessKeyId}")
+//    @Value("${aliyun.sms.accessKeyId}")
     private String accessKeyId;
-    @Value("${sms.accessKeySecret}")
+//    @Value("${sms.accessKeySecret}")
     private String accessKeySecret;
 
     /**
