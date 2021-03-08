@@ -37,11 +37,11 @@ public class OssService {
     @Value("${tencent.cos.secretKey}")
     private String secretKey;
 
-    @Value("${tencent.cos.domain}")
-    private String domain;
+    @Value("${tencent.cos.url}")
+    private String url;
 
-    @Value("${tencent.cos.cdnDomain}")
-    private String cdnDomain;
+    @Value("${tencent.cos.cdnUrl}")
+    private String cdnUrl;
 
     private COSClient cosClient;
 
@@ -96,18 +96,27 @@ public class OssService {
     }
 
     //获取音频对象名
-    public String getAudioObjectName(User user, String fileId) {
-        return "audio/" + user.getUserId() + "/" + fileId;
+    public String getAudioObjectName(User user, String fileId, String extension) {
+        if (extension == null)
+            return "audio/" + user.getUserId() + "/" + fileId;
+        else
+            return "audio/" + user.getUserId() + "/" + fileId + "." + extension;
     }
 
     //获取图片对象名
-    public String getImageObjectName(User user, String fileId) {
-        return "image/" + user.getUserId() + "/" + fileId;
+    public String getImageObjectName(User user, String fileId, String extension) {
+        if (extension == null)
+            return "image/" + user.getUserId() + "/" + fileId;
+        else
+            return "image/" + user.getUserId() + "/" + fileId + "." + extension;
     }
 
     //获取视频对象名
-    public String getVideoObjectName(User user, String fileId) {
-        return "video/" + user.getUserId() + "/" + fileId;
+    public String getVideoObjectName(User user, String fileId, String extension) {
+        if (extension == null)
+            return "video/" + user.getUserId() + "/" + fileId;
+        else
+            return "video/" + user.getUserId() + "/" + fileId + "." + extension;
     }
 
 }

@@ -150,7 +150,7 @@ public class PersonMessageService {
         Object[] objects = new Object[3];
         //如果没找到
         if (CollectionUtils.isEmpty(conversationList)) {
-            log.error("con not find conversation by id: {}", conversationId);
+            log.error("can not find conversation by id: {}", conversationId);
             objects[0] = ErrorCode.MESSAGE_CANT_FIND_CONVERSATION;
             return objects;
         } else if (conversationList.size() != 2) {
@@ -270,8 +270,9 @@ public class PersonMessageService {
         file.setFileId(fileId);
         String originalFilename = sendMessageRequest.getOriginalFilename();
         file.setOriginalName(originalFilename);
-        file.setExtension(FilenameUtils.getExtension(originalFilename));
-        file.setBucketName(Constants.ALIYUN.OSS_BUCKET_NAME);
+        String extension = FilenameUtils.getExtension(originalFilename);
+        file.setExtension(extension);
+        file.setBucketName(ossService.getBucket());
         file.setMd5(sendMessageRequest.getMd5());
         file.setType(messageType);
         file.setCreateTime(new Date());
@@ -279,25 +280,25 @@ public class PersonMessageService {
         switch (messageType) {
             case MessageType.AUDIO: //音频
                 //给阿里云对象名
-                objectName = ossService.getAudioObjectName(fromUser, fileId);
+                objectName = ossService.getAudioObjectName(fromUser, fileId, extension);
                 //音频时长
                 file.setDuration(sendMessageRequest.getAudioDuration());
                 break;
             case MessageType.IMAGE: //图片
-                objectName = ossService.getImageObjectName(fromUser, fileId);
+                objectName = ossService.getImageObjectName(fromUser, fileId, extension);
                 break;
             case MessageType.VIDEO: //视频
-                objectName = ossService.getVideoObjectName(fromUser, fileId);
+                objectName = ossService.getVideoObjectName(fromUser, fileId, extension);
                 break;
         }
         //对象名
         file.setObjectName(objectName);
         //文件url
-        file.setOssUrl(Constants.ALIYUN.OSS_PREFIX + objectName);
-        file.setCdnUrl(Constants.ALIYUN.OSS_PREFIX_CDN + objectName);
+        file.setOssUrl(ossService.getUrl() + "/" + objectName);
+        file.setCdnUrl(ossService.getCdnUrl() + "/" + objectName);
         //如果是图片，还要给预览图地址
         if (messageType.equals(MessageType.IMAGE)) {
-            file.setImagePreviewUrl(file.getOssUrl() + Constants.ALIYUN.OSS_IMAGE_PREVIEW_PARAM);
+            file.setImagePreviewUrl(file.getOssUrl() + Constants.OSS.OSS_IMAGE_PREVIEW_PARAM);
         }
         //甚至还需要再给阿里云回调参数
         // 但是这里就先不给了，就让android直接传，messageId就行了
@@ -329,11 +330,13 @@ public class PersonMessageService {
             fileMapper.insert(file);
             //告诉客户端需要上传
             sendMessageResponse.setIsNeedUpload(true);
+            sendMessageResponse.setBucket(file.getBucketName());
+            sendMessageResponse.setObject(file.getObjectName());
             //获取临时上传凭证
-            OssCredential ossCredential = ossService.getCredential(1200, file.getObjectName());
+            OssCredential ossCredential = ossService.getCredential(
+                    Constants.OSS.OSS_STS_CREDENTIAL_DURATION, file.getObjectName());
             sendMessageResponse.setOssCredential(ossCredential);
         }
-        sendMessageResponse.setObject(file.getObjectName());
     }
 
 

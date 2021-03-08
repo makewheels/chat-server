@@ -90,7 +90,7 @@ public class UserAccountService {
         //给密码hash
         user.setPassword(getPasswordHash(registerRequest.getPassword()));
         user.setCreateTime(new Date());
-        user.setHeadImageUrl(Constants.ALIYUN.DEFAULT_HEAD_IMAGE_URL);
+        user.setHeadImageUrl(Constants.OSS.DEFAULT_HEAD_IMAGE_URL);
         //生成loginToken
         String loginToken = generateLoginToken();
         user.setLoginToken(loginToken);
