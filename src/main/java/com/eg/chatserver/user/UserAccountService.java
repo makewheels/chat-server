@@ -390,12 +390,12 @@ public class UserAccountService {
         //如果获取不到，说明填写验证码的时间，过期了，返回错误信息
         if (modifyPhoneRedis == null) {
             log.error("modify phone fail, verification code timeout = {}", JSON.toJSONString(user));
-            return Result.error(ErrorCode.MODIFY_PHONE_VERIFICATIONCODE_EXPIRE);
+            return Result.error(ErrorCode.MODIFY_PHONE_VERIFICATION_CODE_EXPIRE);
         }
         //校验验证码，如果错误，返回错误信息
         if (!modifyPhoneRedis.getVerificationCode().equals(submitVerificationCodeRequest.getVerificationCode())) {
             log.warn("Get verification code, verification code wrong , user: {}", JSON.toJSONString(user));
-            return Result.error(ErrorCode.MODIFY_PHONE_VERIFICATIONCODE_WRONG);
+            return Result.error(ErrorCode.MODIFY_PHONE_VERIFICATION_CODE_WRONG);
         }
         //如果验证码校验通过，修改手机
         String newPhone = modifyPhoneRedis.getNewPhone();

@@ -466,4 +466,24 @@ public class PersonMessageService {
         personMessageMapper.updateByPrimaryKeySelective(personMessageUpdate);
         return Result.ok();
     }
+
+    /**
+     * 通知上传文件完成
+     *
+     * @param user
+     * @param messageId
+     * @return
+     */
+    public Result<Void> uploadFileFinish(User user, String messageId) {
+        PersonMessage message = findByMessageId(messageId);
+        if (message == null)
+            return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
+        if (!user.getUserId().equals(message.getFromUserId()))
+            return Result.error(ErrorCode.FAIL);
+        PersonMessage messageUpdate = new PersonMessage();
+        messageUpdate.setId(message.getId());
+        messageUpdate.setIsUploadFinish(true);
+        personMessageMapper.updateByPrimaryKeySelective(messageUpdate);
+        return Result.ok();
+    }
 }

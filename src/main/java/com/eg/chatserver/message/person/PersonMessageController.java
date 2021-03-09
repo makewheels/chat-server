@@ -57,8 +57,21 @@ public class PersonMessageController {
         return personMessageService.sendMessage(user, sendMessageRequest);
     }
 
+    @PostMapping("/uploadFileFinish")
+    @ApiOperation(value = "通知上传文件完成")
+    public Result<Void> uploadFileFinish(
+            @RequestBody MessageIdRequest messageIdRequest,
+            HttpServletRequest request) {
+        String messageId = messageIdRequest.getMessageId();
+        if (StringUtils.isEmpty(messageId)) {
+            return Result.error(ErrorCode.WRONG_PARAM);
+        }
+        User user = userAccountService.getUserByRequest(request);
+        return personMessageService.uploadFileFinish(user, messageId);
+    }
+
     @PostMapping("/pullByMessageId")
-    @ApiOperation(value = "根据消息id拉取一条消息")
+    @ApiOperation(value = "根据id拉一条消息")
     public Result<PullMessageResponse> pullByMessageId(
             HttpServletRequest request, @RequestBody MessageIdRequest messageIdRequest) {
         String messageId = messageIdRequest.getMessageId();
