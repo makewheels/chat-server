@@ -16,7 +16,7 @@ public class SendMessageRequest {
     private String conversationId;
     @ApiModelProperty(value = "消息类型", required = true, example = MessageType.TEXT)
     private String messageType;
-    @ApiModelProperty(value = "消息内容", example = "hello baby!")
+    @ApiModelProperty(value = "消息内容，仅针对文本消息", example = "hello baby!")
     private String content;
 
     @ApiModelProperty(value = "原始文件名", example = "IMG_001.jpg")

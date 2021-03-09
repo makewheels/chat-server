@@ -275,6 +275,7 @@ public class PersonMessageService {
         file.setBucketName(ossService.getBucket());
         file.setMd5(sendMessageRequest.getMd5());
         file.setType(messageType);
+        file.setSize(sendMessageRequest.getSize());
         file.setCreateTime(new Date());
         String objectName = null;
         switch (messageType) {
