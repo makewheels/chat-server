@@ -476,14 +476,18 @@ public class PersonMessageService {
      */
     public Result<Void> uploadFileFinish(User user, String messageId) {
         PersonMessage message = findByMessageId(messageId);
+        //如果消息不存在
         if (message == null)
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
+        //如果不是他的消息
         if (!user.getUserId().equals(message.getFromUserId()))
             return Result.error(ErrorCode.FAIL);
         PersonMessage messageUpdate = new PersonMessage();
         messageUpdate.setId(message.getId());
         messageUpdate.setIsUploadFinish(true);
         personMessageMapper.updateByPrimaryKeySelective(messageUpdate);
+        log.info("uploadFileFinish, update message isUploadFinish state, message = {}",
+                JSON.toJSONString(message));
         return Result.ok();
     }
 }
