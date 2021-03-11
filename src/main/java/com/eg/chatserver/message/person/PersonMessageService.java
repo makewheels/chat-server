@@ -218,7 +218,7 @@ public class PersonMessageService {
             //推送给目标用户，告诉他messageId，让他去拉消息
             //开子线程推送
             new Thread(() ->
-                    pushMessageToTargetUser(toUser, personMessage)
+                    pushMessageToUser(toUser, personMessage)
             ).start();
         }
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
@@ -345,17 +345,18 @@ public class PersonMessageService {
     /**
      * 向指定用户推送消息，告诉他拉取一条新消息
      */
-    private void pushMessageToTargetUser(User toUser, PersonMessage personMessage) {
+    private void pushMessageToUser(User toUser, PersonMessage personMessage) {
         //如果没有极光注册id
         if (StringUtils.isEmpty(toUser.getJpushRegistrationId())) {
             log.warn("push to person message, target user not login: {}", JSON.toJSONString(toUser));
         } else {
             //正常执行推送
             String messageId = personMessage.getMessageId();
+            String messageType = personMessage.getMessageType();
             PushResult pushResult = messagePushService.pushPersonMessage(toUser, personMessage);
             if (pushResult.isResultOK()) {
-                log.info("push success messageId = {}, pushResult = {}", messageId,
-                        JSON.toJSONString(pushResult));
+                log.info("push success messageId = {}, messageType = {}, pushResult = {}", messageId,
+                        messageType, JSON.toJSONString(pushResult));
             }
         }
     }
@@ -490,8 +491,13 @@ public class PersonMessageService {
         //推送对方
         User toUser = userAccountService.findUserByUserId(message.getToUserId());
         new Thread(() ->
-                pushMessageToTargetUser(toUser, message)
+                pushMessageToUser(toUser, message)
         ).start();
+        //如果是音频，语音识别
+        String messageType = message.getMessageType();
+        if (messageType.equals(MessageType.AUDIO)) {
+
+        }
         return Result.ok();
     }
 }
