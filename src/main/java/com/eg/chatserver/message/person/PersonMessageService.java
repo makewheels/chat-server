@@ -218,7 +218,7 @@ public class PersonMessageService {
             //推送给目标用户，告诉他messageId，让他去拉消息
             //开子线程推送
             new Thread(() ->
-                    pushMessageToTargetUser(toUser, messageId)
+                    pushMessageToTargetUser(toUser, personMessage)
             ).start();
         }
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
@@ -314,7 +314,7 @@ public class PersonMessageService {
             PersonMessage personMessage, SendMessageResponse sendMessageResponse) {
         //先根据md5找文件，如果已经有了，就不用保存新的文件了
         //其实这种情况，我估计，也就是图片可能遇到
-        File file = findFileByMd5(sendMessageRequest.getMd5().toUpperCase());
+        File file = findFileByMd5(sendMessageRequest.getMd5());
         //设置上传完成状态
         personMessage.setIsUploadFinish(file != null);
         //如果这个文件已经有了
@@ -344,17 +344,15 @@ public class PersonMessageService {
 
     /**
      * 向指定用户推送消息，告诉他拉取一条新消息
-     *
-     * @param toUser
-     * @param messageId
      */
-    private void pushMessageToTargetUser(User toUser, String messageId) {
+    private void pushMessageToTargetUser(User toUser, PersonMessage personMessage) {
         //如果没有极光注册id
         if (StringUtils.isEmpty(toUser.getJpushRegistrationId())) {
             log.warn("push to person message, target user not login: {}", JSON.toJSONString(toUser));
         } else {
             //正常执行推送
-            PushResult pushResult = messagePushService.pushPersonMessage(toUser, messageId);
+            String messageId = personMessage.getMessageId();
+            PushResult pushResult = messagePushService.pushPersonMessage(toUser, personMessage);
             if (pushResult.isResultOK()) {
                 log.info("push success messageId = {}, pushResult = {}", messageId,
                         JSON.toJSONString(pushResult));
@@ -372,7 +370,8 @@ public class PersonMessageService {
         PersonMessageExample personMessageExample = new PersonMessageExample();
         PersonMessageExample.Criteria criteria = personMessageExample.createCriteria();
         criteria.andMessageIdEqualTo(messageId);
-        List<PersonMessage> personMessageList = personMessageMapper.selectByExample(personMessageExample);
+        List<PersonMessage> personMessageList
+                = personMessageMapper.selectByExample(personMessageExample);
         if (CollectionUtils.isEmpty(personMessageList)) {
             return null;
         } else {
@@ -488,6 +487,11 @@ public class PersonMessageService {
         personMessageMapper.updateByPrimaryKeySelective(messageUpdate);
         log.info("uploadFileFinish, update message isUploadFinish state, message = {}",
                 JSON.toJSONString(message));
+        //推送对方
+        User toUser = userAccountService.findUserByUserId(message.getToUserId());
+        new Thread(() ->
+                pushMessageToTargetUser(toUser, message)
+        ).start();
         return Result.ok();
     }
 }
