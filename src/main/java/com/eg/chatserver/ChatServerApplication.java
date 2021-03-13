@@ -29,7 +29,7 @@ public class ChatServerApplication {
                 "com.eg.chatserver.bean.PersonMessage",
                 "com.eg.chatserver.bean.User"
         };
-        Arrays.stream(beans).forEach(JsonToStringUtil::modifyToStringMethod);
+//        Arrays.stream(beans).forEach(JsonToStringUtil::modifyToStringMethod);
 
         SpringApplication.run(ChatServerApplication.class, args);
     }
