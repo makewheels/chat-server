@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * @Author makewheels
  * @Time 2021.03.13 10:00:04
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface JsonToString {
 }
