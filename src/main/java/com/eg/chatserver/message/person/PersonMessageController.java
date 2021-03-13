@@ -12,6 +12,7 @@ import com.eg.chatserver.user.UserAccountService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  * @Author makewheels
  * @Time 2021.01.31 12:50:11
  */
+@ToString
 @RestController
 @RequestMapping("/message/person")
 @Api(tags = "对人的消息 Controller")

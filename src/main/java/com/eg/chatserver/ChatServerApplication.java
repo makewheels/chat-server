@@ -11,6 +11,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class ChatServerApplication {
 //        handleEnvironment();
 
         SpringApplication.run(ChatServerApplication.class, args);
+
     }
 
     /**
