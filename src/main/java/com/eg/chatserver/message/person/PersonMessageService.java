@@ -198,8 +198,8 @@ public class PersonMessageService {
         SendMessageResponse sendMessageResponse = getSendMessageResponse(
                 user, toUser, sendMessageRequest, personMessage);
         //保存消息
-//        log.info("save person message: {}", personMessage);
-        log.info("save person message: {}", JSON.toJSONString(personMessage));
+        log.info("save person message: {}", personMessage);
+//        log.info("save person message: {}", JSON.toJSONString(personMessage));
         personMessageMapper.insert(personMessage);
         return Result.ok(sendMessageResponse);
     }

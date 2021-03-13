@@ -1,10 +1,10 @@
 package com.eg.chatserver.bean;
 
-import lombok.Data;
-import lombok.ToString;
+import com.eg.chatserver.utils.JsonToString;
 
 import java.util.Date;
 
+@JsonToString
 public class PersonMessage {
     private Long id;
 
