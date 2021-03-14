@@ -20,10 +20,9 @@ public class Test {
                 "com.eg.chatserver.bean.PersonMessage",
                 "com.eg.chatserver.bean.User"
         };
-        Arrays.stream(beans).forEach(JsonToStringUtil::modifyToStringMethod);
+//        Arrays.stream(beans).forEach(JsonToStringUtil::modifyToStringMethod);
 
         Set<Class<?>> classSet = ClassUtil.getClasses("com.eg.chatserver.bean", true);
-        classSet.forEach(System.out::println);
         classSet.stream()
                 .filter(clazz -> clazz.isAnnotationPresent(JsonToString.class))
                 .forEach(clazz -> JsonToStringUtil.modifyToStringMethod(clazz.getName()));

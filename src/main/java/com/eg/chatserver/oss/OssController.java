@@ -1,6 +1,5 @@
 package com.eg.chatserver.oss;
 
-import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.common.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("oss")
@@ -20,12 +18,10 @@ public class OssController {
     @Resource
     private OssService ossService;
 
-    @PostMapping("/getCredential")
-    @ApiOperation(value = "获取临时凭证")
-    public Result<Void> getCredential(HttpServletRequest request) {
-        OssCredential credential = ossService.getCredential(900, "*");
-        System.out.println(JSON.toJSONString(credential));
+    @PostMapping("/generatePresignedUrl")
+    @ApiOperation(value = "generatePresignedUrl")
+    public Result<Void> generatePresignedUrl() {
+        ossService.generatePresignedUrl("object", 30L * 60L * 1000L);
         return Result.ok();
     }
-
 }

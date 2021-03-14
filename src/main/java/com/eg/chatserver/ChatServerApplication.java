@@ -1,6 +1,5 @@
 package com.eg.chatserver;
 
-import com.eg.chatserver.utils.ClassUtil;
 import com.eg.chatserver.utils.JsonToStringUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
@@ -10,7 +9,6 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ClassUtils;
 
 import java.io.File;
 import java.io.IOException;

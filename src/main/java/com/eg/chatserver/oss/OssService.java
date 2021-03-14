@@ -6,6 +6,8 @@ import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
 import com.qcloud.cos.auth.COSCredentials;
+import com.qcloud.cos.http.HttpMethodName;
+import com.qcloud.cos.model.GeneratePresignedUrlRequest;
 import com.qcloud.cos.region.Region;
 import com.tencent.cloud.CosStsClient;
 import lombok.Data;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.TreeMap;
 
 /**
@@ -94,6 +97,25 @@ public class OssService {
         }
         return JSON.parseObject(json, OssCredential.class);
     }
+
+    /**
+     * 获取带签名的url
+     *
+     * @param object         对象名
+     * @param expirationTime 过期时长
+     * @return
+     */
+    public String generatePresignedUrl(String object, long expirationTime) {
+        GeneratePresignedUrlRequest request
+                = new GeneratePresignedUrlRequest(bucket, object, HttpMethodName.GET);
+        Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
+        request.setExpiration(expirationDate);
+        String url = getCOSClient().generatePresignedUrl(request).toString();
+        if (url.startsWith("http://"))
+            url = url.replaceFirst("http://", "https://");
+        return url;
+    }
+
 
     //获取音频对象名
     public String getAudioObjectName(User user, String fileId, String extension) {
