@@ -21,7 +21,10 @@ public class OssController {
     @PostMapping("/generatePresignedUrl")
     @ApiOperation(value = "generatePresignedUrl")
     public Result<Void> generatePresignedUrl() {
-        ossService.generatePresignedUrl("object", 30L * 60L * 1000L);
+        String object = ossService.generatePresignedUrl(
+                "audio/user1a9a80964bc44183b72d36742742aa7d/file735cfe0246994ead96664ed1825aa022.wav",
+                30L * 60L * 1000L);
+        System.out.println(object);
         return Result.ok();
     }
 }
