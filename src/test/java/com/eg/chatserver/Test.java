@@ -5,7 +5,6 @@ import com.eg.chatserver.utils.ClassUtil;
 import com.eg.chatserver.utils.JsonToString;
 import com.eg.chatserver.utils.JsonToStringUtil;
 
-import java.util.Arrays;
 import java.util.Set;
 
 /**

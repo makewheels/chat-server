@@ -342,7 +342,6 @@ public class PersonMessageService {
         }
     }
 
-
     /**
      * 向指定用户推送消息，告诉他拉取一条新消息
      */

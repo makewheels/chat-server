@@ -1,10 +1,7 @@
 package com.eg.chatserver.bean;
 
-import com.eg.chatserver.utils.JsonToString;
-
 import java.util.Date;
 
-@JsonToString
 public class PersonMessage {
     private Long id;
 
