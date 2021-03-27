@@ -7,5 +7,11 @@ useGeneratedKeys="true" keyProperty="id"
 #Redis in Docker
 docker run -itd --name redis -p 6379:6379 --restart=always redis --requirepass wXc8UEqiimY6VHBG
 
-#阿里内网git
-http://172.24.55.58:3000/abc/chat-server
+流水线运行：
+tar zxvf /home/admin/app/package.tgz -C /home/admin/app/
+sh /home/admin/app/deploy.sh restart
+
+开机自动运行：
+vim /etc/rc.d/rc.local
+
+chmod a+x /etc/rc.d/rc.local
