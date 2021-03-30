@@ -170,9 +170,11 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.2.2</version>
                 <configuration>
-                    <dockerHost>http://registry.cn-beijing.aliyuncs.com:2375</dockerHost>
-                    <imageName>registry.cn-beijing.aliyuncs.com/${project.artifactId}</imageName>
-                    <dockerDirectory>/Dockerfile</dockerDirectory>
+                    <imageName>registry.cn-beijing.aliyuncs.com/b4/${project.artifactId}:${project.version}</imageName>
+<!--                    <baseImage>java:8</baseImage>-->
+                    <dockerDirectory>${project.basedir}</dockerDirectory>
+                    <entryPoint>["java","-jar","spring.profiles.active=product","/${project.build.finalName}.jar"]
+                    </entryPoint>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
@@ -180,6 +182,9 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
+                    <serverId>docker-aliyun</serverId>
+                    <registryUrl>registry.cn-beijing.aliyuncs.com</registryUrl>
+                    <pushImage>true</pushImage>
                 </configuration>
             </plugin>
         </plugins>
