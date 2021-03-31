@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.eg</groupId>
     <artifactId>chat-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>chat-server</name>
     <properties>
         <java.version>1.8</java.version>
@@ -171,11 +171,9 @@
                 <version>1.2.2</version>
                 <configuration>
                     <imageName>registry.cn-beijing.aliyuncs.com/b4/${project.artifactId}:${project.version}</imageName>
-                    <dockerDirectory>${project.basedir}</dockerDirectory>
-                    <!--                    <baseImage>java:8</baseImage>-->
-<!--                    <entryPoint>["java","-jar","spring.profiles.active=product","/${project.build.finalName}.jar"]-->
-<!--                    </entryPoint>-->
-
+                    <baseImage>java:8</baseImage>
+                    <entryPoint>["java","-jar","spring.profiles.active=product","/${project.build.finalName}.jar"]
+                    </entryPoint>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
                         <imageTag>latest</imageTag>
@@ -188,7 +186,6 @@
                         </resource>
                     </resources>
                     <serverId>docker-aliyun</serverId>
-                    <registryUrl>registry.cn-beijing.aliyuncs.com</registryUrl>
                     <pushImage>true</pushImage>
                     <dockerHost>http://39.96.78.70:2375</dockerHost>
                 </configuration>
