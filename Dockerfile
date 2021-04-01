@@ -1,6 +1,6 @@
 FROM maven:3.6.3-jdk-8
 #RUN git clone https://github.com/makewheels/chat-server
-#RUN cd chat-server
+RUN cd chat-server
 RUN echo "fwaefaweewffwe232323f"
 RUN pwd
 RUN mvn clean package
