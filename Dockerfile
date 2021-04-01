@@ -1,5 +1,7 @@
 FROM maven:3.6.3-jdk-8
-ADD chat-server-0.0.1-SNAPSHOT.jar app.jar
-RUN bash -c 'touch /app.jar'
+RUN git clone https://github.com/makewheels/chat-server
+RUN cd chat-server
+RUN mvn clean package
+ADD chat-server-0.0.1-SNAPSHOT.jar /app.jar
 EXPOSE 5007
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=product","/app.jar"]

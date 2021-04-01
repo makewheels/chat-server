@@ -57,6 +57,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>android-json</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--druid-->
@@ -172,9 +178,9 @@
                 <configuration>
                     <imageName>registry.cn-beijing.aliyuncs.com/b4/${project.artifactId}:${project.version}</imageName>
                     <dockerDirectory>${project.basedir}</dockerDirectory>
-                    <!--                    <baseImage>java:8</baseImage>-->
-<!--                    <entryPoint>["java","-jar","spring.profiles.active=product","/${project.build.finalName}.jar"]-->
-<!--                    </entryPoint>-->
+                    <!-- <baseImage>java:8</baseImage>-->
+                    <!-- <entryPoint>["java","-jar","spring.profiles.active=product","/${project.build.finalName}.jar"]-->
+                    <!-- </entryPoint>-->
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
