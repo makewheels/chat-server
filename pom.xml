@@ -186,10 +186,7 @@
                         <expose>5007</expose>
                     </exposes>
                     <entryPoint>
-                        <arg>java</arg>
-                        <arg>-jar</arg>
-                        <arg>-Dspring.profiles.active=product</arg>
-                        <arg>/${project.build.finalName}.jar</arg>
+                        ["java","-jar","-Dspring.profiles.active=product","/${project.build.finalName}.jar"]
                     </entryPoint>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
