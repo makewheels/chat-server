@@ -1,6 +1,5 @@
 package com.eg.chatserver;
 
-import com.eg.chatserver.utils.JsonToStringUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +12,6 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 
 @MapperScan("com.eg.chatserver.bean.mapper")
@@ -29,7 +27,7 @@ public class ChatServerApplication {
                 "com.eg.chatserver.bean.PersonMessage",
                 "com.eg.chatserver.bean.User"
         };
-        Arrays.stream(beans).forEach(JsonToStringUtil::modifyToStringMethod);
+//        Arrays.stream(beans).forEach(JsonToStringUtil::modifyToStringMethod);
 
         SpringApplication.run(ChatServerApplication.class, args);
     }
