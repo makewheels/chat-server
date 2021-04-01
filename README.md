@@ -23,5 +23,3 @@ vim /etc/rc.d/rc.local
 
 nohup java -jar -Dspring.profiles.active=aliyun /home/admin/app/target/chat-server-0.0.1-SNAPSHOT.jar > /home/admin/app/logs/start.log  2>&1 &
 
-##构建Docker镜像
-
