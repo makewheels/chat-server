@@ -1,4 +1,4 @@
-FROM java:8
+FROM maven:3.6.3-jdk-8
 ADD chat-server-0.0.1-SNAPSHOT.jar app.jar
 RUN bash -c 'touch /app.jar'
 EXPOSE 5007
