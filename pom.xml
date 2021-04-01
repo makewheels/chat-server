@@ -11,9 +11,6 @@
     <artifactId>chat-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>chat-server</name>
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -23,6 +20,23 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>android-json</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--Redis-->
@@ -46,23 +60,6 @@
             <groupId>org.apache.ibatis</groupId>
             <artifactId>ibatis-core</artifactId>
             <version>3.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.vaadin.external.google</groupId>
-                    <artifactId>android-json</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!--druid-->
@@ -132,11 +129,11 @@
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>4.5.18</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.aliyun.oss</groupId>-->
-        <!--            <artifactId>aliyun-sdk-oss</artifactId>-->
-        <!--            <version>3.10.2</version>-->
-        <!--        </dependency>-->
+        <!-- <dependency>-->
+        <!--     <groupId>com.aliyun.oss</groupId>-->
+        <!--     <artifactId>aliyun-sdk-oss</artifactId>-->
+        <!--     <version>3.10.2</version>-->
+        <!-- </dependency>-->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
@@ -188,18 +185,18 @@
                     <exposes>
                         <expose>5007</expose>
                     </exposes>
-<!--                    <entryPoint>-->
-<!--                        <arg>java</arg>-->
-<!--                        <arg>-jar</arg>-->
-<!--                        <arg>-Dspring.profiles.active=product</arg>-->
-<!--                        <arg>/${project.build.finalName}.jar</arg>-->
-<!--                    </entryPoint>-->
+                    <entryPoint>
+                        <arg>java</arg>
+                        <arg>-jar</arg>
+                        <arg>-Dspring.profiles.active=product</arg>
+                        <arg>/${project.build.finalName}.jar</arg>
+                    </entryPoint>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
                     </imageTags>
                     <serverId>docker-aliyun</serverId>
                     <pushImage>true</pushImage>
-<!--                    <dockerHost>http://39.96.78.70:2375</dockerHost>-->
+                    <!--<dockerHost>http://39.96.78.70:2375</dockerHost>-->
                 </configuration>
             </plugin>
         </plugins>
