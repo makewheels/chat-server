@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.eg</groupId>
     <artifactId>chat-server</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
     <name>chat-server</name>
     <properties>
         <java.version>1.8</java.version>
@@ -172,12 +172,6 @@
                 <configuration>
                     <imageName>registry.cn-beijing.aliyuncs.com/b4/${project.artifactId}:${project.version}</imageName>
                     <baseImage>java:8</baseImage>
-                    <entryPoint>["java","-jar","spring.profiles.active=product","/${project.build.finalName}.jar"]
-                    </entryPoint>
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                        <imageTag>latest</imageTag>
-                    </imageTags>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
@@ -185,9 +179,21 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
+                    <exposes>
+                        <expose>5007</expose>
+                    </exposes>
+<!--                    <entryPoint>-->
+<!--                        <arg>java</arg>-->
+<!--                        <arg>-jar</arg>-->
+<!--                        <arg>-Dspring.profiles.active=product</arg>-->
+<!--                        <arg>/${project.build.finalName}.jar</arg>-->
+<!--                    </entryPoint>-->
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
                     <serverId>docker-aliyun</serverId>
                     <pushImage>true</pushImage>
-                    <dockerHost>http://39.96.78.70:2375</dockerHost>
+<!--                    <dockerHost>http://39.96.78.70:2375</dockerHost>-->
                 </configuration>
             </plugin>
         </plugins>
