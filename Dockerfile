@@ -12,6 +12,6 @@
 
 FROM maven:3.6.3-jdk-8
 RUN mvn clean package
-COPY "target/chat-server-0.0.1-SNAPSHOT.jar" "app.jar"
+RUN cp "target/chat-server-0.0.1-SNAPSHOT.jar" "app.jar"
 EXPOSE 5007
 CMD ["java","-jar","-Dspring.profiles.active=product","app.jar"]
