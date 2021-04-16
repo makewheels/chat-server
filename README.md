@@ -1,8 +1,6 @@
 # Swagger
 
-```text
-http://localhost:5007/chat-server/doc.html
-```
+<http://localhost:5007/chat-server/doc.html>
 
 # mybatis自动生成增加配置，为了自动生成id
 
