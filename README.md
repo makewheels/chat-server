@@ -1,31 +1,17 @@
-#Swagger
+# Quick Start
 
-http://localhost:5007/chat-server/doc.html
-
-#mybatis自动生成增加配置，为了自动生成id
+## Maven Dependancy
 
 ```xml
-useGeneratedKeys="true" keyProperty="id"
+
+<dependency>
+    <groupId>com.github.makewheels</groupId>
+    <artifactId>HttpUtils</artifactId>
+    <version>1.0.0</version>
+</dependency>
 ```
 
-#Redis in Docker
-```shell
-docker run -itd --name redis -p 6379:6379 --restart=always redis --requirepass wXc8UEqiimY6VHBG
-```
+## How to use
 
-##阿里流水线运行：
-```shell
-tar zxvf /home/admin/app/package.tgz -C /home/admin/app/
-chmod a+x /home/admin/app/deploy.sh
-sh /home/admin/app/deploy.sh restart
-```
-
-##开机自动运行：
-
-chmod a+x /etc/rc.d/rc.local
-vim /etc/rc.d/rc.local
-
-nohup java -jar -Dspring.profiles.active=aliyun /home/admin/app/target/chat-server-0.0.1-SNAPSHOT.jar > /home/admin/app/logs/start.log  2>&1 &
-
-##Docker 构建推送
-mvn docker:build -DpushImage
+```java
+HttpUtil.get("http://url.com");
