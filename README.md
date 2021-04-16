@@ -1,14 +1,14 @@
-# Swagger
+## Swagger
 
 <http://localhost:5007/chat-server/doc.html>
 
-# mybatis自动生成增加配置，为了自动生成id
+## mybatis自动生成增加配置，为了自动生成id
 
 ```xml
 useGeneratedKeys="true" keyProperty="id"
 ```
 
-# Redis in Docker
+## Redis in Docker
 
 ```shell
 docker run -itd --name redis -p 6379:6379 --restart=always redis --requirepass wXc8UEqiimY6VHBG
@@ -36,4 +36,3 @@ nohup java -jar -Dspring.profiles.active=aliyun /home/admin/app/target/chat-serv
 ```shell
 mvn docker:build -DpushImage
 ```
-
