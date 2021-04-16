@@ -26,11 +26,16 @@ sh /home/admin/app/deploy.sh restart
 
 ## 开机自动运行：
 
+```shell
 chmod a+x /etc/rc.d/rc.local vim /etc/rc.d/rc.local
 
 nohup java -jar -Dspring.profiles.active=aliyun /home/admin/app/target/chat-server-0.0.1-SNAPSHOT.jar >
 /home/admin/app/logs/start.log 2>&1 &
+```
 
 ## Docker 构建推送
 
+```shell
 mvn docker:build -DpushImage
+```
+
