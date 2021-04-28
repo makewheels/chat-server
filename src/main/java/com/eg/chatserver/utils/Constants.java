@@ -20,8 +20,7 @@ public class Constants {
 
         public static final int OSS_STS_CREDENTIAL_DURATION = 1200;
         public static final String DEFAULT_HEAD_IMAGE_URL
-                = "https://chat-develop-1253319037.cos.ap-beijing.myqcloud.com" +
-                "/image/default-head.png";
+                = "https://chat-develop-1253319037.file.myqcloud.com/image/default-head.png";
 
     }
 
