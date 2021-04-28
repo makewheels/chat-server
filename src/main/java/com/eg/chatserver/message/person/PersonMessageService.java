@@ -412,6 +412,16 @@ public class PersonMessageService {
         }
         PullMessageResponse pullMessageResponse = new PullMessageResponse();
         BeanUtils.copyProperties(personMessage, pullMessageResponse);
+
+        //如果是音频文件，那就把文件查出来，并且还要给url
+        if (personMessage.getMessageType().equals(MessageType.AUDIO)) {
+            FileExample fileExample = new FileExample();
+            FileExample.Criteria criteria = fileExample.createCriteria();
+            criteria.andFileIdEqualTo(personMessage.getMessageId());
+            String objectName = fileMapper.selectByExample(fileExample).get(0).getObjectName();
+            String presignedUrl = ossService.generatePresignedUrl(objectName);
+            pullMessageResponse.setFileUrl(presignedUrl);
+        }
         return Result.ok(pullMessageResponse);
     }
 

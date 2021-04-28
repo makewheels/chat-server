@@ -2,6 +2,7 @@ package com.eg.chatserver.oss;
 
 import com.alibaba.fastjson.JSON;
 import com.eg.chatserver.bean.User;
+import com.eg.chatserver.utils.Constants;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -96,6 +97,10 @@ public class OssService {
             e.printStackTrace();
         }
         return JSON.parseObject(json, OssCredential.class);
+    }
+
+    public String generatePresignedUrl(String object) {
+        return generatePresignedUrl(object, Constants.TIME_10_MINUTES);
     }
 
     /**

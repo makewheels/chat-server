@@ -17,6 +17,7 @@ public class PullMessageResponse {
 
     @ApiModelProperty(value = "会话id", example = "conv7e4c9979a43c45748f6ae030e9b6350d")
     private String conversationId;
+
     @ApiModelProperty(value = "消息类型", example = MessageType.TEXT)
     private String messageType;
 
@@ -35,4 +36,8 @@ public class PullMessageResponse {
     private Date createTime;
 
     private String content;
+
+    @ApiModelProperty(value = "音频文件地址", example = "http://s.faef")
+    private String fileUrl;
+
 }
