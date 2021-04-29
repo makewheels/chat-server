@@ -422,9 +422,11 @@ public class PersonMessageService {
             if (CollectionUtils.isEmpty(files)) {
                 return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
             }
-            String objectName = files.get(0).getObjectName();
+            File file = files.get(0);
+            String objectName = file.getObjectName();
             String preSignedUrl = ossService.generatePreSignedUrl(objectName);
             pullMessageResponse.setFileUrl(preSignedUrl);
+            pullMessageResponse.setFileName(file.getFileId() + "." + file.getExtension());
         }
         return Result.ok(pullMessageResponse);
     }

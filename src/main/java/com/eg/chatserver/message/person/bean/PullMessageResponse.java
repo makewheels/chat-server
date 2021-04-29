@@ -22,15 +22,12 @@ public class PullMessageResponse {
     private String messageType;
 
     private String fromUserId;
-
     private String toUserId;
 
     private Boolean isArrive;
-
     private Date arriveTime;
 
     private Boolean isRead;
-
     private Date readTime;
 
     private Date createTime;
@@ -39,5 +36,7 @@ public class PullMessageResponse {
 
     @ApiModelProperty(value = "音频文件地址", example = "http://s.faef")
     private String fileUrl;
+
+    private String fileName;
 
 }
