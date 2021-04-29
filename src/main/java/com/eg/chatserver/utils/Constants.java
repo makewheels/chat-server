@@ -16,7 +16,7 @@ public class Constants {
     }
 
     public static class OSS {
-        public static final String IMAGE_PREVIEW_PARAM = "imageMogr2/thumbnail/!600px";
+        public static final String IMAGE_PREVIEW_PARAM = "imageMogr2/thumbnail/600x600";
 
         public static final int STS_CREDENTIAL_DURATION = 1200;
         public static final String DEFAULT_HEAD_IMAGE_URL

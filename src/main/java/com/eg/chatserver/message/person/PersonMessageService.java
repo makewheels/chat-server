@@ -179,7 +179,8 @@ public class PersonMessageService {
      * 发送对人的消息
      */
     @Transactional
-    public Result<SendMessageResponse> sendMessage(User user, SendMessageRequest sendMessageRequest) {
+    public Result<SendMessageResponse> sendMessage(
+            User user, SendMessageRequest sendMessageRequest) {
         String conversationId = sendMessageRequest.getConversationId();
         String userId = user.getUserId();
         //准备发消息，获取conversation和targetUser
@@ -356,8 +357,8 @@ public class PersonMessageService {
             String messageType = personMessage.getMessageType();
             PushResult pushResult = messagePushService.pushPersonMessage(toUser, personMessage);
             if (pushResult.isResultOK()) {
-                log.info("push success messageId = {}, messageType = {}, pushResult = {}", messageId,
-                        messageType, JSON.toJSONString(pushResult));
+                log.info("push success messageId = {}, messageType = {}, pushResult = {}",
+                        messageId, messageType, JSON.toJSONString(pushResult));
             }
         }
     }
@@ -425,15 +426,12 @@ public class PersonMessageService {
             String fileUrl = ossService.generatePreSignedUrl(objectName);
             pullMessageResponse.setFileUrl(fileUrl);
             String preSignedUrl = ossService.generatePreSignedUrl(objectName);
-            for (int i = 0; i < 20; i++) {
-                System.out.println(ossService.generatePreSignedUrl(objectName));
-            }
             pullMessageResponse.setFileUrl(preSignedUrl);
             pullMessageResponse.setFileName(file.getFileId() + "." + file.getExtension());
             //如果是图片，再加上预览图
             if (messageType.equals(MessageType.IMAGE)) {
-                String imagePreviewUrl = ossService.generatePreSignedUrl(
-                        objectName + "?" + Constants.OSS.IMAGE_PREVIEW_PARAM);
+                String imagePreviewUrl = ossService.generatePreSignedUrl(objectName)
+                        + "&" + Constants.OSS.IMAGE_PREVIEW_PARAM;
                 pullMessageResponse.setImagePreviewUrl(imagePreviewUrl);
             }
         }
@@ -518,7 +516,7 @@ public class PersonMessageService {
         new Thread(() ->
                 pushMessageToUser(toUser, message)
         ).start();
-        //如果是音频，语音识别
+        //TODO 如果是音频，语音识别
         String messageType = message.getMessageType();
         if (messageType.equals(MessageType.AUDIO)) {
 
