@@ -27,4 +27,7 @@ public class Constants {
     public static final String PUSH_VERSION = "1";
 
     public static final long TIME_10_MINUTES = 10 * 60 * 1000L;
+    public static final long TIME_30_MINUTES = 30 * 60 * 1000L;
+    public static final long TIME_ONE_HOUR = 60 * 60 * 1000L;
+
 }

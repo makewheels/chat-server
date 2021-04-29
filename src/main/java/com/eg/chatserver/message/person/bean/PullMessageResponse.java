@@ -34,11 +34,9 @@ public class PullMessageResponse {
 
     private String content;
 
-    @ApiModelProperty(value = "音频文件地址", example = "https://chat-develop-1253319037.cos.ap-beijing.myqcloud.com/audio/user0ac2a32e94834c9b9d1dec3cb7f64623/file50717c757b724554aea6e7e124069dbb.wav")
+    @ApiModelProperty(value = "文件地址", example = "https://chat-develop-1253319037.cos.ap-beijing.myqcloud.com/audio/user0ac2a32e94834c9b9d1dec3cb7f64623/filee0a196bd450a41b683e28310d6cb166e.wav?sign=q-sign-algorithm%3Dsha1%26q-ak%3DAKIDGNHKCnksd8OPYgeVHp9HBO50iKhou5Tj%26q-sign-time%3D1619701377%3B1619701977%26q-key-time%3D1619701377%3B1619701977%26q-header-list%3Dhost%26q-url-param-list%3D%26q-signature%3Daf52d57ca1952d41a00bea2bc5901b6fedd81b21")
     private String fileUrl;
-
     private String fileName;
-
     private String imagePreviewUrl;
 
 }

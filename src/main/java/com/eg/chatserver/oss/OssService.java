@@ -99,7 +99,6 @@ public class OssService {
         return JSON.parseObject(json, OssCredential.class);
     }
 
-
     public String generatePreSignedUrl(String object) {
         return generatePreSignedUrl(object, Constants.TIME_10_MINUTES);
     }
