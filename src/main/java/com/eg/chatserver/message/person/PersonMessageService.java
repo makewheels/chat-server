@@ -417,10 +417,14 @@ public class PersonMessageService {
         if (personMessage.getMessageType().equals(MessageType.AUDIO)) {
             FileExample fileExample = new FileExample();
             FileExample.Criteria criteria = fileExample.createCriteria();
-            criteria.andFileIdEqualTo(personMessage.getMessageId());
-            String objectName = fileMapper.selectByExample(fileExample).get(0).getObjectName();
-            String presignedUrl = ossService.generatePresignedUrl(objectName);
-            pullMessageResponse.setFileUrl(presignedUrl);
+            criteria.andFileIdEqualTo(personMessage.getFileId());
+            List<File> files = fileMapper.selectByExample(fileExample);
+            if (CollectionUtils.isEmpty(files)) {
+                return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
+            }
+            String objectName = files.get(0).getObjectName();
+            String preSignedUrl = ossService.generatePreSignedUrl(objectName);
+            pullMessageResponse.setFileUrl(preSignedUrl);
         }
         return Result.ok(pullMessageResponse);
     }

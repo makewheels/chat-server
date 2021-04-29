@@ -99,8 +99,9 @@ public class OssService {
         return JSON.parseObject(json, OssCredential.class);
     }
 
-    public String generatePresignedUrl(String object) {
-        return generatePresignedUrl(object, Constants.TIME_10_MINUTES);
+
+    public String generatePreSignedUrl(String object) {
+        return generatePreSignedUrl(object, Constants.TIME_10_MINUTES);
     }
 
     /**
@@ -110,7 +111,7 @@ public class OssService {
      * @param expirationTime 过期时长
      * @return
      */
-    public String generatePresignedUrl(String object, long expirationTime) {
+    public String generatePreSignedUrl(String object, long expirationTime) {
         GeneratePresignedUrlRequest request
                 = new GeneratePresignedUrlRequest(bucket, object, HttpMethodName.GET);
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
