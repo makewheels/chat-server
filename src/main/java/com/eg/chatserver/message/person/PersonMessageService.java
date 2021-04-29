@@ -424,6 +424,11 @@ public class PersonMessageService {
             String objectName = file.getObjectName();
             String fileUrl = ossService.generatePreSignedUrl(objectName);
             pullMessageResponse.setFileUrl(fileUrl);
+            String preSignedUrl = ossService.generatePreSignedUrl(objectName);
+            for (int i = 0; i < 20; i++) {
+                System.out.println(ossService.generatePreSignedUrl(objectName));
+            }
+            pullMessageResponse.setFileUrl(preSignedUrl);
             pullMessageResponse.setFileName(file.getFileId() + "." + file.getExtension());
             //如果是图片，再加上预览图
             if (messageType.equals(MessageType.IMAGE)) {
