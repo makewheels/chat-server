@@ -8,6 +8,7 @@ import com.eg.chatserver.bean.mapper.PersonMessageMapper;
 import com.eg.chatserver.common.ErrorCode;
 import com.eg.chatserver.common.Result;
 import com.eg.chatserver.conversation.ConversationService;
+import com.eg.chatserver.file.FileService;
 import com.eg.chatserver.message.MessageType;
 import com.eg.chatserver.message.person.bean.PullMessageResponse;
 import com.eg.chatserver.message.person.bean.SendMessageRequest;
@@ -53,6 +54,8 @@ public class PersonMessageService {
     private ConversationMapper conversationMapper;
     @Resource
     private FileMapper fileMapper;
+    @Resource
+    private FileService fileService;
 
     /**
      * 生成消息id
@@ -175,7 +178,6 @@ public class PersonMessageService {
     /**
      * 发送对人的消息
      */
-    @SuppressWarnings("unchecked")
     @Transactional
     public Result<SendMessageResponse> sendMessage(User user, SendMessageRequest sendMessageRequest) {
         String conversationId = sendMessageRequest.getConversationId();
@@ -198,8 +200,7 @@ public class PersonMessageService {
         SendMessageResponse sendMessageResponse = getSendMessageResponse(
                 user, toUser, sendMessageRequest, personMessage);
         //保存消息
-        log.info("save person message: {}", personMessage);
-//        log.info("save person message: {}", JSON.toJSONString(personMessage));
+        log.info("save person message: {}", JSON.toJSONString(personMessage));
         personMessageMapper.insert(personMessage);
         return Result.ok(sendMessageResponse);
     }
@@ -300,7 +301,7 @@ public class PersonMessageService {
         file.setCdnUrl(ossService.getCdnUrl() + "/" + objectName);
         //如果是图片，还要给预览图地址
         if (messageType.equals(MessageType.IMAGE)) {
-            file.setImagePreviewUrl(file.getOssUrl() + Constants.OSS.OSS_IMAGE_PREVIEW_PARAM);
+            file.setImagePreviewUrl(file.getOssUrl() + Constants.OSS.IMAGE_PREVIEW_PARAM);
         }
         //甚至还需要再给阿里云回调参数
         // 但是这里就先不给了，就让android直接传，messageId就行了
@@ -337,7 +338,7 @@ public class PersonMessageService {
             sendMessageResponse.setObject(file.getObjectName());
             //获取临时上传凭证
             OssCredential ossCredential = ossService.getCredential(
-                    Constants.OSS.OSS_STS_CREDENTIAL_DURATION, file.getObjectName());
+                    Constants.OSS.STS_CREDENTIAL_DURATION, file.getObjectName());
             sendMessageResponse.setOssCredential(ossCredential);
         }
     }
@@ -407,26 +408,29 @@ public class PersonMessageService {
             return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
         }
         //如果这条消息是文件，并且还没上传好
-        if (isFileTypeMessage(personMessage.getMessageType()) && !personMessage.getIsUploadFinish()) {
+        String messageType = personMessage.getMessageType();
+        if (isFileTypeMessage(messageType) && !personMessage.getIsUploadFinish()) {
             return Result.error(ErrorCode.MESSAGE_UPLOAD_NOT_FINISH);
         }
         PullMessageResponse pullMessageResponse = new PullMessageResponse();
         BeanUtils.copyProperties(personMessage, pullMessageResponse);
 
-        //如果是音频文件，那就把文件查出来，并且还要给url
-        if (personMessage.getMessageType().equals(MessageType.AUDIO)) {
-            FileExample fileExample = new FileExample();
-            FileExample.Criteria criteria = fileExample.createCriteria();
-            criteria.andFileIdEqualTo(personMessage.getFileId());
-            List<File> files = fileMapper.selectByExample(fileExample);
-            if (CollectionUtils.isEmpty(files)) {
+        //如果是文件类型消息
+        if (isFileTypeMessage(messageType)) {
+            File file = fileService.getByFileId(personMessage.getFileId());
+            if (file == null) {
                 return Result.error(ErrorCode.MESSAGE_NOT_EXIST);
             }
-            File file = files.get(0);
             String objectName = file.getObjectName();
-            String preSignedUrl = ossService.generatePreSignedUrl(objectName);
-            pullMessageResponse.setFileUrl(preSignedUrl);
+            String fileUrl = ossService.generatePreSignedUrl(objectName);
+            pullMessageResponse.setFileUrl(fileUrl);
             pullMessageResponse.setFileName(file.getFileId() + "." + file.getExtension());
+            //如果是图片，再加上预览图
+            if (messageType.equals(MessageType.IMAGE)) {
+                String imagePreviewUrl = ossService.generatePreSignedUrl(
+                        objectName + "?" + Constants.OSS.IMAGE_PREVIEW_PARAM);
+                pullMessageResponse.setImagePreviewUrl(imagePreviewUrl);
+            }
         }
         return Result.ok(pullMessageResponse);
     }

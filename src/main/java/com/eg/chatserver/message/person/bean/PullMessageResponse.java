@@ -34,9 +34,11 @@ public class PullMessageResponse {
 
     private String content;
 
-    @ApiModelProperty(value = "音频文件地址", example = "http://s.faef")
+    @ApiModelProperty(value = "音频文件地址", example = "https://chat-develop-1253319037.cos.ap-beijing.myqcloud.com/audio/user0ac2a32e94834c9b9d1dec3cb7f64623/file50717c757b724554aea6e7e124069dbb.wav")
     private String fileUrl;
 
     private String fileName;
+
+    private String imagePreviewUrl;
 
 }

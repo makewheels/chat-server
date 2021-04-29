@@ -16,9 +16,9 @@ public class Constants {
     }
 
     public static class OSS {
-        public static final String OSS_IMAGE_PREVIEW_PARAM = "?x-oss-process=image/resize,w_600";
+        public static final String IMAGE_PREVIEW_PARAM = "imageMogr2/thumbnail/!600px";
 
-        public static final int OSS_STS_CREDENTIAL_DURATION = 1200;
+        public static final int STS_CREDENTIAL_DURATION = 1200;
         public static final String DEFAULT_HEAD_IMAGE_URL
                 = "https://chat-develop-1253319037.file.myqcloud.com/image/default-head.png";
 
