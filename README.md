@@ -37,7 +37,7 @@ nohup java -jar -Dspring.profiles.active=aliyun /home/admin/app/target/chat-serv
 mvn docker:build -DpushImage
 ```
 
-##Docker启动MySQL
+## Docker启动MySQL
 
 ```shell
 docker run -itd --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=9Zu3nzrl5mgYM46V -e MYSQL_DATABASE=chat -e MYSQL_USER=chat -e MYSQL_PASSWORD=l8pqjJzm4GMcLyj1 --restart=always mysql/mysql-server:5.7.33
