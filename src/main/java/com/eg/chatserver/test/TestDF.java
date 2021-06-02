@@ -1,22 +1,18 @@
 package com.eg.chatserver.test;
 
-import com.alibaba.fastjson.JSON;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyAgreement;
 import javax.crypto.ShortBufferException;
 import javax.crypto.interfaces.DHPublicKey;
 import javax.crypto.spec.DHParameterSpec;
-import javax.crypto.spec.DHPublicKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Arrays;
 
 public class TestDF {
 
     public static void main(String argv[]) throws Exception {
+
         /*
          * Alice creates her own DH key pair with 2048-bit key size
          */
@@ -93,7 +89,8 @@ public class TestDF {
         byte[] aliceSharedSecret = aliceKeyAgree.generateSecret();
         int aliceLen = aliceSharedSecret.length;
         byte[] bobSharedSecret = new byte[aliceLen];
-        int bobLen = bobKeyAgree.generateSecret(bobSharedSecret, 0);
+        int bobLen;
+        bobLen = bobKeyAgree.generateSecret(bobSharedSecret, 0);
         System.out.println("Alice secret: " +
                 toHexString(aliceSharedSecret));
         System.out.println("Bob secret: " +
@@ -149,10 +146,11 @@ public class TestDF {
         Cipher aliceCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         aliceCipher.init(Cipher.DECRYPT_MODE, aliceAesKey, aesParams);
         byte[] recovered = aliceCipher.doFinal(ciphertext);
-        if (!Arrays.equals(cleartext, recovered))
+        if (!java.util.Arrays.equals(cleartext, recovered))
             throw new Exception("AES in CBC mode recovered text is " +
                     "different from cleartext");
-        System.out.println("AES in CBC mode recovered text is same as cleartext");
+        System.out.println("AES in CBC mode recovered text is " +
+                "same as cleartext");
     }
 
     /*
