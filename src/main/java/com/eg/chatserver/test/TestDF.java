@@ -8,6 +8,7 @@ import javax.crypto.spec.DHParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
 
 public class TestDF {
 
@@ -87,15 +88,10 @@ public class TestDF {
          * Both generate the (same) shared secret.
          */
         byte[] aliceSharedSecret = aliceKeyAgree.generateSecret();
-        int aliceLen = aliceSharedSecret.length;
-        byte[] bobSharedSecret = new byte[aliceLen];
-        int bobLen;
-        bobLen = bobKeyAgree.generateSecret(bobSharedSecret, 0);
-        System.out.println("Alice secret: " +
-                toHexString(aliceSharedSecret));
-        System.out.println("Bob secret: " +
-                toHexString(bobSharedSecret));
-        if (!java.util.Arrays.equals(aliceSharedSecret, bobSharedSecret))
+        byte[] bobSharedSecret = bobKeyAgree.generateSecret();
+        System.out.println("Alice secret: " + toHexString(aliceSharedSecret));
+        System.out.println("Bob secret: " + toHexString(bobSharedSecret));
+        if (!Arrays.equals(aliceSharedSecret, bobSharedSecret))
             throw new Exception("Shared secrets differ");
         System.out.println("Shared secrets are the same");
 
@@ -146,7 +142,7 @@ public class TestDF {
         Cipher aliceCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         aliceCipher.init(Cipher.DECRYPT_MODE, aliceAesKey, aesParams);
         byte[] recovered = aliceCipher.doFinal(ciphertext);
-        if (!java.util.Arrays.equals(cleartext, recovered))
+        if (!Arrays.equals(cleartext, recovered))
             throw new Exception("AES in CBC mode recovered text is " +
                     "different from cleartext");
         System.out.println("AES in CBC mode recovered text is " +
