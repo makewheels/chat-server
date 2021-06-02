@@ -11,7 +11,7 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class TestDF {
 
-    public static void main(String argv[]) throws Exception {
+    public static void main(String[] argv) throws Exception {
 
         /*
          * Alice creates her own DH key pair with 2048-bit key size
