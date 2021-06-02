@@ -1,5 +1,7 @@
 package com.eg.chatserver.test;
 
+import com.alibaba.fastjson.JSON;
+
 import javax.crypto.spec.DHParameterSpec;
 import javax.crypto.spec.DHPublicKeySpec;
 import java.math.BigInteger;
@@ -9,20 +11,13 @@ import java.security.KeyPairGenerator;
 import java.security.SecureRandom;
 
 public class TestDF {
-    public final static int pValue = 47;
-
-    public final static int gValue = 71;
-
-    public final static int XaValue = 9;
-
-    public final static int XbValue = 14;
 
     public static void main(String[] args) throws Exception {
         int bitLength = 512;
         SecureRandom rnd = new SecureRandom();
         BigInteger p = BigInteger.probablePrime(bitLength, rnd);
         BigInteger g = BigInteger.probablePrime(bitLength, rnd);
-
+        System.out.println(g);
         createSpecificKey(p, g);
     }
 
@@ -33,9 +28,9 @@ public class TestDF {
         kpg.initialize(param);
         KeyPair kp = kpg.generateKeyPair();
 
-        KeyFactory kfactory = KeyFactory.getInstance("DiffieHellman");
+        KeyFactory keyFactory = KeyFactory.getInstance("DiffieHellman");
 
-        DHPublicKeySpec kspec = kfactory.getKeySpec(kp.getPublic(),
-                DHPublicKeySpec.class);
+        DHPublicKeySpec kspec = keyFactory.getKeySpec(kp.getPublic(), DHPublicKeySpec.class);
+        System.out.println(JSON.toJSONString(kspec));
     }
 }

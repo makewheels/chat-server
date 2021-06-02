@@ -73,8 +73,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.6.Final</version>
-            <scope>compile</scope>
+            <version>4.1.63.Final</version>
         </dependency>
         <dependency>
             <groupId>cn.jpush.api</groupId>
@@ -159,11 +158,6 @@
             <version>7.1.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.63.Final</version>
-        </dependency>
 
     </dependencies>
 
