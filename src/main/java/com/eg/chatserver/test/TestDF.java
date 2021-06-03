@@ -1,19 +1,21 @@
 package com.eg.chatserver.test;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.RandomUtil;
+import org.apache.logging.log4j.util.Base64Util;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
 public class TestDF {
     public static BigInteger get() {
-        return new BigInteger(RandomUtil.randomInt(16) + "");
+        return new BigInteger(RandomUtil.randomInt(2, 16) + "");
     }
 
     public static int getRandomInt() {
-        int result = RandomUtil.randomInt(Integer.MAX_VALUE / 40960);
+        int result = RandomUtil.randomInt(256);
         while (result <= 0) {
-            result = RandomUtil.randomInt(Integer.MAX_VALUE / 40960);
+            result = RandomUtil.randomInt(256);
         }
         return result;
     }
@@ -33,6 +35,14 @@ public class TestDF {
         System.out.println("ga = " + ga);
         System.out.println("gb = " + gb);
 
-        System.out.println("ga.pow(b) = " + ga.pow(b));
+        BigInteger gab = ga.pow(b);
+
+        System.out.println("gab = " + gab);
+
+        System.out.println();
+        System.out.println("ga.toString(36) = " + ga.toString(36));
+        System.out.println(Base64.encode(ga.toString(36)));
+        System.out.println(Base64.encode(gb.toString(36)));
+        System.out.println(Base64.encode(gab.toString(36)));
     }
 }
